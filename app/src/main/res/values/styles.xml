@@ -1,0 +1,21 @@
+<resources>
+
+
+    <!-- Base application theme. -->
+    <style name="AppTheme"  parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorSecondary">@color/md_white_pure</item>
+    </style>
+
+    <style name="materialButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/md_indigo_A700</item>
+        <item name="colorButtonNormal">@color/md_light_blue_A700</item>
+    </style>
+
+    <!-- Fullscreen application theme. -->
+    <style name="FullscreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+</resources>

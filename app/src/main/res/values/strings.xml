@@ -1,0 +1,158 @@
+<resources>
+    <string name="aboutLibraries_description_showIcon">true</string>
+    <string name="aboutLibraries_description_showVersion">true</string>
+    <string name="aboutLibraries_description_text">This is a simple app to guide you in your first AoE2 matches</string>
+    <string name="app_name">sortable</string>
+    <string name="search">Search</string>
+    <string name="check_connection">Please, check your connection</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="import_settings">Import from URL</string>
+    <string name="import_storage_settings">Import from Storage</string>
+    <string name="title_activity_country">CountryActivity</string>
+    <string name="author">"Author "</string>
+    <string name="civ">"Civ "</string>
+    <string name="map">"Map "</string>
+    <string name="import_from_url">"Import From URL"</string>
+    <string name="import_from_storage">"Import from storage"</string>
+    <string name="hint_import_from_storage">"To import your files from internal storage you can simply tap them in a file browser app"</string>
+    <string name="hint_import_from_url">"Insert the strategy URL or simply click on the link where it is located with a browser"</string>
+    <string name="file_imported">"Strategy successfully imported"</string>
+    <string name="file_downloaded">"Strategy successfully downloaded"</string>
+    <string name="starred">"Strategy successfully starred"</string>
+    <string name="final_hint0">"Now it is all in your hands, walk on and defeat the enemy!"</string>
+    <string name="final_hint1">"We are going to have peace even if we have to fight for it."</string>
+    <string name="final_hint2">"May God have mercy upon the enemies, because you won\'t."</string>
+    <string name="final_hint3">"For God\'s sake, bury the enemies, now!"</string>
+    <string name="final_hint4">"It\'s time to burn enemy houses"</string>
+    <string name="final_hint5">"Smithers, Release the hounds!"</string>
+    <string name="final_hint6">"Annihilate the enemy, now!"</string>
+    <string name="import_error">"Imported file has errors"</string>
+    <string name="delete_strategy">"Successfully deleted"</string>
+    <string name="tips_tricks">asd</string>
+    <string name="download">downloads</string>
+    <string name="star">stars</string>
+
+    <string-array name="general_tips">
+        <item>Always be making villagers (generally at least 100 villagers but it depends on pop cap, strategy, map, etc.).</item>
+        <item>Villagers should never idle.</item>
+        <item>Do everything with a sense of urgency, speed wins games.</item>
+        <item>Don\'t needlessly waste units, if you can\'t win a battle then don\'t engage.</item>
+        <item>Always be scouting.</item>
+    </string-array>
+    <string-array name="pro_tips">
+        <item>Economies win games, do not neglect them and make sure your villagers are always working.</item>
+        <item>Don\'t let villagers needlessly die if you are being raided. Put defenses (i.e. castles, towers, pikes) and send the villagers in danger to somewhere safe.</item>
+        <item>Don\'t let resources stockpile, if you have too much wood or food then move some of those villagers to something else.</item>
+        <item>Don\'t let your army get out of position, you need to protect your economy. If I see your defenses out of position I will simply walk into your base and destroy your town.</item>
+        <item>If you\'re in a team game and you beat an opponent then quickly move on to the next or help your teammates. You do not need to destroy every building and unit of someone who has quit.</item>
+        <item>Lose to someone better than you? Watch the recording and see why they are better.</item>
+    </string-array>
+    <string-array name="noob_tips">
+        <item>DO NOT RING YOUR BELL. This halts your entire economy, if villagers are in danger then only send those villagers to garrison somewhere.</item>
+        <item>Use your boars - every map has at least 2 boars near your TC. Reasearch loom and send a villager out to shoot the boar TWICE (if you shoot it once it will not chase) and then run back to your TC where you should have villagers ready to kill the boar.</item>
+        <item>Most maps have at least 8 sheep/turkey near your TC. Find them and put (at least) your first 6 villagers on them.</item>
+        <item>Research loom at some point.</item>
+        <item>Don\'t put all of your first farms around the mill. Your first few farms should be around your TC. This allows you to quickly garrison inside your TC for protection much quicker than if they were at the mill. You can eventually put farms around the mill once it is safe.</item>
+        <item>You don\'t always need to make militia in the Dark/Feudal Age, especially if you aren\'t being attacked or planning on attacking.</item>
+        <item>When you hit Castle Age, you should be looking to build more TCs to make more villagers.</item>
+        <item>If you are on a water map then you generally want to build a dock at some point in the Dark ages.</item>
+        <item>If you are booming then wall appropriately.</item>
+        <item>Use your blacksmith!</item>
+        <item>Upgrade your lumberjacks speed as soon as you reach the next age. You should get the farm and mining upgrades at some point as well but not necessarily right away.</item>
+    </string-array>
+
+
+    <string-array name="tech_military" formatted="false">
+        <item>Military buildings HP vary according to the age: Barracks have 1200 HP in Dark Age, 1500 HP in Feudal, 1800 HP in Castle, 2100 HP in Imperial. Same goes for Archery Ranges and Stables.</item>
+        <item>Archers, Skirmishers, Cavalry Archers, Hand Cannoneers and unique Archers (not the Janissaries nor Conquistadors), get an attack bonus against Spearmen which vary from 1 to 6 depending of the unit.</item>
+        <item>Skirmishers javelins get 3 bonus attack against all non-siege distant units (except Throwing Axemen); Elite Skirmishers get 4 bonus against them, and an additional +2 against Cavalry Archers (6 total bonus).</item>
+        <item>Contrary to what the description suggests, upgrading to Crossbowman DOES NOT improve the unit armor compared to the Archer: likewise, upgrading to Arbalest DOES NOT improve the unit range and armor.</item>
+        <item>Thumb Ring has absolutely ZERO effect on gunpowder units fire rate/precision. It doesn\'t improve Skirmishers rate of fire either but it increases their precision from 90 to 100%.</item>
+        <item>Tracking also give infantry +2 search radius, making their \"enemyfinding\" MUCH better. Not only a scouting purposes tech!!</item>
+        <item>All infantry (except Spear-line, Eagles and Kamayuks), get good attack bonuses against buildings.</item>
+        <item>Man-at-Arms, Long Swordsman, Two-Handed Swordsman/Champion get 4, 6, 8 bonus attack against Eagle Warriors, making them an excellent countering choice. Unique infantry (except Condotierro, Kamayuks, and Eagles themselves) also get similar bonuses against Eagles...though (Elite) Eagle Warriors get a (+4) +3 bonus against Cavalry. Eagle Warrior/Elite also get 3/5 hidden damage bonus against Siege Weapons.(N.B: Non-Elite Eagle Warriors get a 3 bonus against Cavalry only in AoF, 2 only in AoC)</item>
+        <item>Starting in Castle Age, Eagle Warriors get 2 bonus attack vs. Cavalry, 1 vs. Camels; Elite Eagle Warriors get 4 bonus attack vs. Cavalry, 2 vs. Camels.</item>
+        <item>Surprisingly enough as Camels, Ships and Petards share the same class, Spearmen-line get important bonuses against Ships and Petards.</item>
+        <item>Scout Cavalry hitting Feudal Age get +2 attack, and its base speed jumps from 1.20 to 1.55. Faster than the 1.50 of Light Cavalry and Hussars.</item>
+        <item>Hussar: \"Stronger than Light Cavalry\" It\'s not only an HP increase, Hussars strike faster than Light Cavalry (1.9 to 2, the lower the better) and get 12 bonus damage against Monks compared to the 10 of Light Cavalry.</item>
+        <item>Paladins strike slower than Knights and Cavaliers (1.9 vs 1.8), but it\'s more than compensated by a +40 HP, +2 attack and +1 PA compared to Cavaliers</item>
+        <item>Contrary to what the unit description says, Light Cavalry is NOT faster than Scout Cavalry (1.5 vs 1.55 speed), Cavaliers are NOT better armored than Knights (same), Heavy Camels are NOT better armored than Camels (same)</item>
+        <item>Military Team Bonuses like Barracks, Archery Ranges, Stables work 20% faster, and even Conscription, also reduces by this \"%\" the time technologies research in these buildings.</item>
+        <item>Villagers, like Long Swordsmen, recieve 3 bonus attack against buildings and even 6 extra bonus against \"Stone Defense\" (all buildings made of stone except Outposts, Castles and Wonders), making them excellent Watch Tower destroyers in Feudal, each villager hit doing 3 (base attack) + 3 (building bonus) + 6 (stone defense bonus) 1 (Watch Tower armor) = 11 damage.</item>
+        <item>Loom: \"Makes your villagers harder to kill by providing +15 hit points\"
+        It actually multiply your hit points per 1.6. An \"unloomed\" villager hit by a boar once will go from 18 to 28 HP, hit twice it will go from 11 to 17 HP, three boar hits and it\'ll be 4 to 7 HP.
+        Of course full health villagers will be boosted from 25 to 40 HP.
+        Worth noting: A villager with Loom beat a Militia or a Dark Age Scout Cavalry in an 1v1 situation.</item>
+        <item>Fun fact 2: The militia, the non-Persian/non-allied with Persians Knight/Cavalier/Paladin, the (elite) Turtle Ship, the (elite) Boyar are the only units who doesn\'t possess any attack bonus but only raw strength!</item>
+        <item>Siege: Battering/Capped/Siege Rams get 40/50/65 bonus against Siege Weapons, 125/150/200 bonus against all Buildings. Mangonels/Onagers/Siege Onagers get 35/45/60 bonus against buildings, and all Mangonel-line get 12 attack bonus against Siege Weapons. Scorpions/Heavy Scorpions get 1/2 bonus against Rams and 6/8 bonus against...War Elephants. Bombard Cannons get 20 bonus damage against Siege Weapons and 40 bonus against...Camels, Ships and Petards.</item>
+        <item>Rams, if full, are faster than empy ones</item>
+    </string-array>
+    <string-array name="naval_tech">
+        <item>All Warships get bonus damage against...Ships</item>
+        <item>War Galley tech: \"Upgrades Galleys and lets you build War Galleys, which are stronger and better armored \"War Galleys have the same pierce armor as Galleys: 6.</item>
+        <item>Elite Cannon Galleon: \"Upgrades your Cannon Galleons and lets you build Elite Cannon Galleons, which have +2 range, +10 normal attack, and +100 attack against buildings.\"It\'s +75 attack.</item>
+        <item>Fire/Fast Fire Ships get an hidden 1 melee attack in addition of their 2/3 pierce attack</item>
+        <item>Demolition Ship: \"Pilot near enemy ships and detonate to wrest control of the sea from an entrenched opponent. Attack: 110 normal/140 heavy.\" => Actually they are not that good as their attack may foresee: when exploding a Demo Ship/Heavy Demo Ship in a 100 HP Fire Ship/120 HP Fast Fire, still there are 21/8 HP left on them. It\'s even worse on War Galleys and Galleons with 56/53 HP remaining on them. They can\'t perform efficiently if you don\'t mass them enough.</item>
+    </string-array>
+    <string-array name="tech_time" formatted="false">
+        <item>Archers are created in 35s whereas Crossbowmen/Arbalests are created in 27s.</item>
+        <item>Cavalry Archers are created in 34s whereas their Heavy Cavalry Archer upgrade reduce their time creation to 27s.</item>
+        <item>Eagle Warriors are created in 29 seconds whereas Elite Eagle Warriors are created in 20 seconds! Even faster than a 21s Champion.</item>
+        <item>Galleys are created in 60 sec whereas War Galleys are created in 36s, hence the importance going to Castle Age as quickly as possible when fighting for water.</item>
+        <item>Fast Fire Ships move faster than Fire Ships: 1.43 instead of 1.35 speed</item>
+        <item>Fun fact 1: The slowest created unit in the game is the Bombard Cannon, with 56s creation time even with Conscription; the fastest unit that can be created is the Gothic Condotierro (with Conscription and Perfusion researched), with a lightning speed of 2.9s!!</item>
+        <item>Shipwright: Actually this technology is calculated using an \"creation time\" thing. Setting this value to 0.65 means Ships are created 1/(1*0.65) = 1.538 => 53.8% faster, which makes this tech a must in Imperial Galleon fights.</item>
+    </string-array>
+    <string-array name="tech_economy" formatted="false">
+    	<item>Start putting farms at the right side of your TC/mill and continue sow them counterclock wise, because the most efficient spot of a farm (3x3 tiles) is the 2x2 spot in the left-bottom side of the farm.
+        1: very effective 6: least effective
+        </item>
+		<item>\"Sheep 100 food, Deer 140 food, Boar 350 food\"
+        => Actually these animals slowly rot away once they are dead (-0.25 food per second for Sheep, Turkeys, Cows, Llamas and Deers, -0.4 for Wild Boars/Javelinas), which means that you get around 90% of their food. Note that Deers and Boars are gathered faster than Sheeps: 0.408 food/s as opposed to 0.330 food/s.</item>
+        <item>Given an equal trade distance, with Caravan and Dry Dock researched, Trade Cogs gather 33.1% less gold than Trade Carts; though these merchant sailors move 51.8% faster.</item>
+    </string-array>
+    <string-array name="tech_repair">
+    	<item>All about repairing:
+        Repair rates (HP repaired per second, tested for ALL buildings)
+        100 hp in 8 seconds with 1 ville = 12.5 hp/s/v
+        100 hp in 5 seconds with 2 villes = 10 hp/s/v
+        100 hp in 4 seconds with 3 villes = 8.5 hp/s/v
+        100 hp in 3 seconds with 4 villes = 8.1 hp/s/v</item>
+        <item>Repair cost is half the building cost, eg. if you\'re repairing a Barracks with only 1 HP left it will cost you 175 wood/2 = 87 wood, a Castle 650 stone/2 = 325 stone.
+        EXCEPT Town Centers where it costs double (551 wood, even for Britons), but you\'ll only need one stone to start repairing, not 100 or 200, so it\'s quite nice.</item>
+    </string-array>
+    <string-array name="university_tech" formatted="false">
+        <item>Researching Chemistry give your Mangonels and Onnies +1 attack...but also make their projectiles around 20% slower!</item>
+        <item>Fletching/Bodkin Arrow/Bracer: \"Archers, cavalry archers, galleys, Viking Longboats, Town Centers, Castles and towers have +1 attack and +1 range.\"
+        => Town Centers don\'t get the +1 range from these upgrades.</item>
+        <item>Fervor: \"Monks move 15% faster.\"
+        => It only applies on Monks who are carrying relics. (All Monks and Missionaries in AoF)</item>
+        <item>Hoardings: \"Strengthens Castles by providing +1000 hit points.\"
+        => The real effect is a +21% HP increase: your Castles will go from 4800 to 5808 HP without Masonry or Architecture, 5280 to 6388 HP with Masonry only, and 5808 to 7028 HP when Masonry and Architecture are researched. Byzantines Castles improve from 6720 HP in Imperial to 8131 HP.</item>
+        <item>Sappers: \"Villagers cause +15 damage when attacking buildings.\"
+        => It also give Villagers +15 extra damage against \"Stone Defenses", as said above all buildings made of stone except Outposts, Castles and Wonders; it turns forward Villagers into excellent Gate and even Castle destroyers! (provided you got some military backup indeed)
+        Fun fact: 20 FU Spanish Villagers destroy a Castle in only 42 seconds.</item>
+        <item>Masonry/Architecture: \"Strengthens all buildings by providing 10% more hitpoints, +1 normal/ +1 pierce armor, and +3 building armor\"
+        => Palissade Walls, Stone Walls, Fortified Walls and Gates are not affected by these technologies.</item>
+        <item>Outposts get +2 line of sight at each new age.</item>
+        <item>Heated Shot: \"Towers cause +125% damage to Ships; Castles cause +25% damage to Ships.\"
+        (N.B: \"Ships\" also include Camels, Mamelukes and Petards, which share the same unit class)</item>
+        <item>Murder Holes: \"Eliminates the minimum range of all towers (except Bombard Towers) so they can fire at enemies attacking their base.\"
+        Lol it also concern Bombard Towers.</item>
+        <item>Watch/Guard Towers and Keeps have +2 attack against Spearman-line.</item>
+        <item>Towers actually cause +225% damage to \"Ships\", which is huge. Note that it only concerns the first arrow of the shot, and even without Heated Shot, all buildings which fire arrows get extra damage against \"Ships\"; Bombard Towers even get a 40 bonus vs \"Ships\".
+        Though, the additional arrows (which are concerned by the Fletching/Bodkin Arrow/Bracer upgrades) also get some additional damage to \"Ships\" other than Heated Shot: 5 bonus damage on \"Ships\" for Town Centers, 7 Watch Tower, 9 Guard Tower, 10 Keep, 11 Castle.
+        In short: It is highly unrecommended to stay close to building fire with Camels, Ships and Saboteurs: even ungarrisoned Towers and Castles can kill a fully upgraded Heavy Camel in 2 to 6 hits.</item>
+        <item>All gunpowder units/buildings, Scorpions, Onagers, Throwing Axemen and Mamelukes are not affected by Ballistics despite their ranged attack.</item>
+        <item>Minimum range: Skirmisher-line/Slingers, all Towers and Castles one minimum range, Scorpion-line two minimum range, Mangonel-line three minimum range (an exceptional one minimum range if you or your teammates are playing as Koreans), Cannon Galleon-line three as well, and Bombard Cannons five minimum range.</item>
+        <item>Chemistry: \"Missile units (except gunpowder units) have +1 attack strength\"
+        => For an unknown reason, it doesn\'t affect Town Centers and Castles. (Fixed in AoF)</item>
+        <item>Keep Upgrade: \"Upgrade Guard Towers and lets you build Keeps, which are stronger and have more attack strength, range, and armor\"
+        => All towers have the same base range: 8.</item>
+        <item>"Ballistic" if researched shooting units will fire at where the enemy will be in a faster way(20%)</item>
+    </string-array>
+
+</resources>

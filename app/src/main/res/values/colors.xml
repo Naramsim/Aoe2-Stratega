@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="md_indigo_A700">#304FFE</color>
+    <color name="md_light_blue_A700">#0091EA</color>
+    <color name="status_bar">#0085D8</color>
+    <color name="md_gray">#616161</color>
+    <color name="md_white">#FAFAFA</color>
+    <color name="md_white_pure">#FFFFFF</color>
+</resources>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view_collector"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:layout_marginBottom="@dimen/cardMarginVertical"
+        android:layout_marginLeft="@dimen/cardMarginHorizontal"
+        android:layout_marginRight="@dimen/cardMarginHorizontal"
+        android:layout_marginTop="@dimen/cardMarginVertical"
+        app:cardPreventCornerOverlap="false"
+        app:contentPadding="0dp">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/circlePreview">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/circleImage"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/bs"
+                    app:civ_border_width="0dp"
+                    app:civ_border_color="#FF000000"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/version"
+                    android:layout_alignBottom="@+id/circleImage"
+                    android:layout_alignRight="@+id/circleImage"
+                    android:src="@drawable/ic_brightness_1_24dp"
+                    android:tint="@color/md_gray"/>
+
+                <TextView
+                    android:id="@+id/myImageViewText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/version"
+                    android:layout_alignTop="@+id/version"
+                    android:layout_alignRight="@+id/version"
+                    android:layout_alignBottom="@+id/version"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:text="v1"
+                    android:textSize="10dp"
+                    android:textColor="@color/md_white" />
+
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/strName"
+                android:textSize="20dp"
+                android:layout_toRightOf="@+id/circlePreview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name" />
+            <TextView
+                android:id="@+id/strAuthor"
+                android:singleLine="true"
+                android:layout_marginEnd="20dp"
+                android:layout_toRightOf="@+id/circlePreview"
+                android:textSize="13dp"
+                android:layout_below="@+id/strName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Author" />
+            <TextView
+                android:id="@+id/strCiv"
+                android:singleLine="true"
+                android:layout_marginEnd="20dp"
+                android:textSize="13dp"
+                android:layout_below="@+id/strAuthor"
+                android:layout_toRightOf="@+id/circlePreview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Civ" />
+            <TextView
+                android:id="@+id/strMap"
+                android:singleLine="true"
+                android:layout_marginEnd="20dp"
+                android:layout_toRightOf="@+id/strAuthor"
+                android:textSize="13dp"
+                android:layout_below="@+id/strName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Map" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_margin="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/strategyStat"
+                    android:layout_marginEnd="2dp"/>
+
+                <!--<com.mikepenz.iconics.view.IconicsImageView
+                    android:id="@+id/strategyStatsIcon"
+                    android:layout_width="16dp"
+                    android:layout_toEndOf="@+id/strategyStat"
+                    android:layout_height="16dp"
+                    app:iiv_color="@android:color/darker_gray"
+                    app:iiv_icon="gmd-star" />-->
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>
+

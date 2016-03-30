@@ -1,0 +1,46 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "com.ale.aoe2.sortable"
+        minSdkVersion 21
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.2'
+    compile 'com.android.support:cardview-v7:23.2.0'
+    compile 'com.android.support:recyclerview-v7:23.1'
+    compile 'com.android.support:design:23.2.0'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'org.solovyev.android.views:linear-layout-manager:0.5@aar'
+    compile 'com.koushikdutta.ion:ion:2.+'
+    compile('com.mikepenz:materialdrawer:5.0.9@aar') {
+        transitive = true
+    }
+    compile 'com.mikepenz:google-material-typeface:2.2.0.1.original@aar' //Google Material Icons
+    compile 'com.mikepenz:octicons-typeface:3.2.0.1@aar' //Octicons
+    compile 'uk.co.ribot:easyadapter:1.5.0@aar' //To simplify //not used
+    compile('com.mikepenz:aboutlibraries:5.5.7@aar') {
+        transitive = true
+    }
+    compile 'com.github.paolorotolo:appintro:3.4.0'
+    compile ('com.github.florent37:materialviewpager:1.1.3@aar'){
+        transitive = true
+    }
+    compile 'com.miguelcatalan:materialsearchview:1.4.0' //search
+}
