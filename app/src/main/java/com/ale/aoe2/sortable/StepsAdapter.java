@@ -62,7 +62,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
                 R.string.final_hint6};
             int randomIndex = new Random().nextInt(7);
             int battleCry = battleCriesId[randomIndex];
-            items.add(new Item(res.getString(battleCry), "bs", "", current));
+            items.add(new Item(res.getString(battleCry), "three_m", "", current));
         }catch (Exception e) {Log.d("DD", e.getMessage());}
     }
 

@@ -24,7 +24,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="16dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/bs"
+            android:src="@drawable/three_m"
             />
 
         <TextView
@@ -33,7 +33,10 @@
             android:id="@+id/title"
             android:layout_below="@+id/instruction_img"
             android:textSize="30sp"
-            android:text="Escriba el mensaje y luego clickee el canal a ser enviado"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="when feudal no upgrades"
             />
 
         <TextView
@@ -41,6 +44,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/subtitle"
             android:layout_below="@+id/title"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:text="Escriba el mensaje y luego clickee el canal a ser enviado"
             />
     </RelativeLayout>
