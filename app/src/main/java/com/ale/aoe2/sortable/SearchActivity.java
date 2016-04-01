@@ -1,5 +1,7 @@
 package com.ale.aoe2.sortable;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -33,6 +35,7 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Created by Ale on 30/03/2016.
@@ -45,6 +48,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheTheme();
         setContentView(R.layout.search_activity);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -200,6 +204,29 @@ public class SearchActivity extends AppCompatActivity {
                     .make(getView(), superActivity.getResources().getString(id), Snackbar.LENGTH_LONG);
             snackbar.show();
         }
+    }
+
+    Boolean setTheTheme(){
+        try{
+            Context context = this;
+            SharedPreferences userDetails = context.getSharedPreferences(
+                    getString(R.string.theme_key), MODE_PRIVATE);
+            String theme = userDetails.getString("theme", "");
+
+            if(Objects.equals(theme, "dark")){
+                Log.d("DD", theme);
+                setTheme(R.style.AppTheme);
+                return true;
+            }else{
+                setTheme(R.style.AppThemeLightt);
+            }
+
+        }catch (Exception e){
+            Log.d("DD", e.getMessage());
+        }finally {
+            Log.d("DD", "finally");
+        }
+        return false;
     }
 
 }
