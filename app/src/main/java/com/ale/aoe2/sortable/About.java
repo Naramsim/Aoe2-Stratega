@@ -1,9 +1,15 @@
 package com.ale.aoe2.sortable;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.ui.LibsActivity;
+
+import java.util.Objects;
 
 /**
  * Created by Ale on 09/03/2016.
@@ -11,13 +17,27 @@ import com.mikepenz.aboutlibraries.ui.LibsActivity;
 public class About extends LibsActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        /*
-        Intent intent = new Intent();
-        intent.putExtra(Libs.BUNDLE_FIELDS, Libs.toStringArray(R.string.class.getFields()));
-        intent.putExtra(Libs.BUNDLE_LIBS, new String[]{"activeandroid", "caldroid"});
-        setIntent(intent);
-        */
-        setIntent(new LibsBuilder().withActivityStyle(Libs.ActivityStyle.LIGHT).intent(this));
+        boolean isDark = checkTheme();
+        if (isDark) {
+            setIntent(new LibsBuilder().withActivityStyle(Libs.ActivityStyle.DARK).intent(this));
+        }else{
+            setIntent(new LibsBuilder().withActivityStyle(Libs.ActivityStyle.LIGHT).intent(this));
+        }
+
         super.onCreate(savedInstanceState);
+    }
+    Boolean checkTheme(){
+        try{
+            SharedPreferences userDetails = getSharedPreferences(
+                    getString(R.string.theme_key), MODE_PRIVATE);
+            String theme = userDetails.getString("theme", "");
+
+            if(Objects.equals(theme, "dark")){
+                return true;
+            }
+        }catch (Exception e){
+            Log.d("DD", e.getMessage());
+        }
+        return false;
     }
 }
