@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Stepper">
+    tools:context=".StepperActivity">
 
     <!--<ImageView
         android:layout_width="wrap_content"
@@ -15,9 +15,9 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:minHeight="?attr/actionBarSize"
-        android:background="#2196F3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        style="?attr/mytoolbarStyle">
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView

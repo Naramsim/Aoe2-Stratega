@@ -82,7 +82,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                 //String itemValue = (String) mListView.getItemAtPosition(position);
 
                 //In order to start displaying new activity we need an intent
-                Intent intent = new Intent(superActivity.getApplicationContext(), Stepper.class);
+                Intent intent = new Intent(superActivity.getApplicationContext(), StepperActivity.class);
 
                 //Putting the Id of image as an extra in intent
                 intent.putExtra("fileName", (String) strategiesList.get(position).name);

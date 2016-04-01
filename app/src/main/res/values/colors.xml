@@ -6,4 +6,24 @@
     <color name="md_gray">#616161</color>
     <color name="md_white">#FAFAFA</color>
     <color name="md_white_pure">#FFFFFF</color>
+
+    <!--MaterialDrawer override -->
+    <!--Light -->
+    <color name="material_drawer_selected_text">@color/md_indigo_600</color>
+
+
+
+    <!-- OVERWRITE THESE COLORS FOR A DARK THEME -->
+    <!-- MaterialDrawer DEFAULT DARK colors -->
+    <color name="material_drawer_dark_background">@color/md_grey_800</color>
+    <!-- MaterialDrawer DEFAULT DARK text / items colors -->
+    <color name="material_drawer_dark_primary_text">@color/md_grey_200</color>
+    <color name="material_drawer_dark_primary_icon">@color/md_grey_200</color>
+    <color name="material_drawer_dark_secondary_text">@color/md_grey_400</color>
+    <color name="material_drawer_dark_hint_text">@color/md_grey_400</color>
+    <color name="material_drawer_dark_divider">#1FFFFFFF</color>
+    <!-- MaterialDrawer DEFAULT DARK drawer colors -->
+    <color name="material_drawer_dark_selected">@color/md_grey_700</color>
+    <color name="material_drawer_dark_selected_text">@color/md_indigo_300</color>
+    <color name="material_drawer_dark_header_selection_text">#FFF</color>
 </resources>

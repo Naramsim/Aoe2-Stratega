@@ -34,6 +34,7 @@
     <string name="tips_tricks">asd</string>
     <string name="download">downloads</string>
     <string name="star">stars</string>
+    <string name="theme_key">com.ale.aoe2.theme_key</string>
 
     <string-array name="general_tips">
         <item>Always be making villagers (generally at least 100 villagers but it depends on pop cap, strategy, map, etc.).</item>

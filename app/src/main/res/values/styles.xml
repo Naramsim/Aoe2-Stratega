@@ -2,8 +2,23 @@
 
 
     <!-- Base application theme. -->
-    <style name="AppTheme"  parent="Theme.AppCompat.Light.NoActionBar">
+    <attr format="reference" name="cardStyle"/>
+    <attr format="reference" name="mytoolbarStyle"/>
+    <attr format="reference" name="statusBarColor"/>
+    <style name="AppThemeLightt" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorSecondary">@color/md_white_pure</item>
+        <item name="cardStyle">@style/CardView.Light</item>
+        <item name="mytoolbarStyle">@style/lightToolbar</item>
+        <item name="statusBarColor">@color/md_indigo_700</item>
+    </style>
+
+    <style name="AppTheme" parent= "MaterialDrawerTheme">
+        <item name="android:textColorSecondary">@color/md_white</item>
+        <item name="android:textColorPrimary">@color/md_green_100</item>
+        <item name="android:colorPrimary">@color/md_blue_800</item>
+        <item name="cardStyle">@style/CardView.Dark</item>
+        <item name="mytoolbarStyle">@style/MaterialTheme.Light.ActionBar.DarkToolbar.TranslucentStatus</item>
+        <item name="statusBarColor">@color/md_grey_900</item>
     </style>
 
     <style name="materialButton" parent="Theme.AppCompat.Light">
@@ -18,4 +33,11 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
+    <style name="lightToolbar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/md_indigo_600</item>
+    </style>
+
+
 </resources>
+
+

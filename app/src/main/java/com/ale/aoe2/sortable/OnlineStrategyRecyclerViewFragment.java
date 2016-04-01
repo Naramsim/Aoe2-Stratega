@@ -62,7 +62,7 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.downloadUrl = getArguments().getString("URL");
         this.statType = getArguments().getString("TYPE");
         superActivity  = (FragmentActivity) super.getActivity();
@@ -72,7 +72,7 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadJsonStrategies(false);
+                loadJsonStrategies(false, container);
                 Log.d("EE", "refresh");
                 swipeContainer.setRefreshing(false);//TODO: pass the event to loadJson...
             }
@@ -95,13 +95,14 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        loadJsonStrategies(true);
+        loadJsonStrategies(true, view);
         //mAdapter = new RecyclerViewMaterialAdapter(new OnlineStrategyRecyclerViewAdapter(mContentItems));
         //mRecyclerView.setAdapter(mAdapter);
 
     }
 
-    void loadJsonStrategies(final boolean attach) {
+    void loadJsonStrategies(final boolean attach, View view) {
+        final View v = view;
         Ion.with(superActivity)
                 .load(downloadUrl)
             .asJsonArray()
@@ -110,7 +111,7 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
                 public void onCompleted(Exception e, JsonArray result) {
                     if (e != null) {
                         Log.d("EE", e.getMessage());
-                        startSnackBar(R.string.check_connection);
+                        startSnackBar(R.string.check_connection, v);
                     }
                     if (result != null) {
                         if (!attach) {
@@ -136,10 +137,9 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
     }
 
-    void startSnackBar(int id) {
-        Resources res = getResources();
+    void startSnackBar(int id, View v) {
         Snackbar snackbar = Snackbar
-                .make(lLayout.findViewById(R.id.snackbar), res.getString(id), Snackbar.LENGTH_LONG);
+                .make(v, superActivity.getResources().getString(id), Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 }

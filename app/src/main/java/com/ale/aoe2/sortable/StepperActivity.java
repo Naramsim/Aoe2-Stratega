@@ -1,8 +1,11 @@
 package com.ale.aoe2.sortable;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,8 +16,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Button;
 
 import java.io.File;
+import java.util.Objects;
 
-public class Stepper extends AppCompatActivity {
+public class StepperActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
     Button proceedButton;
@@ -24,6 +28,7 @@ public class Stepper extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheTheme();
         setContentView(R.layout.activity_country);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         Bundle extras = getIntent().getExtras();
@@ -104,6 +109,29 @@ public class Stepper extends AppCompatActivity {
         } else {
             recyclerView.scrollToPosition(firstVisiblePosition + 1);
         }
+    }
+
+    Boolean setTheTheme(){
+        try{
+            Context context = this;
+            SharedPreferences userDetails = context.getSharedPreferences(
+                    getString(R.string.theme_key), MODE_PRIVATE);
+            String theme = userDetails.getString("theme", "");
+
+            if(Objects.equals(theme, "dark")){
+                Log.d("DD", theme);
+                setTheme(R.style.AppTheme);
+                return true;
+            }else{
+                setTheme(R.style.AppThemeLightt);
+            }
+
+        }catch (Exception e){
+            Log.d("DD", e.getMessage());
+        }finally {
+            Log.d("DD", "finally");
+        }
+        return false;
     }
 
 }

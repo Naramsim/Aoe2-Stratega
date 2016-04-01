@@ -1,8 +1,11 @@
 package com.ale.aoe2.sortable;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +15,7 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -29,16 +34,20 @@ import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.interfaces.OnCheckedChangeListener;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mikepenz.octicons_typeface_library.Octicons;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Ale on 01/03/2016.
@@ -51,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar mProgress;
 
     Future<File> downloading;
+    Activity superActivity;
 
     List<Strategy> strategiesList = new ArrayList<Strategy>();
     List<File> strategiesFileList = new ArrayList<File>();
@@ -97,8 +107,9 @@ public class MainActivity extends AppCompatActivity {
         });
         // Start the thread
         t.start();
-
+        superActivity = this;
         //Show everything
+        boolean isDark = setTheTheme();
         setContentView(R.layout.activity_main);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -114,8 +125,9 @@ public class MainActivity extends AppCompatActivity {
                 .withIcon(Octicons.Icon.oct_beaker).withIconColor(getGray());
         PrimaryDrawerItem item2 = new PrimaryDrawerItem().withName("Tips and tricks")
                 .withIcon(Octicons.Icon.oct_repo_push).withIconColor(getGray());
-        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withName("Settings")
-                .withIcon(Octicons.Icon.oct_gear).withIconColor(getGray());
+        SwitchDrawerItem item3 = new SwitchDrawerItem().withName("Change theme").withSelectable(false).withChecked(isDark)
+                .withOnCheckedChangeListener(onCheckedChangeListener)
+                .withIcon(Octicons.Icon.oct_paintcan).withIconColor(getGray());
         PrimaryDrawerItem item4 = new PrimaryDrawerItem().withName("About").withSelectable(false)
                 .withIcon(Octicons.Icon.oct_octoface).withIconColor(getGray());
         PrimaryDrawerItem item5 = new PrimaryDrawerItem().withName("Invite Friends").withSelectable(false)
@@ -203,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             })
             .build();
-        result.getDrawerLayout().setStatusBarBackgroundColor(getResources().getColor(R.color.status_bar));
+        result.getDrawerLayout().setStatusBarBackgroundColor(fetchAccentColor());
 
 
         Fragment strategyFragment = new LocalStrategyFragment();
@@ -211,6 +223,29 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.containerView, strategyFragment, null);
         fragmentTransaction.commit();
     }
+
+    private OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(IDrawerItem drawerItem, CompoundButton buttonView, boolean isChecked) {
+            SharedPreferences userDetails = getSharedPreferences(getString(R.string.theme_key), MODE_PRIVATE);
+            SharedPreferences.Editor edit = userDetails.edit();
+            edit.clear();
+            if (drawerItem instanceof Nameable) {
+                if(isChecked){
+                    edit.putString("theme", "dark");
+                }else {
+                    edit.putString("theme", "light");
+                }
+                Log.d("material-drawer", "DrawerItem: " + ((Nameable) drawerItem).getName() + " - toggleChecked: " + isChecked);
+            }
+            edit.commit();
+            finish();
+            Intent intent = new Intent(superActivity, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -240,6 +275,29 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    Boolean setTheTheme(){
+        try{
+            Context context = this;
+            SharedPreferences userDetails = superActivity.getSharedPreferences(
+                    getString(R.string.theme_key), MODE_PRIVATE);
+            String theme = userDetails.getString("theme", "");
+
+            if(Objects.equals(theme, "dark")){
+                Log.d("DD", theme);
+                setTheme(R.style.AppTheme);
+                return true;
+            }else{
+                setTheme(R.style.AppThemeLightt);
+            }
+
+        }catch (Exception e){
+            Log.d("DD", e.getMessage());
+        }finally {
+            Log.d("DD", "finally");
+        }
+        return false;
     }
 
     int getGray() {
@@ -298,5 +356,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         alertDialog.show();
+    }
+
+    private int fetchAccentColor() {
+        TypedValue typedValue = new TypedValue();
+        TypedArray a = this.obtainStyledAttributes(typedValue.data, new int[]{R.attr.statusBarColor});
+        int color = a.getColor(0, 0);
+        a.recycle();
+        return color;
     }
 }

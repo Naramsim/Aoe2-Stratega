@@ -85,7 +85,7 @@ public class OnlineStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Onli
             public void onClick(View v) {
                 //String itemValue = (String) mListView.getItemAtPosition(position);
                 //In order to start displaying new activity we need an intent
-                Intent intent = new Intent(context.getApplicationContext(), Stepper.class);
+                Intent intent = new Intent(context.getApplicationContext(), StepperActivity.class);
 
                 //Putting the Id of image as an extra in intent
                 intent.putExtra("fileName", (String) contents.get(position).name);
@@ -93,7 +93,7 @@ public class OnlineStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Onli
                 context.startActivity(intent);
             }
         });
-        holder.cardView.setOnLongClickListener(new  View.OnLongClickListener() {
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 final View thisView = view;
