@@ -52,9 +52,23 @@ public class SearchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
+
         if (savedInstanceState == null) {
              getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment()).commit();
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if(hasFocus){
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            searchView.showSearch();
+                        }
+                    },
+                    100);
         }
     }
 
@@ -89,6 +103,7 @@ public class SearchActivity extends AppCompatActivity {
         LinearLayoutManager llm;
         FragmentActivity superActivity;
         View rootView;
+        String lastQuery;
         SwipeRefreshLayout swipeContainer;
         //static MaterialSearchView searchView;
         public PlaceholderFragment() { }
@@ -103,13 +118,14 @@ public class SearchActivity extends AppCompatActivity {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
             lv.setLayoutManager(layoutManager);
             lv.setHasFixedSize(true);
-            loadJsonStrategies(true, "castle");
+            lastQuery = "";
+            loadJsonStrategies(true, "Yaidjask");
 
             swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainerOnline);
             swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    loadJsonStrategies(false, "TODO");
+                    loadJsonStrategies(false, lastQuery);
                     Log.d("EE", "refresh");
                     swipeContainer.setRefreshing(false);//TODO: pass the event to loadJson...
                 }
@@ -122,13 +138,24 @@ public class SearchActivity extends AppCompatActivity {
             searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    //Do some magic
+                    loadJsonStrategies(false, query);
                     return false;
                 }
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    loadJsonStrategies(false, newText);
+                    final String query = newText;
+                    final boolean typing = true;
+                    lastQuery = newText;
+//                    new android.os.Handler().postDelayed(
+//                            new Runnable() {
+//                                public void run() {
+                    if(newText.length() > 1){
+                        loadJsonStrategies(false, newText);
+                    }
+//                                }
+//                            },
+//                            300);
                     return false;
                 }
             });
@@ -159,25 +186,18 @@ public class SearchActivity extends AppCompatActivity {
                                 attachListAdapter();
                             }
                         }
-                    });
+                });
         }
 
         void attachListAdapter() {
             Log.d("EE", Integer.valueOf(strategiesList.size()).toString());
             itemsAdapter = new OnlineStrategyRecyclerViewAdapter(strategiesList, superActivity, "star");
             lv.setAdapter(itemsAdapter);
-//        for (int i = 0; i < ITEM_COUNT; ++i) {
-//            mContentItems.add(new Object());
-//        }
-//        strategiesAdapter.notifyDataSetChanged();
-
-            //MaterialViewPagerHelper.registerRecyclerView(getActivity(), lv, null);
         }
 
-        void startSnackBar(int id) {
-            Resources res = superActivity.getResources();
+        void startSnackBar(int id){
             Snackbar snackbar = Snackbar
-                    .make(rootView.findViewById(R.id.snackbar), res.getString(id), Snackbar.LENGTH_LONG);
+                    .make(getView(), superActivity.getResources().getString(id), Snackbar.LENGTH_LONG);
             snackbar.show();
         }
     }
