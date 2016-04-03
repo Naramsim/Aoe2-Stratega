@@ -1,7 +1,10 @@
 package com.ale.aoe2.sortable;
 
+import static edu.cmu.pocketsphinx.SpeechRecognizerSetup.defaultSetup;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,12 +17,20 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Button;
+import edu.cmu.pocketsphinx.Assets;
+import edu.cmu.pocketsphinx.Hypothesis;
+import edu.cmu.pocketsphinx.RecognitionListener;
+import edu.cmu.pocketsphinx.SpeechRecognizer;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
-public class StepperActivity extends AppCompatActivity {
+public class StepperActivity extends AppCompatActivity implements RecognitionListener{
 
+    private static final String PHRASES = "phrases";
+    private static final String DIGITS_SEARCH = "digits";
+    private SpeechRecognizer recognizer;
     Toolbar mToolbar;
     Button proceedButton;
     RecyclerView recyclerView;
@@ -74,27 +85,134 @@ public class StepperActivity extends AppCompatActivity {
                 scrollToAction(1);
             }
         });
+
+        //CMU Sphinx
+        new AsyncTask<Void, Void, Exception>() {
+            @Override
+            protected Exception doInBackground(Void... params) {
+                try {
+                    Assets assets = new Assets(StepperActivity.this);
+                    File assetDir = assets.syncAssets();
+                    setupRecognizer(assetDir);
+                } catch (IOException e) {
+                    return e;
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Exception result) {
+                if (result != null) {
+                    Log.d("DD","Failed to init recognizer " + result.getMessage());
+                }else{
+                    //Log.d("DD", "setupRecognizer successfully");
+                    startSearch();
+                }
+            }
+        }.execute();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        recognizer.cancel();
+        recognizer.shutdown();
+    }
+
+    @Override
+    public void onPartialResult(Hypothesis hypothesis) {
+        if (hypothesis == null)
+            return;
+        //String text = hypothesis.getHypstr();
+        //Log.d("DD", "initial hypothesis is " + text);
+    }
+
+    @Override
+    public void onResult(Hypothesis hypothesis) {
+        //Log.d("DD", "finished");
+        if (hypothesis != null) {
+            String text = hypothesis.getHypstr();
+            Log.d("DD", "onResult final hypothesis: " + text);
+            handleSpeechResult(text);
+        }
+    }
+
+    private void startSearch() {
+        recognizer.stop();
+        //recognizer.startListening(PHRASES);
+        recognizer.startListening(DIGITS_SEARCH);
+        //Log.d("DD", "startSearch");
+    }
+
+    @Override
+    public void onBeginningOfSpeech() {
+        //Log.d("DD", "onBeginning");
+    }
+
+    @Override
+    public void onEndOfSpeech() {
+        //Log.d("DD", "onEndOfSpeech");
+        startSearch();
+    }
+
+    private void setupRecognizer(File assetsDir) throws IOException {
+
+        recognizer = defaultSetup()
+                .setFloat("-vad_threshold", 3.0)
+                .setAcousticModel(new File(assetsDir, "en-us-ptm"))
+                .setDictionary(new File(assetsDir, "cmudict-en-us.dict"))
+                        // To disable logging of raw audio comment out this call (takes a lot of space on the device)
+                //.setRawLogDir(assetsDir)
+                        // Threshold to tune for keyphrase to balance between false alarms and misses
+                .setKeywordThreshold(1e-5f)
+                        // Use context-independent phonetic search, context-dependent is too slow for mobile
+                .setBoolean("-allphone_ci", true)
+                .getRecognizer();
+        recognizer.addListener(this);
+
+        //File phrasesFile = new File(assetsDir, "phrases.gram");
+        //recognizer.addGrammarSearch(PHRASES, phrasesFile);
+        File digitsGrammar = new File(assetsDir, "commands.gram");
+        recognizer.addKeywordSearch(DIGITS_SEARCH, digitsGrammar);
+    }
+
+    @Override
+    public void onError(Exception error) {
+        Log.d("DD", "onError" + error.getMessage());
+    }
+
+    @Override
+    public void onTimeout() {
+        Log.d("DD", "onTimeout");
+    }
+
+    void handleSpeechResult(String result) {
+        //Thanks java for not implementing switch with strings...
+        Log.d("DD", "Drd");
+        result = result.trim();
+        if(result.equals("back")){
+            scrollToAction(-2);
+        }else if(result.contains("proceed")){
+            scrollToAction(1);
+        }else if(result.contains("done")){
+            scrollToAction(1);
+        }else if(result.contains("step")){
+            scrollToAction(1);
+        }else if(result.equals("restart")){
+            scrollToAction(0);
+        }else {
+            //do nothing
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-
+        //int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
 
@@ -102,12 +220,12 @@ public class StepperActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = ((LinearLayoutManager)recyclerView.getLayoutManager());
         int firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
         boolean smooth = true;
-        position = position + direction;
-        position = position <= 0 ? 0 : position;
-        if (smooth) {
+        if(direction == 0){
+            recyclerView.smoothScrollToPosition(0);
+        }else if (direction == -2){
+            recyclerView.smoothScrollToPosition(firstVisiblePosition - 1);
+        }else{
             recyclerView.smoothScrollToPosition(firstVisiblePosition + 1);
-        } else {
-            recyclerView.scrollToPosition(firstVisiblePosition + 1);
         }
     }
 

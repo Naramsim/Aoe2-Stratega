@@ -44,3 +44,7 @@ dependencies {
     }
     compile 'com.miguelcatalan:materialsearchview:1.4.0' //search
 }
+
+ant.importBuild 'assets.xml'
+preBuild.dependsOn(list, checksum)
+clean.dependsOn(clean_assets)
