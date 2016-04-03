@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -273,6 +274,10 @@ public class MainActivity extends AppCompatActivity {
             showDialog(res.getString(R.string.import_from_storage), res.getString(R.string.hint_import_from_storage));
             return true;
         }
+        if (id == R.id.create_strategy) {
+            showLearnDialog(res.getString(R.string.create_new_strategy), res.getString(R.string.hint_create_new_strategy));
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -353,6 +358,28 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    void showLearnDialog(String title, String content) {
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(content);
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Got it",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Browse",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String url = "http://naramsim.github.io/Aoe2-Stratega-Uploader";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
                     }
                 });
         alertDialog.show();

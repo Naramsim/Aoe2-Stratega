@@ -35,6 +35,10 @@
     <string name="download">downloads</string>
     <string name="star">stars</string>
     <string name="theme_key">com.ale.aoe2.theme_key</string>
+    <string name="create_strategy">Create a strategy</string>
+    <string name="create_new_strategy">Create and Upload a new strategy</string>
+    <string name="hint_create_new_strategy">A strategy is a text file, to learn how to create it just browse this site:
+                    naramsim.github.io/Aoe2-Stratega-Uploader</string>
 
     <string-array name="general_tips">
         <item>Always be making villagers (generally at least 100 villagers but it depends on pop cap, strategy, map, etc.).</item>

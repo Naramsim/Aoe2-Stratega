@@ -14,4 +14,8 @@
         android:title="@string/import_storage_settings"
         android:orderInCategory="2"
         app:showAsAction="never" />
+    <item android:id="@+id/create_strategy"
+        android:title="@string/create_strategy"
+        android:orderInCategory="2"
+        app:showAsAction="never" />
 </menu>
