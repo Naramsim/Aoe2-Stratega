@@ -20,8 +20,9 @@
     </style>
 
     <style name="materialButton" parent="Theme.AppCompat.Light">
-        <item name="colorControlHighlight">@color/md_indigo_A700</item>
-        <item name="colorButtonNormal">@color/md_light_blue_A700</item>
+        <item name="colorControlHighlight">@color/md_indigo_500</item>
+        <item name="colorButtonNormal">@color/md_indigo_700</item>
+        <item name="android:textColor">@color/md_white</item>
     </style>
 
     <!-- Fullscreen application theme. -->
