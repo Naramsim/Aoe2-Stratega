@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,12 +21,16 @@ import java.util.ArrayList;
  */
 public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<CreateStrategyRecyclerViewAdapter.ViewHolder> {
     Context context;
-    private ArrayList<String> itemsData;
+    private ArrayList<Integer> itemsData;
     Button proceedButton;
-    public CreateStrategyRecyclerViewAdapter(Context context, ArrayList<String> itemsData, Button proceed) {
+    RecyclerView images;
+
+    public CreateStrategyRecyclerViewAdapter(Context context, ArrayList<Integer> itemsData,
+                                             Button proceed, RecyclerView images) {
         this.context = context;
         this.itemsData = itemsData;
         this.proceedButton = proceed;
+        this.images = images;
     }
 
     // Create new views (invoked by the layout manager)
@@ -40,7 +46,15 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        viewHolder.initialImage.setImageResource(R.drawable.alabardier);
+        viewHolder.initialImage.setImageResource(itemsData.get(position));
+        viewHolder.initialImage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Animation animFadeOut = AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.abc_slide_out_bottom);
+                proceedButton.setAnimation(animFadeOut);
+                proceedButton.setVisibility(View.GONE);
+                showImageRecyclerView();
+            }
+        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -54,10 +68,6 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
             t1 = (TextInputEditText) itemLayoutView.findViewById(R.id.edit_text);
             t2 = (TextInputEditText) itemLayoutView.findViewById(R.id.hint_edit_text);
         }
-
-        public void bind(Tech tech) {
-            initialImage.setImageResource(R.drawable.alabardier);
-        }
     }
 
     @Override
@@ -68,5 +78,16 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    public boolean setItem(int position, int res){
+        itemsData.set(position, res);
+        return true;
+    }
+
+    void showImageRecyclerView(){
+        Animation animFadeIn = AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.abc_slide_in_bottom);
+        images.setAnimation(animFadeIn);
+        images.setVisibility(View.VISIBLE);
     }
 }
