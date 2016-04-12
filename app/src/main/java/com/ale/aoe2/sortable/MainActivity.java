@@ -122,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
                 .withIcon(Octicons.Icon.oct_repo).withIconColor(getGray());
         PrimaryDrawerItem onlineStr = new PrimaryDrawerItem().withName("Online Strategies")
                 .withIcon(Octicons.Icon.oct_repo_clone).withIconColor(getGray());
+        PrimaryDrawerItem newStr = new PrimaryDrawerItem().withName("New Strategy")
+                .withIcon(Octicons.Icon.oct_repo_force_push).withIconColor(getGray());
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName("Tech tree secrets")
                 .withIcon(Octicons.Icon.oct_beaker).withIconColor(getGray());
         PrimaryDrawerItem item2 = new PrimaryDrawerItem().withName("Tips and tricks")
@@ -157,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
             .addDrawerItems(
                     item0,
                     onlineStr,
+                    newStr,
                     item1,
                     item2,
                     new DividerDrawerItem(),
@@ -185,23 +188,28 @@ public class MainActivity extends AppCompatActivity {
 //                            fragmentTransaction.commit();
                             break;
                         case 3:
+                            Fragment newStrategyFragment = new NewStrategyFragment();
+                            fragmentTransaction.replace(R.id.containerView, newStrategyFragment);
+                            fragmentTransaction.commit();
+                            break;
+                        case 4:
                             Fragment techFragment = new TechFragment();
                             fragmentTransaction.replace(R.id.containerView, techFragment);
                             fragmentTransaction.commit();
                             break;
-                        case 4:
+                        case 5:
                             Fragment tipsFragment = new TipsFragment();
                             fragmentTransaction.replace(R.id.containerView, tipsFragment);
                             fragmentTransaction.commit();
                             break;
-                        case 6://settings
+                        case 7://settings
 
                             break;
-                        case 8:
+                        case 9:
                             Intent intent = new Intent(getApplicationContext(), About.class);
                             startActivity(intent);
                             break;
-                        case 9:
+                        case 10:
                             Intent sendIntent = new Intent();
                             sendIntent.setAction(Intent.ACTION_SEND);
                             sendIntent.putExtra(Intent.EXTRA_TEXT,
