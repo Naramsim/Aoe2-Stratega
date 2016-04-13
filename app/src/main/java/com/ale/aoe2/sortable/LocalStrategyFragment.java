@@ -206,7 +206,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                 toReturn.put("icon", icon);
             }
             scanner.close();
-        } catch (Exception e){Log.d("DD", e.getMessage());}
+        } catch (Exception e){}
         return toReturn;
     }
 

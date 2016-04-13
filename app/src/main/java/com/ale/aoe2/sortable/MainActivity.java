@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
 //                            fragmentTransaction.commit();
                             break;
                         case 3:
-                            Fragment newStrategyFragment = new NewStrategyFragment();
+                            Fragment newStrategyFragment = new CreateStrategyFragment();
                             fragmentTransaction.replace(R.id.containerView, newStrategyFragment);
                             fragmentTransaction.commit();
                             break;

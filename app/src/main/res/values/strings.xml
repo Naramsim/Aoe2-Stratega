@@ -46,6 +46,10 @@
     <string name="digits_caption">To try recognition of digits: say something like \"one two three four five\".</string>
     <string name="forecast_caption">To try recognition of a weather forecast like \"sunny spells on Wednesday\".</string>
     <string name="phone_caption">To try phonetic recognition say anything.</string>
+    <string name="uncomplete_submit_strategy_dialog">All fields must be filled</string>
+    <string name="incomplete_step">A step is incomplete</string>
+    <string name="upload_success">Your strategy was uploaded succesfully</string>
+    <string name="no_first_step">Initial step missing</string>
 
     <string-array name="general_tips">
         <item>Always be making villagers (generally at least 100 villagers but it depends on pop cap, strategy, map, etc.).</item>
