@@ -50,6 +50,7 @@
     <string name="incomplete_step">A step is incomplete</string>
     <string name="upload_success">Your strategy was uploaded succesfully</string>
     <string name="no_first_step">Initial step missing</string>
+    <string name="general_error">Something went wrong</string>
 
     <string-array name="general_tips">
         <item>Always be making villagers (generally at least 100 villagers but it depends on pop cap, strategy, map, etc.).</item>

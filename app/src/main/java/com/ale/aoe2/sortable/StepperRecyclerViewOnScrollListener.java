@@ -39,7 +39,6 @@ public abstract class StepperRecyclerViewOnScrollListener extends RecyclerView.O
         if ((totalItemCount - visibleItemCount)
                 <= (firstVisibleItem + visibleThreshold)) {
             // End has been reached
-            Log.d("DD", "end reached");
             mActivityWindow.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
     }

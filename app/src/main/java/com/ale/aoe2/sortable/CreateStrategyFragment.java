@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -44,8 +45,8 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
     String civ;
     String map;
     String aut;
-    String[] stepInstructions;
-    String[] hintInstructions;
+    ArrayList<String> stepInstructions;
+    ArrayList<String> hintInstructions;
     ArrayList<Integer> stepsImages;
     ArrayList<String> imageNamesList;
     @Override
@@ -53,8 +54,11 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
         superActivity = super.getActivity();
         lLayout = (RelativeLayout) inflater.inflate(R.layout.new_strategy_fragment, container, false);
         stepsImages = new ArrayList<Integer>();
-        stepInstructions = new String[40];
-        hintInstructions = new String[40];
+        stepInstructions = new ArrayList<String>();
+        hintInstructions = new ArrayList<String>();
+        stepsImages.add(R.drawable.three_camera);
+        stepInstructions.add("");
+        hintInstructions.add("");
         proceedButton = (Button)lLayout.findViewById(R.id.proceed);
         recyclerView = (RecyclerView) lLayout.findViewById(R.id.recycler_view);
         imagesRecyclerView = (RecyclerView)lLayout.findViewById(R.id.imageRecycler);
@@ -182,6 +186,8 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 stepsImages.add(R.drawable.three_camera);
+                stepInstructions.add("");
+                hintInstructions.add("");
                 currentAdapter.notifyItemInserted(stepsImages.size()-1);
                 scrollToAction();
             }
@@ -190,10 +196,26 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
         //Recycleviewer
         final org.solovyev.android.views.llm.LinearLayoutManager layoutManager = new org.solovyev.android.views.llm.LinearLayoutManager(superActivity, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        stepsImages.add(R.drawable.three_camera);
         recyclerView.setAdapter(currentAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addOnScrollListener(new StepperRecyclerViewOnScrollListener(layoutManager, superActivity.getWindow()){});
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.UP) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                //Remove swiped item from list and notify the RecyclerView
+                int position = viewHolder.getAdapterPosition();
+                stepsImages.remove(position);
+                stepInstructions.remove(position);
+                hintInstructions.remove(position);
+                currentAdapter.notifyItemRemoved(position);
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         imagesRecyclerView.setLayoutManager(new LinearLayoutManager(superActivity, LinearLayoutManager.HORIZONTAL, false));
         imagesRecyclerView.setAdapter(imagesAdapter);
@@ -251,16 +273,16 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
                                                 replace("{map}",map).
                                                 replace("{name}",name).
                                                 replace("{aut}",aut).getBytes());
-            for (int stepImage: stepsImages){
+            for (int img: stepsImages){
                 step_text = "- {step} [{image}]\n";
                 hint_text = "\t+ {hint}\n";
-                if(! stepInstructions[current_step].equals(null)) {
-                    declared_image = superActivity.getResources().getResourceEntryName(stepImage);
+                if(! stepInstructions.get(current_step).equals("")) {
+                    declared_image = superActivity.getResources().getResourceEntryName(img);
                     step_image = declared_image.equals("three_camera") ? "three_m" : declared_image;
-                    outputStream.write(step_text.replace("{step}", stepInstructions[current_step])
+                    outputStream.write(step_text.replace("{step}", stepInstructions.get(current_step))
                             .replace("{image}", step_image).getBytes());
-                    if(! hintInstructions[current_step].equals(null)) {
-                        outputStream.write(hint_text.replace("{hint}", hintInstructions[current_step]).getBytes());
+                    if(! hintInstructions.get(current_step).equals("")) {
+                        outputStream.write(hint_text.replace("{hint}", hintInstructions.get(current_step)).getBytes());
                     }
                 }else{
                     startSnackBar(lLayout, R.string.incomplete_step);
@@ -325,22 +347,24 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextInputEditText name_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_name_text);
-                TextInputEditText civ_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_civ_text);
-                TextInputEditText map_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_map_text);
-                TextInputEditText aut_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_aut_text);
-                name = name_text_input.getText().toString();
-                civ = civ_text_input.getText().toString();
-                map = map_text_input.getText().toString();
-                aut = aut_text_input.getText().toString();
-                if(name.matches("") || civ.matches("") || map.matches("") || aut.matches("")) {
-                    startSnackBar(dialogLayout, R.string.uncomplete_submit_strategy_dialog);
-                }else if(stepInstructions[0].toString().equals("")){
-                    startSnackBar(lLayout, R.string.no_first_step);
-                }else{
-                    saveStrategyLocally();
-                    alertDialog.dismiss();
-                }
+                try{
+                    TextInputEditText name_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_name_text);
+                    TextInputEditText civ_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_civ_text);
+                    TextInputEditText map_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_map_text);
+                    TextInputEditText aut_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_aut_text);
+                    name = name_text_input.getText().toString();
+                    civ = civ_text_input.getText().toString();
+                    map = map_text_input.getText().toString();
+                    aut = aut_text_input.getText().toString();
+                    if(name.matches("") || civ.matches("") || map.matches("") || aut.matches("")) {
+                        startSnackBar(dialogLayout, R.string.uncomplete_submit_strategy_dialog);
+                    }else if(stepInstructions.get(0).toString().equals("")){
+                        startSnackBar(lLayout, R.string.no_first_step);
+                    }else{
+                        saveStrategyLocally();
+                        alertDialog.dismiss();
+                    }
+                }catch (Exception e){Log.d("DD", e.getMessage()); startSnackBar(dialogLayout, R.string.general_error);}
             }
         });
     }

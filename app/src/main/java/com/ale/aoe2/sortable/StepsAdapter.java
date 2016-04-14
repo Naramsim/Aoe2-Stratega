@@ -99,13 +99,12 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
                     R.string.final_hint6};
             int randomIndex = new Random().nextInt(7);
             int battleCry = battleCriesId[randomIndex];
-            items.add(new Item(res.getString(battleCry), "bs", "", current));
+            items.add(new Item(res.getString(battleCry), "assault_m", "", current));
         }catch (Exception e) {Log.d("DD", e.getMessage());}
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d(TAG, "hi");
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
         WindowManager windowManager = (WindowManager) parent.getContext().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics metrics = new DisplayMetrics();
@@ -137,7 +136,6 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             title = (TextView) itemView.findViewById(R.id.title);
             subtitle = (TextView) itemView.findViewById(R.id.subtitle);
             img = (ImageView) itemView.findViewById(R.id.instruction_img);

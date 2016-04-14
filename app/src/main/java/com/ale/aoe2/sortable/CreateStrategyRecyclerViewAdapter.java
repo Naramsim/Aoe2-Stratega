@@ -24,16 +24,16 @@ import java.util.ArrayList;
 public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<CreateStrategyRecyclerViewAdapter.ViewHolder> {
     Context context;
     private ArrayList<Integer> itemsData;
+    private ArrayList<String> stepText;
+    private ArrayList<String> hintText;
     Button proceedButton;
     RecyclerView stepsRecyclerView;
     RecyclerView images;
-    //TODO: make array list
-    private String[] stepText;
-    private String[] hintText;
+
 
     public CreateStrategyRecyclerViewAdapter(Context context, ArrayList<Integer> itemsData,
                                              Button proceed, RecyclerView images,
-                                             String[] stepText, String[] hintText,
+                                             ArrayList<String> stepText, ArrayList<String> hintText,
                                              RecyclerView stepsRecyclerView) {
         this.context = context;
         this.itemsData = itemsData;
@@ -70,8 +70,8 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
         //http://stackoverflow.com/questions/31844373/saving-edittext-content-in-recyclerview
         viewHolder.stl.updatePosition(position);
         viewHolder.htl.updatePosition(position);
-        viewHolder.t1.setText(stepText[position]);
-        viewHolder.t2.setText(hintText[position]);
+        viewHolder.t1.setText(stepText.get(position));
+        viewHolder.t2.setText(hintText.get(position));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -125,7 +125,7 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
         }
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            stepText[position] = charSequence.toString();
+            stepText.set(position, charSequence.toString());
         }
         @Override
         public void afterTextChanged(Editable editable) {
@@ -144,7 +144,7 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
         }
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            hintText[position] = charSequence.toString();
+            hintText.set(position, charSequence.toString());
         }
         @Override
         public void afterTextChanged(Editable editable) {
