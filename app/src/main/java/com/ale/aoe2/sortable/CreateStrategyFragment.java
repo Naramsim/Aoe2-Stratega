@@ -189,7 +189,21 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
                 stepInstructions.add("");
                 hintInstructions.add("");
                 currentAdapter.notifyItemInserted(stepsImages.size()-1);
-                scrollToAction();
+                scrollToAction(-1);
+            }
+        });
+
+        proceedButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                LinearLayoutManager layoutManager = ((LinearLayoutManager)recyclerView.getLayoutManager());
+                int nextVisiblePosition = layoutManager.findFirstVisibleItemPosition() + 1;
+                stepsImages.add(nextVisiblePosition, R.drawable.three_camera);
+                stepInstructions.add(nextVisiblePosition, "");
+                hintInstructions.add(nextVisiblePosition, "");
+                currentAdapter.notifyItemInserted(nextVisiblePosition);
+                scrollToAction(1);
+                return true;
             }
         });
 
@@ -249,6 +263,9 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
             case R.id.action_menu_done:
                 showDialog();
                 return true;
+            case R.id.help_new_strategy:
+                showHelpDialog();
+                return true;
         }
         return false;
     }
@@ -298,8 +315,14 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
         return true;
     }
 
-    protected void scrollToAction() {
-        recyclerView.smoothScrollToPosition(stepsImages.size() - 1);
+    protected void scrollToAction(int mode) {
+        LinearLayoutManager layoutManager = ((LinearLayoutManager)recyclerView.getLayoutManager());
+        int firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
+        if (mode == 1) {
+            recyclerView.smoothScrollToPosition(firstVisiblePosition + 1);
+        }else {
+            recyclerView.smoothScrollToPosition(stepsImages.size() - 1);
+        }
     }
 
     void showDialog() {
@@ -367,6 +390,13 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
                 }catch (Exception e){Log.d("DD", e.getMessage()); startSnackBar(dialogLayout, R.string.general_error);}
             }
         });
+    }
+
+    void showHelpDialog() {
+        final AlertDialog alertDialog = new AlertDialog.Builder(superActivity).create();
+        alertDialog.setTitle(R.string.help_new_strategy_title);
+        alertDialog.setMessage(superActivity.getResources().getString(R.string.help_new_strategy));
+        alertDialog.show();
     }
 
     void startSnackBar(View v, int id) {

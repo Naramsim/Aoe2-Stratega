@@ -37,7 +37,7 @@
     <string name="theme_key">com.ale.aoe2.theme_key</string>
     <string name="create_strategy">Create a strategy</string>
     <string name="create_new_strategy">Create and Upload a new strategy</string>
-    <string name="hint_create_new_strategy">A strategy is a text file, to learn how to create it just browse this site:
+    <string name="hint_create_new_strategy">Swipe the lateral menu and select \"New Strategy\" or browse this site if you are an expert:
                     naramsim.github.io/Aoe2-Stratega-Uploader</string>
 
 
@@ -48,9 +48,17 @@
     <string name="phone_caption">To try phonetic recognition say anything.</string>
     <string name="uncomplete_submit_strategy_dialog">All fields must be filled</string>
     <string name="incomplete_step">A step is incomplete</string>
-    <string name="upload_success">Your strategy was uploaded succesfully</string>
+    <string name="upload_success">Your strategy was uploaded successfully</string>
     <string name="no_first_step">Initial step missing</string>
     <string name="general_error">Something went wrong</string>
+    <string name="help_new_strategy">Each strategy is composed by several steps. Each step has a description and can have an image and a hint.\n
+Add steps by clicking the bottom button, fill the input step text and change the image by clicking over it.\n
+Swipe left and right to navigate between your steps. Swipe up a step to delete it.\n
+Long click on the bottom button to add a step in between two other steps.\n
+In the end confirm with the toolbar button and fill all the fields you will be proposed.
+    </string>
+    <string name="help">Help</string>
+    <string name="help_new_strategy_title">How to create a new strategy</string>
 
     <string-array name="general_tips">
         <item>Always be making villagers (generally at least 100 villagers but it depends on pop cap, strategy, map, etc.).</item>
