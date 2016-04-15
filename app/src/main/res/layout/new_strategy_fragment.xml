@@ -4,10 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.miguelcatalan.materialsearchview.MaterialSearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <com.ale.aoe2.sortable.QuickRecyclerView
+        android:id="@+id/imageRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_below="@id/search_view">
+    </com.ale.aoe2.sortable.QuickRecyclerView>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/imageRecycler"/>
 
     <Button
         android:id="@+id/proceed"
@@ -17,13 +32,5 @@
         android:layout_margin="20dp"
         android:text="Add Step"
         android:theme="@style/materialButton"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/imageRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone">
-    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

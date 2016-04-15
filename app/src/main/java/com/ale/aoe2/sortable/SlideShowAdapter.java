@@ -17,6 +17,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 /**
@@ -26,18 +29,21 @@ public class SlideShowAdapter extends RecyclerView.Adapter<SlideShowAdapter.View
     Context context;
     private ArrayList<Integer> itemsData;
     Button proceedButton;
-    RecyclerView images;
+    QuickRecyclerView images;
     RecyclerView onCreatingStep;
     CreateStrategyRecyclerViewAdapter stepAdapter;
+    MaterialSearchView searchView;
+
     public SlideShowAdapter(Context context, ArrayList<Integer> itemsData, Button proceed,
-                            RecyclerView images, RecyclerView onCreatingStep,
-                            CreateStrategyRecyclerViewAdapter stepAdapter) {
+                            QuickRecyclerView images, RecyclerView onCreatingStep,
+                            CreateStrategyRecyclerViewAdapter stepAdapter, MaterialSearchView searchView) {
         this.context = context;
         this.itemsData = itemsData;
         this.proceedButton = proceed;
         this.images = images;
         this.stepAdapter = stepAdapter;
         this.onCreatingStep = onCreatingStep;
+        this.searchView = searchView;
     }
 
     // Create new views (invoked by the layout manager)
@@ -47,23 +53,41 @@ public class SlideShowAdapter extends RecyclerView.Adapter<SlideShowAdapter.View
         View itemLayoutView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.slideshow_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(itemLayoutView);
+        Picasso.with(context).setIndicatorsEnabled(true);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        viewHolder.iv.setImageResource(itemsData.get(position));
+        //viewHolder.iv.setImageResource(itemsData.get(position));
+
+        Picasso.with(context)
+                .load(itemsData.get(position))
+                //.resize(100,100)
+                //.centerCrop()
+                //.fit()
+                .into(viewHolder.iv);
         viewHolder.ti.setText(context.getResources().getResourceEntryName(itemsData.get(position)));
         viewHolder.iv.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Animation animFadeOut = AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.abc_slide_out_bottom);
-                images.setAnimation(animFadeOut);
-                images.setVisibility(View.GONE);
-                LinearLayoutManager layoutManager = ((LinearLayoutManager)onCreatingStep.getLayoutManager());
-                int firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
-                stepAdapter.setItem(firstVisiblePosition, itemsData.get(position));
-                stepAdapter.notifyItemChanged(firstVisiblePosition);
-                showProceedButton();
+                animFadeOut.setAnimationListener(new Animation.AnimationListener(){
+                    @Override
+                    public void onAnimationStart(Animation animation){}
+                    @Override
+                    public void onAnimationRepeat(Animation animation){}
+                    @Override
+                    public void onAnimationEnd(Animation animation){
+
+                        images.setVisibility(View.GONE);
+                        LinearLayoutManager layoutManager = ((LinearLayoutManager)onCreatingStep.getLayoutManager());
+                        int firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
+                        stepAdapter.setItem(firstVisiblePosition, itemsData.get(position));
+                        stepAdapter.notifyItemChanged(firstVisiblePosition);
+                        showProceedButton();
+                    }
+                });
+                images.startAnimation(animFadeOut);
             }
         });
     }
@@ -93,5 +117,6 @@ public class SlideShowAdapter extends RecyclerView.Adapter<SlideShowAdapter.View
         Animation animFadeIn = AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.abc_slide_in_bottom);
         proceedButton.setAnimation(animFadeIn);
         proceedButton.setVisibility(View.VISIBLE);
+        searchView.closeSearch();
     }
 }

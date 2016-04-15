@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
 import java.util.ArrayList;
 
 /**
@@ -28,13 +30,14 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
     private ArrayList<String> hintText;
     Button proceedButton;
     RecyclerView stepsRecyclerView;
-    RecyclerView images;
+    QuickRecyclerView images;
+    MaterialSearchView searchView;
 
 
     public CreateStrategyRecyclerViewAdapter(Context context, ArrayList<Integer> itemsData,
-                                             Button proceed, RecyclerView images,
+                                             Button proceed, QuickRecyclerView images,
                                              ArrayList<String> stepText, ArrayList<String> hintText,
-                                             RecyclerView stepsRecyclerView) {
+                                             RecyclerView stepsRecyclerView, MaterialSearchView searchView) {
         this.context = context;
         this.itemsData = itemsData;
         this.proceedButton = proceed;
@@ -42,6 +45,7 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
         this.stepText = stepText;
         this.hintText = hintText;
         this.stepsRecyclerView = stepsRecyclerView;
+        this.searchView = searchView;
     }
 
     // Create new views (invoked by the layout manager)
@@ -112,6 +116,8 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
         Animation animFadeIn = AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.abc_slide_in_bottom);
         images.setAnimation(animFadeIn);
         images.setVisibility(View.VISIBLE);
+        searchView.setVisibility(View.VISIBLE);
+        searchView.showSearch(true);
     }
 
     private class StepTextListener implements TextWatcher {

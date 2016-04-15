@@ -3,6 +3,7 @@ package com.ale.aoe2.sortable;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -10,9 +11,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +27,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -37,7 +43,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
     FragmentActivity superActivity;
     Button proceedButton;
     RecyclerView recyclerView;
-    RecyclerView imagesRecyclerView;
+    QuickRecyclerView imagesRecyclerView;
     CreateStrategyRecyclerViewAdapter currentAdapter;
     SlideShowAdapter imagesAdapter;
     int position = 0;
@@ -49,6 +55,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
     ArrayList<String> hintInstructions;
     ArrayList<Integer> stepsImages;
     ArrayList<String> imageNamesList;
+    MaterialSearchView searchView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         superActivity = super.getActivity();
@@ -61,7 +68,8 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
         hintInstructions.add("");
         proceedButton = (Button)lLayout.findViewById(R.id.proceed);
         recyclerView = (RecyclerView) lLayout.findViewById(R.id.recycler_view);
-        imagesRecyclerView = (RecyclerView)lLayout.findViewById(R.id.imageRecycler);
+        imagesRecyclerView = (QuickRecyclerView)lLayout.findViewById(R.id.imageRecycler);
+        searchView = (MaterialSearchView) lLayout.findViewById(R.id.search_view);
         ArrayList<Integer> drawableRes = new ArrayList<>(Arrays.asList(R.drawable.alabardier,
                 R.drawable.arcbalester,
                 R.drawable.archer,
@@ -175,11 +183,28 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
             imageNamesList.add(superActivity.getResources().getResourceEntryName(item));
         }
 
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Do some magic
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                int position = getImagePos(newText);
+                if(position >= 0){
+                    imagesRecyclerView.scrollToPosition(position);
+                }
+                return false;
+            }
+        });
 
         currentAdapter = new CreateStrategyRecyclerViewAdapter(superActivity, stepsImages,
-                                                                proceedButton, imagesRecyclerView,
-                stepInstructions, hintInstructions, recyclerView);
-        imagesAdapter = new SlideShowAdapter(superActivity, drawableRes, proceedButton, imagesRecyclerView, recyclerView, currentAdapter);
+                                            proceedButton, imagesRecyclerView,
+                                            stepInstructions, hintInstructions, recyclerView, searchView);
+        imagesAdapter = new SlideShowAdapter(superActivity, drawableRes, proceedButton,
+                                            imagesRecyclerView, recyclerView, currentAdapter,
+                                            searchView);
         //Button
 
         proceedButton.setOnClickListener(new View.OnClickListener() {
@@ -208,7 +233,8 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
         });
 
         //Recycleviewer
-        final org.solovyev.android.views.llm.LinearLayoutManager layoutManager = new org.solovyev.android.views.llm.LinearLayoutManager(superActivity, LinearLayoutManager.HORIZONTAL, false);
+        final org.solovyev.android.views.llm.LinearLayoutManager layoutManager =
+                new org.solovyev.android.views.llm.LinearLayoutManager(superActivity, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(currentAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -255,6 +281,8 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_add, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        //MenuItem item = menu.findItem(R.id.action_search);
+        //searchView.setMenuItem(item);
     }
 
     @Override
@@ -313,6 +341,16 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
             e.printStackTrace();
         }
         return true;
+    }
+
+    private int getImagePos(String query){
+        for(String imageName: imageNamesList){
+            Log.d("DD", imageName);
+            if(imageName.startsWith(query)){
+                return imageNamesList.indexOf(imageName);
+            }
+        }
+        return -1;
     }
 
     protected void scrollToAction(int mode) {

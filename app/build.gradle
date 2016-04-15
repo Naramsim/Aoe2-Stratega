@@ -43,6 +43,7 @@ dependencies {
         transitive = true
     }
     compile 'com.miguelcatalan:materialsearchview:1.4.0' //search
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
 
 ant.importBuild 'assets.xml'
