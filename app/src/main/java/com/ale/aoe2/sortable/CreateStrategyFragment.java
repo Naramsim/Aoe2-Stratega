@@ -421,6 +421,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
                         startSnackBar(dialogLayout, R.string.uncomplete_submit_strategy_dialog);
                     }else if(stepInstructions.get(0).toString().equals("")){
                         startSnackBar(lLayout, R.string.no_first_step);
+                        alertDialog.dismiss();
                     }else{
                         saveStrategyLocally();
                         alertDialog.dismiss();

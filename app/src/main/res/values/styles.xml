@@ -8,7 +8,13 @@
         <item name="cardStyle">@style/CardView.Light</item>
         <item name="myToolbarStyle">@style/lightToolbar</item>
         <item name="statusBarColor">@color/md_indigo_700</item>
+        <item name="colorControlNormal">@color/md_white</item>
+        <item name="colorControlActivated">@color/md_indigo_700</item>
+        <item name="colorControlHighlight">@color/md_indigo_700</item>
+        <item name="android:colorAccent">@color/accent_color</item>
+        <item name="alertDialogTheme">@style/AppCompatAlertDialogStyleLight</item>
     </style>
+
 
     <style name="AppTheme" parent= "MaterialDrawerTheme">
         <item name="android:textColorSecondary">@color/md_white</item>
@@ -17,12 +23,24 @@
         <item name="myToolbarStyle">@style/MaterialTheme.Light.ActionBar.DarkToolbar.TranslucentStatus</item>
         <item name="statusBarColor">@color/md_grey_900</item>
         <item name="searchBackground">@color/md_grey_500</item>
+        <item name="alertDialogTheme">@style/AppCompatAlertDialogStyle</item>
     </style>
 
-    <style name="materialButton" parent="Theme.AppCompat.Light">
+    <style name="AppCompatAlertDialogStyleLight" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorPrimary">@color/md_indigo_700</item>
+        <item name="android:colorAccent">@color/md_indigo_900</item>
+    </style>
+
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:colorPrimary">@color/md_pink_400</item>
+        <item name="android:colorAccent">@color/md_pink_400</item>
+    </style>
+
+    <style name="materialButton" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorControlHighlight">@color/md_indigo_500</item>
         <item name="colorButtonNormal">@color/md_indigo_700</item>
         <item name="android:textColor">@color/md_white</item>
+        <item name="colorAccent">@color/accent_color</item>
     </style>
 
     <!-- Fullscreen application theme. -->
@@ -30,10 +48,12 @@
         <!-- Customize your theme here. -->
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="colorAccent">@color/accent_color</item>
     </style>
 
     <style name="lightToolbar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">@color/md_indigo_600</item>
+        <item name="colorAccent">@color/accent_color</item>
     </style>
 
 
