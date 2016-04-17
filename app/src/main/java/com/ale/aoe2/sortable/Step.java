@@ -5,13 +5,13 @@ import android.content.Context;
 /**
  * Created by Ale on 24/02/2016.
  */
-public class Item {
+public class Step {
     private String title;
     private String subtitle;
     private String img;
     private Context context;
 
-    Item(String title, String img, String subtitle, Context context) {
+    Step(String title, String img, String subtitle, Context context) {
         this.title = title;
         this.subtitle = subtitle;
         this.img = img;

@@ -27,79 +27,26 @@ import java.util.regex.Pattern;
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
     @SuppressWarnings("unused")
     private static final String TAG = StepsAdapter.class.getSimpleName();
-    private List<Item> items;
+    private List<Step> steps;
+    String infoRegex = "(?:-\\s?((?:[^\\[\\]\\n\\r])*)\\s?(?:\\[(\\w*)\\])?)(?:(?:\\n|\\t|\\s)*\\+\\s?(.*))?"; //http://regexr.com/3d7r6
 
     public StepsAdapter(File receiving, Context current) {
         super();
-        Resources res = current.getResources();
-        items = new ArrayList<>();
+        steps = new ArrayList<>();
         Scanner scanner = null;
-        String text = "";
         try{
             scanner = new Scanner( receiving );
-            text = scanner.useDelimiter("\\A").next();
-            int i = 0;
-            //Log.d("DD",text.replace("\n", "").replace("\r", ""));
-            String infoRegex = "(?:-\\s?(.*)\\s?\\[(.*)\\])(?:(?:\\n|\\t|\\s)*\\+\\s?(.*))?";
-            Pattern pattern = Pattern.compile(infoRegex);
-            Matcher matcher = pattern.matcher(text);
-            while (matcher.find()) {
-                String inst = matcher.group(1);
-                String img = matcher.group(2);
-                String hint = matcher.group(3);
-                items.add(new Item(inst, img, hint, current));
-                i++;
-            }
-            scanner.close();
-            Log.d("EE",Integer.valueOf(i).toString());
-            //randomly generate final cardview
-            int[] battleCriesId = {R.string.final_hint0,
-                R.string.final_hint1,
-                R.string.final_hint2,
-                R.string.final_hint3,
-                R.string.final_hint4,
-                R.string.final_hint5,
-                R.string.final_hint6};
-            int randomIndex = new Random().nextInt(7);
-            int battleCry = battleCriesId[randomIndex];
-            items.add(new Item(res.getString(battleCry), "three_m", "", current));
+            detectSteps(scanner, current);
         }catch (Exception e) {Log.d("DD", e.getMessage());}
     }
 
     public StepsAdapter(String receiving, Context current) {
         super();
-        Resources res = current.getResources();
-        items = new ArrayList<>();
+        steps = new ArrayList<>();
         Scanner scanner = null;
-        String text = "";
         try{
             scanner = new Scanner( receiving );
-            text = scanner.useDelimiter("\\A").next();
-            int i = 0;
-            //Log.d("DD",text.replace("\n", "").replace("\r", ""));
-            String infoRegex = "(?:-\\s?(.*)\\s?\\[(.*)\\])(?:(?:\\n|\\t|\\s)*\\+\\s?(.*))?";
-            Pattern pattern = Pattern.compile(infoRegex);
-            Matcher matcher = pattern.matcher(text);
-            while (matcher.find()) {
-                String inst = matcher.group(1);
-                String img = matcher.group(2);
-                String hint = matcher.group(3);
-                items.add(new Item(inst, img, hint, current));
-                i++;
-            }
-            scanner.close();
-            Log.d("EE",Integer.valueOf(i).toString());
-            //randomly generate final cardview
-            int[] battleCriesId = {R.string.final_hint0,
-                    R.string.final_hint1,
-                    R.string.final_hint2,
-                    R.string.final_hint3,
-                    R.string.final_hint4,
-                    R.string.final_hint5,
-                    R.string.final_hint6};
-            int randomIndex = new Random().nextInt(7);
-            int battleCry = battleCriesId[randomIndex];
-            items.add(new Item(res.getString(battleCry), "assault_m", "", current));
+            detectSteps(scanner, current);
         }catch (Exception e) {Log.d("DD", e.getMessage());}
     }
 
@@ -117,7 +64,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Item item = items.get(position);
+        final Step item = steps.get(position);
 
         holder.title.setText(item.getTitle());
         holder.subtitle.setText(item.getSubtitle());
@@ -126,7 +73,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return steps.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -140,5 +87,32 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
             subtitle = (TextView) itemView.findViewById(R.id.subtitle);
             img = (ImageView) itemView.findViewById(R.id.instruction_img);
         }
+    }
+
+    private void detectSteps(Scanner scanner, Context current){
+        String text = "";
+        text = scanner.useDelimiter("\\A").next();
+        int i = 0;
+        Pattern pattern = Pattern.compile(infoRegex);
+        Matcher matcher = pattern.matcher(text);
+        while (matcher.find()) {
+            String instruction = matcher.group(1);
+            String image = (matcher.group(2)!=null && !matcher.group(2).isEmpty()) ? matcher.group(2) : "three_m";
+            String hint = matcher.group(3);
+            steps.add(new Step(instruction, image, hint, current));
+            i++;
+        }
+        scanner.close();
+        //randomly generate final CardView
+        int[] battleCriesId = {R.string.final_hint0,
+                R.string.final_hint1,
+                R.string.final_hint2,
+                R.string.final_hint3,
+                R.string.final_hint4,
+                R.string.final_hint5,
+                R.string.final_hint6};
+        int randomIndex = new Random().nextInt(7);
+        int battleCry = battleCriesId[randomIndex];
+        steps.add(new Step(current.getResources().getString(battleCry), "three_m", "", current));
     }
 }
