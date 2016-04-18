@@ -195,7 +195,7 @@ public class SearchActivity extends AppCompatActivity {
 
         void attachListAdapter() {
             Log.d("EE", Integer.valueOf(strategiesList.size()).toString());
-            itemsAdapter = new OnlineStrategyRecyclerViewAdapter(strategiesList, superActivity, "star");
+            itemsAdapter = new OnlineStrategyRecyclerViewAdapter(strategiesList, superActivity, "star",superActivity);
             lv.setAdapter(itemsAdapter);
         }
 

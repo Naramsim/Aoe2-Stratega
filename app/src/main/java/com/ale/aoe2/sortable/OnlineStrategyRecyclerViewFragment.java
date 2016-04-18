@@ -1,8 +1,9 @@
 package com.ale.aoe2.sortable;
 
-
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -20,15 +21,13 @@ import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * Created by florentchampigny on 24/04/15.
- */
 public class OnlineStrategyRecyclerViewFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
@@ -40,8 +39,6 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
     String statType;
     SwipeRefreshLayout swipeContainer;
 
-
-
     public static OnlineStrategyRecyclerViewFragment newInstance( String url) {
         OnlineStrategyRecyclerViewFragment f = new OnlineStrategyRecyclerViewFragment();
         Bundle bdl = new Bundle(4);
@@ -50,6 +47,8 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
             bdl.putString("TYPE","download");
         }else if(url.contains("starred")) {
             bdl.putString("TYPE","star");
+        }else if(url.contains("mine")){
+            bdl.putString("TYPE", "mine");
         }else{
             bdl.putString("TYPE","nothing");
         }
@@ -57,9 +56,7 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
         return f;
     }
 
-    public OnlineStrategyRecyclerViewFragment(){
-
-    }
+    public OnlineStrategyRecyclerViewFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,12 +74,10 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
                 swipeContainer.setRefreshing(false);//TODO: pass the event to loadJson...
             }
         });
-        //Configure the refreshing colors
         swipeContainer.setColorSchemeResources(R.color.md_black_1000,
                 R.color.md_cyan_600,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-
 
         return lLayout;
     }
@@ -96,44 +91,58 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
         loadJsonStrategies(true, view);
-        //mAdapter = new RecyclerViewMaterialAdapter(new OnlineStrategyRecyclerViewAdapter(mContentItems));
-        //mRecyclerView.setAdapter(mAdapter);
-
     }
 
     void loadJsonStrategies(final boolean attach, View view) {
         final View v = view;
-        Ion.with(superActivity)
+        if(statType.equals("mine")){
+            SharedPreferences getPrefs = PreferenceManager
+                    .getDefaultSharedPreferences(superActivity.getBaseContext());
+            JsonObject json = new JsonObject();
+            json.addProperty("id", getPrefs.getString("xdab", "no-default"));
+            Ion.with(superActivity)
                 .load(downloadUrl)
-            .asJsonArray()
-            .setCallback(new FutureCallback<JsonArray>() {
-                @Override
-                public void onCompleted(Exception e, JsonArray result) {
-                    if (e != null) {
-                        Log.d("EE", e.getMessage());
-                        startSnackBar(R.string.check_connection, v);
+                .setJsonObjectBody(json)
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+                        completeDownload(e, result, v, attach);
                     }
-                    if (result != null) {
-                        if (!attach) {
-                            strategiesList.clear();
-                        }
-                        strategiesList = new ArrayList<Strategy>(Arrays.asList(
-                                new Gson().fromJson(result, Strategy[].class)));
-                        attachListAdapter();
+                });
+        }else {
+            Ion.with(superActivity)
+                .load(downloadUrl)
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+                        completeDownload(e, result, v, attach);
                     }
-                }
-            });
+                });
+        }
+    }
+
+    void completeDownload(Exception e, JsonArray result, View v, boolean attach){
+        if (e != null) {
+            Log.d("EE", e.getMessage());
+            startSnackBar(R.string.check_connection, v);
+        }
+        if (result != null) {
+            if (!attach) {
+                strategiesList.clear();
+            }
+            strategiesList = new ArrayList<Strategy>(Arrays.asList(
+                    new Gson().fromJson(result, Strategy[].class)));
+            attachListAdapter();
+        }
     }
 
     void attachListAdapter() {
         Log.d("EE", Integer.valueOf(strategiesList.size()).toString());
-        strategiesAdapter = new RecyclerViewMaterialAdapter(new OnlineStrategyRecyclerViewAdapter(strategiesList, superActivity, statType));
+        strategiesAdapter = new RecyclerViewMaterialAdapter(
+                new OnlineStrategyRecyclerViewAdapter(strategiesList, superActivity, statType, superActivity));
         mRecyclerView.setAdapter(strategiesAdapter);
-//        for (int i = 0; i < ITEM_COUNT; ++i) {
-//            mContentItems.add(new Object());
-//        }
-//        strategiesAdapter.notifyDataSetChanged();
-
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
     }
 

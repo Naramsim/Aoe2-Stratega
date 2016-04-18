@@ -3,8 +3,11 @@ package com.ale.aoe2.sortable;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -22,21 +25,24 @@ import com.koushikdutta.ion.Response;
 
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class OnlineStrategyRecyclerViewAdapter extends RecyclerView.Adapter<OnlineStrategyRecyclerViewAdapter.ViewHolder> {
 
     ArrayList<Strategy> contents;
     Context context;
+    FragmentActivity superActivity;
     FrameLayout lLayout;
     Resources res;
     String statType;
 
-    public OnlineStrategyRecyclerViewAdapter(ArrayList<Strategy> contents, Context context, String statType) {
+    public OnlineStrategyRecyclerViewAdapter(ArrayList<Strategy> contents, Context context, String statType, FragmentActivity superActivity) {
         this.context = context;
         this.contents = contents;
         this.res = context.getResources();
         this.statType = statType;
+        this.superActivity = superActivity;
     }
 
 
@@ -62,9 +68,9 @@ public class OnlineStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Onli
             holder.tvName.setText(strategy.name.trim());
         }
 
-        if(statType == "download"){
+        if(Objects.equals(statType, "download")){
             holder.tvStat.setText(String.format("%s %s", strategy.downloaded, res.getString(R.string.download)));
-        }else if(statType == "star"){
+        }else if(Objects.equals(statType, "star")){
             holder.tvStat.setText(String.format("%s %s", strategy.stars, res.getString(R.string.star)));
         }else{
             //nothing
@@ -74,7 +80,7 @@ public class OnlineStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Onli
         holder.tvCiv.setText(String.format("%s%s", res.getString(R.string.civ), strategy.civ.trim()));
         holder.tvMap.setText(String.format("%s%s", res.getString(R.string.map), strategy.map.trim()));
 
-        if(Integer.valueOf(strategy.intIcon) == 0){
+        if(strategy.intIcon == 0){
             //Log.d("EE", Integer.valueOf(context.getResources().getIdentifier(current.icon.trim(), "drawable", getContext().getPackageName())).toString());
             holder.ivIcon.setImageResource(context.getResources().getIdentifier(strategy.icon.trim(), "drawable", context.getPackageName()));
         } else{
@@ -100,13 +106,20 @@ public class OnlineStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Onli
                 final Strategy selectedStrategy = contents.get(position);
                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(view.getContext()); //Check!
                 alertDialog.setTitle(selectedStrategy.title_declared);
-                //alertDialog.setMessage(selectedStrategy);
-                alertDialog.setNegativeButton("Give a star", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        startSnackBar(R.string.starred, thisView);
-                        giveStarPoint(selectedStrategy._id);
-                    }
-                });
+                if(statType.equals("mine")){
+                    alertDialog.setNegativeButton("Permanently delete", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteStrategy(selectedStrategy._id, thisView);
+                        }
+                    });
+                }else{
+                    alertDialog.setNegativeButton("Give a star", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            startSnackBar(R.string.starred, thisView);
+                            giveStarPoint(selectedStrategy._id);
+                        }
+                    });
+                }
                 alertDialog.setPositiveButton("Download", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if (saveStrategyLocally(selectedStrategy._id, selectedStrategy.content)) {
@@ -196,5 +209,30 @@ public class OnlineStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Onli
                         }
                     }
             });
+    }
+
+    void deleteStrategy(String id, final View v){
+        SharedPreferences getPrefs = PreferenceManager
+                .getDefaultSharedPreferences(superActivity.getBaseContext());
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id);
+        json.addProperty("xdab", getPrefs.getString("xdab", "no-default"));
+        Ion.with(context)
+                .load("http://betterbin.co/aoe/delete")
+                .setJsonObjectBody(json)
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<Response<String>>() {
+                    @Override
+                    public void onCompleted(Exception e, Response<String> result) {
+                        if (e != null) {
+                            Log.d("DD", result.getResult());
+                        }else{
+                            if(result.getResult().equals("true")){
+                                startSnackBar(R.string.successful_delete, v);
+                            }
+                        }
+                    }
+                });
     }
 }

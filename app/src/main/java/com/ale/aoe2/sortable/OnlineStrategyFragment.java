@@ -51,7 +51,7 @@ public class OnlineStrategyFragment extends android.support.v4.app.Fragment {
                     case 2:
                         return OnlineStrategyRecyclerViewFragment.newInstance("http://betterbin.co/aoe/last/10/0");
                     default:
-                        return OnlineStrategyRecyclerViewFragment.newInstance("http://betterbin.co/aoe/last/10/0");
+                        return OnlineStrategyRecyclerViewFragment.newInstance("http://betterbin.co/aoe/mine");
                 }
             }
 
@@ -70,7 +70,7 @@ public class OnlineStrategyFragment extends android.support.v4.app.Fragment {
                     case 2:
                         return "Latest";
                     case 3:
-                        return "Editor choice";
+                        return "Mine";
                 }
                 return "";
             }
