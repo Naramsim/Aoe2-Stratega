@@ -30,6 +30,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.async.future.Future;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -45,7 +46,9 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mikepenz.octicons_typeface_library.Octicons;
 
+import io.fabric.sdk.android.Fabric;
 import java.io.File;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
 
         //Start the Intro
         //  Declare a new thread to do a preference check
@@ -94,14 +98,14 @@ public class MainActivity extends AppCompatActivity {
                 boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
                 //  If the activity has never started before...
                 if (isFirstStart) {
-                    //  Launch app intro
                     Intent i = new Intent(MainActivity.this, Intro.class);
                     startActivity(i);
-                    //  Make a new preferences editor
                     SharedPreferences.Editor e = getPrefs.edit();
                     //  Edit preference to make it false because we don't want this to run again
                     e.putBoolean("firstStart", false);
-                    //  Apply changes
+                    String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+                    SecureRandom rnd = new SecureRandom();
+                    e.putString("xdab", randomString(9, AB, rnd));
                     e.apply();
                 }
             }
@@ -399,5 +403,12 @@ public class MainActivity extends AppCompatActivity {
         int color = a.getColor(0, 0);
         a.recycle();
         return color;
+    }
+
+    String randomString(int len, String AB, SecureRandom rnd){
+        StringBuilder sb = new StringBuilder( len );
+        for( int i = 0; i < len; i++ )
+            sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+        return sb.toString();
     }
 }

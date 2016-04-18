@@ -2,9 +2,11 @@ package com.ale.aoe2.sortable;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.FragmentActivity;
@@ -28,6 +30,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.io.FileOutputStream;
@@ -51,6 +56,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
     String civ;
     String map;
     String aut;
+    String img;
     ArrayList<String> stepInstructions;
     ArrayList<String> hintInstructions;
     ArrayList<Integer> stepsImages;
@@ -306,28 +312,39 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
             String hint_text;
             String step_image;
             String declared_image;
+            String strategyContent = "";
             String template_infos = "Str@v1\n" +
                     "Civ: {civ}\n" +
                     "Map: {map}\n" +
                     "Name: {name} \n" +
                     "Author: {aut}\n" +
-                    "Icon: castle\n\n";
+                    "Icon: {img}\n\n";
+            String compiled_infos = template_infos.replace("{civ}",civ).
+                    replace("{map}", map).
+                    replace("{name}", name).
+                    replace("{aut}", aut).
+                    replace("{img}", img );
+            String compiled_step = "";
+            String compiled_hint = "";
             int current_step = 0;
+
             outputStream = superActivity.openFileOutput(uuid + ".str", Context.MODE_PRIVATE);
-            outputStream.write(template_infos.replace("{civ}",civ).
-                                                replace("{map}",map).
-                                                replace("{name}",name).
-                                                replace("{aut}",aut).getBytes());
+            outputStream.write(compiled_infos.getBytes());
+            strategyContent += compiled_infos;
             for (int img: stepsImages){
                 step_text = "- {step} [{image}]\n";
                 hint_text = "\t+ {hint}\n";
                 if(! stepInstructions.get(current_step).equals("")) {
                     declared_image = superActivity.getResources().getResourceEntryName(img);
                     step_image = declared_image.equals("three_camera") ? "three_m" : declared_image;
-                    outputStream.write(step_text.replace("{step}", stepInstructions.get(current_step))
-                            .replace("{image}", step_image).getBytes());
+                    compiled_step = step_text.replace("{step}", stepInstructions.get(current_step))
+                            .replace("{image}", step_image);
+                    outputStream.write(compiled_step.getBytes());
+                    strategyContent += compiled_step;
                     if(! hintInstructions.get(current_step).equals("")) {
-                        outputStream.write(hint_text.replace("{hint}", hintInstructions.get(current_step)).getBytes());
+                        compiled_hint = hint_text.replace("{hint}", hintInstructions.get(current_step));
+                        outputStream.write(compiled_hint.getBytes());
+                        strategyContent += compiled_hint;
                     }
                 }else{
                     startSnackBar(lLayout, R.string.incomplete_step);
@@ -336,16 +353,40 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
                 current_step++;
             }
             outputStream.close();
-            startSnackBar(lLayout, R.string.upload_success);
+            saveStrategyOnline(strategyContent);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return true;
     }
 
+    private void saveStrategyOnline(String content){
+        SharedPreferences getPrefs = PreferenceManager
+                .getDefaultSharedPreferences(superActivity.getBaseContext());
+        JsonObject json = new JsonObject();
+        json.addProperty("xdab", getPrefs.getString("xdab", "default"));
+        json.addProperty("content", content);
+        json.addProperty("name", "no-android");
+
+        Ion.with(superActivity)
+                .load("http://betterbin.co/aoe/strategies")
+                .setJsonObjectBody(json)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        if( e == null){
+                            Log.d("DD", result.toString());
+                            if(result.get("message").getAsString().equals("GG")){
+                                startSnackBar(lLayout, R.string.upload_success);
+                            }
+                        }
+                    }
+                });
+    }
+
     private int getImagePos(String query){
         for(String imageName: imageNamesList){
-            Log.d("DD", imageName);
             if(imageName.startsWith(query)){
                 return imageNamesList.indexOf(imageName);
             }
@@ -378,25 +419,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "PUBLISH",
                 new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        TextInputEditText name_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_name_text);
-//                        TextInputEditText civ_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_civ_text);
-//                        TextInputEditText map_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_map_text);
-//                        TextInputEditText aut_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_aut_text);
-//                        name = name_text_input.getText().toString();
-//                        civ = civ_text_input.getText().toString();
-//                        map = map_text_input.getText().toString();
-//                        aut = aut_text_input.getText().toString();
-//                        Log.d("DD",stepInstructions[0]);
-//                        if(name.matches("") || civ.matches("") || map.matches("") || aut.matches("")) {
-//                            startSnackBar(dialogLayout, R.string.uncomplete_submit_strategy_dialog);
-//                        }else if(stepInstructions[0].equals(null)){
-//                            startSnackBar(dialogLayout, R.string.no_first_step);
-//                        }else{
-//                            saveStrategyLocally();
-//                            dialog.dismiss();
-//                        }
-                    }
+                    public void onClick(DialogInterface dialog, int which) {/*override below*/}
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "DISCARD",
                 new DialogInterface.OnClickListener() {
@@ -405,7 +428,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
                     }
                 });
         alertDialog.show();
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() { //workaround
             @Override
             public void onClick(View v) {
                 try{
@@ -413,11 +436,13 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
                     TextInputEditText civ_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_civ_text);
                     TextInputEditText map_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_map_text);
                     TextInputEditText aut_text_input = (TextInputEditText) dialogLayout.findViewById(R.id.str_aut_text);
+                    AutoCompleteTextView img_text_input = (AutoCompleteTextView) dialogLayout.findViewById(R.id.str_img_text);
                     name = name_text_input.getText().toString();
                     civ = civ_text_input.getText().toString();
                     map = map_text_input.getText().toString();
                     aut = aut_text_input.getText().toString();
-                    if(name.matches("") || civ.matches("") || map.matches("") || aut.matches("")) {
+                    img = img_text_input.getText().toString();
+                    if(name.matches("") || civ.matches("") || map.matches("") || aut.matches("") || img.matches("")) {
                         startSnackBar(dialogLayout, R.string.uncomplete_submit_strategy_dialog);
                     }else if(stepInstructions.get(0).toString().equals("")){
                         startSnackBar(lLayout, R.string.no_first_step);

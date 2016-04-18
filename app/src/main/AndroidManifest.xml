@@ -62,6 +62,9 @@
         <activity android:name=".SearchActivity"
             android:label="@string/app_name"
             ></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="ee65a01647c3c1cfd264ff64747a0d075b8918a9" />
     </application>
 
    
