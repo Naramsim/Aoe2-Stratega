@@ -12,6 +12,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,12 +31,16 @@ import com.koushikdutta.ion.ProgressCallback;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import tr.xip.errorview.ErrorView;
 
 /**
  * Created by Ale on 07/03/2016.
@@ -43,11 +50,11 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
     FragmentActivity superActivity;
 
     ListView mListView;
+    ErrorView error_view;
     private ProgressBar mProgress;
     Future<File> downloading;
-    List<Strategy> strategiesList = new ArrayList<Strategy>();
-    List<File> strategiesFileList = new ArrayList<File>();
-    StrAdapter strategiesAdapter;
+    ArrayList<Strategy> strategiesList;
+    LocalStrategiesListViewAdapter strategiesAdapter;
     Toolbar mToolbar;
     private SwipeRefreshLayout swipeContainer;
 
@@ -57,7 +64,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
         //container.findViewById()
         lLayout = (RelativeLayout) inflater.inflate(R.layout.strategy_fragment, container, false);
         superActivity  = (FragmentActivity) super.getActivity();
-
+        strategiesList = new ArrayList<Strategy>();
         mProgress = (ProgressBar)lLayout.findViewById(R.id.progress);
 
         // Enable global Ion logging
@@ -65,16 +72,17 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
         //downloading = downloadStrategy("http://deep.ytlab.me/fast-castle.str");
 
         mListView = (ListView) lLayout.findViewById(R.id.list);
+        error_view = (ErrorView) lLayout.findViewById(R.id.error_view);
 
         //Init listView
         updateListView();
 
         //StepsAdapter that populate the listView
-        final ArrayList<Strategy> arrayOfStrategies = new ArrayList<Strategy>();
-        strategiesAdapter = new StrAdapter(superActivity, arrayOfStrategies);
-        ListView strListView = (ListView) lLayout.findViewById(R.id.list);
-        strListView.setAdapter(strategiesAdapter);
-        strategiesAdapter.addAll(strategiesList);
+        //final ArrayList<Strategy> arrayOfStrategies = new ArrayList<Strategy>();
+        Log.d("DD", strategiesList.toString());
+        strategiesAdapter = new LocalStrategiesListViewAdapter(superActivity, strategiesList);
+        mListView.setAdapter(strategiesAdapter);
+        //strategiesAdapter.addAll(strategiesList);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -86,7 +94,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
 
                 //Putting the Id of image as an extra in intent
                 intent.putExtra("fileName", (String) strategiesList.get(position).name);
-                intent.putExtra("file", (File) strategiesFileList.get(position));
+                intent.putExtra("file", (File) strategiesList.get(position).strategyFile);
                 startActivity(intent);
             }
         });
@@ -99,10 +107,10 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
             alertDialog.setMessage(selectedStrategy);
             alertDialog.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    strategiesAdapter.remove(strategiesList.get(position));
-                    boolean wasDeleted = strategiesFileList.get(position).delete();
-                    strategiesFileList.remove(position);
+                    //strategiesAdapter.remove(strategiesList.get(position)); //TODO: really necessary?
+                    boolean wasDeleted = strategiesList.get(position).strategyFile.delete();
                     strategiesList.remove(position);
+                    strategiesAdapter.notifyDataSetChanged();
                     if(wasDeleted) {
                         startSnackBar(R.string.delete_strategy);
                     }
@@ -150,9 +158,46 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
         return lLayout;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_sort, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.sort_by_name) {
+            Collections.sort(strategiesList, new Comparator<Strategy>() {
+                @Override
+                public int compare(Strategy lhs, Strategy rhs) {
+                    return lhs.name.compareTo(rhs.name);
+                }
+            });
+            strategiesAdapter.notifyDataSetChanged();
+            return true;
+        }
+        if (id == R.id.sort_by_time) {
+            Collections.sort(strategiesList, new Comparator<Strategy>() {
+                @Override
+                public int compare(Strategy lhs, Strategy rhs) {
+                    return lhs.strategyFile.lastModified() > rhs.strategyFile.lastModified() ? -1 : 1;
+                }
+            });
+            strategiesAdapter.notifyDataSetChanged();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     void updateListView(){
         strategiesList.clear();
-        strategiesFileList.clear();
         File f = superActivity.getFilesDir();
         File file[] = f.listFiles();
         for (File aFile : file) {
@@ -165,10 +210,15 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                         strInfo.get("author"),
                         strInfo.get("civ"),
                         strInfo.get("map"),
-                        extractIcon(strInfo.get("icon")));
+                        extractIcon(strInfo.get("icon")),
+                        aFile);
                 strategiesList.add(currentStrObj);
-                strategiesFileList.add(aFile);
             }
+        }
+        if (strategiesList.isEmpty()){
+            showErrorView("You do not have any strategy", "Download them online", "Go online");
+        }else{
+            hideErrorView();
         }
     }
 
@@ -221,7 +271,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                 Log.d("DD", uri.getScheme());
             }catch (Exception e) {Log.d("DD", e.toString());}
             if(isNewStrategy(strategyFileName)) {
-                toDownload = Ion.with(superActivity) //.getApplicationCOntext?
+                toDownload = Ion.with(superActivity) //.getApplicationContext?
                         .load(Url)
                         .progressBar(mProgress)
                                 //.progressDialog(progressDialog)
@@ -280,10 +330,10 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                 strInfo.get("author"),
                 strInfo.get("civ"),
                 strInfo.get("map"),
-                extractIcon(strInfo.get("icon")));
+                extractIcon(strInfo.get("icon")),
+                strategy);
         strategiesAdapter.add(currentStrObj);
         strategiesList.add(currentStrObj);
-        strategiesFileList.add(strategy);
         startSnackBar(R.string.file_imported);
     }
 
@@ -299,5 +349,26 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
         downloading.cancel();
         downloading = null;
         mProgress.setProgress(0);
+    }
+
+    void showErrorView(String title, String subtitle, String button){
+        if(error_view != null){
+            error_view.setVisibility(View.VISIBLE);
+            error_view.setTitle(title);
+            error_view.setSubtitle(subtitle);
+            error_view.setRetryButtonText(button);
+            error_view.setOnRetryListener(new ErrorView.RetryListener() {
+                @Override
+                public void onRetry() {
+                    Log.d("DD", "retry");
+                }
+            });
+        }
+    }
+
+    void hideErrorView(){
+        if(error_view != null){
+            error_view.setVisibility(View.GONE);
+        }
     }
 }

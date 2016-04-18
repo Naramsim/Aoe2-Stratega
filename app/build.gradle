@@ -62,6 +62,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
+    compile 'com.github.xiprox.errorview:library:2.+'
 }
 
 ant.importBuild 'assets.xml'

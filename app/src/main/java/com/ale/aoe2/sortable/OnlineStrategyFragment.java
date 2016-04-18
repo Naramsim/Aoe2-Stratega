@@ -128,26 +128,10 @@ public class OnlineStrategyFragment extends android.support.v4.app.Fragment {
         inflater.inflate(R.menu.menu_search_to_activity, menu);
         final MenuItem item = menu.findItem(R.id.action_search);
         super.onCreateOptionsMenu(menu, inflater);
-
-//        Toolbar actionBar = (Toolbar) superActivity.findViewById(R.id.toolbar);
-//        LayoutInflater inflator = (LayoutInflater) superActivity
-//                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View v = inflator.inflate(R.layout.actv, null);
-//        actionBar.addView(v);
-//        final String[] COUNTRIES = new String[] { "Belgium",
-//                "France", "France_", "Italy", "Germany", "Spain" };
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(superActivity,
-//                android.R.layout.simple_dropdown_item_1line, COUNTRIES);
-//        AutoCompleteTextView textView = (AutoCompleteTextView) v
-//                .findViewById(R.id.edt);
-//        textView.setAdapter(adapter);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_search) {
             Intent intent = new Intent(getActivity(), SearchActivity.class);

@@ -2,6 +2,8 @@ package com.ale.aoe2.sortable;
 
 import android.util.Log;
 
+import java.io.File;
+
 /**
  * Created by Ale on 29/02/2016.
  */
@@ -11,6 +13,7 @@ public class Strategy {
     public String civ;
     public String map;
     public String icon;
+    public File strategyFile;
 
     public String _id;
     public String content;
@@ -48,12 +51,13 @@ public class Strategy {
         this.hasStringIcon = true;
     }
 
-    public Strategy(String name, String author, String civ, String map, int intIcon) {
+    public Strategy(String name, String author, String civ, String map, int intIcon, File strategyFile) {
         this.name = name.trim();
         this.author = author.trim();
         this.civ = civ.trim();
         this.map = map.trim();
         this.intIcon = intIcon;
+        this.strategyFile = strategyFile;
         this.hasStringIcon = false;
     }
 }

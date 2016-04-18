@@ -70,18 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     List<Strategy> strategiesList = new ArrayList<Strategy>();
     List<File> strategiesFileList = new ArrayList<File>();
-    StrAdapter strategiesAdapter;
-
-//    String TITLES[] = {"Home","Events","Mail"};
-//    int ICONS[] = {R.drawable.ic_brightness_1_24dp,
-//            R.drawable.ic_brightness_1_24dp,
-//            R.drawable.ic_brightness_1_24dp};
-//
-//    RecyclerView mRecyclerView;                           // Declaring RecyclerView
-//    ndAdapter mAdapter;                        // Declaring StepsAdapter For Recycler View
-//    RecyclerView.LayoutManager mLayoutManager;
-//    DrawerLayout Drawer;                                  // Declaring DrawerLayout
-//    ActionBarDrawerToggle mDrawerToggle;
+    LocalStrategiesListViewAdapter strategiesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,9 +183,6 @@ public class MainActivity extends AppCompatActivity {
                             Fragment viewPager = new OnlineStrategyFragment();
                             fragmentTransaction.replace(R.id.containerView, viewPager);
                             fragmentTransaction.commit();
-//                            Fragment strategyCollectorFragment = new StrategyCollectorFragment(); //Old list view
-//                            fragmentTransaction.replace(R.id.containerView, strategyCollectorFragment);
-//                            fragmentTransaction.commit();
                             break;
                         case 3:
                             Fragment newStrategyFragment = new CreateStrategyFragment();

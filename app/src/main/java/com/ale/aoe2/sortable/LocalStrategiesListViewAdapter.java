@@ -14,18 +14,20 @@ import java.util.ArrayList;
 /**
  * Created by Ale on 29/02/2016.
  */
-public class StrAdapter extends ArrayAdapter<Strategy> {
+public class LocalStrategiesListViewAdapter extends ArrayAdapter<Strategy> {
     Context context;
-    public StrAdapter(Context context, ArrayList<Strategy> users) {
-        super(context, 0, users);
+    ArrayList<Strategy> userStrategies;
+    public LocalStrategiesListViewAdapter(Context context, ArrayList<Strategy> userStrategies) {
+        super(context, 0, userStrategies);
         this.context = context;
+        this.userStrategies = userStrategies;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Resources res = parent.getResources();
         // Get the data item for this position
-        Strategy current = getItem(position);
+        Strategy current = userStrategies.get(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.strategy, parent, false);

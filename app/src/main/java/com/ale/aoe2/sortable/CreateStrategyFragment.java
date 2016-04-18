@@ -287,8 +287,6 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_add, menu);
         super.onCreateOptionsMenu(menu, inflater);
-        //MenuItem item = menu.findItem(R.id.action_search);
-        //searchView.setMenuItem(item);
     }
 
     @Override
