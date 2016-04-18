@@ -31,6 +31,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ShareEvent;
 import com.koushikdutta.async.future.Future;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -84,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final Fabric fabric = new Fabric.Builder(this)
+                .kits(new Crashlytics())
+                .debuggable(true)
+                .build();
+        Fabric.with(fabric);
         Fabric.with(this, new Crashlytics());
 
         //Start the Intro
@@ -214,6 +221,9 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(intent);
                             break;
                         case 10:
+                            Answers.getInstance().logShare(new ShareEvent().
+                                    putMethod("Share in Drawer").
+                            putContentName("Share"));
                             Intent sendIntent = new Intent();
                             sendIntent.setAction(Intent.ACTION_SEND);
                             sendIntent.putExtra(Intent.EXTRA_TEXT,

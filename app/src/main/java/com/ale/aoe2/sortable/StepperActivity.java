@@ -5,6 +5,7 @@ import static edu.cmu.pocketsphinx.SpeechRecognizerSetup.defaultSetup;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,6 +18,10 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Button;
+
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
+
 import edu.cmu.pocketsphinx.Assets;
 import edu.cmu.pocketsphinx.Hypothesis;
 import edu.cmu.pocketsphinx.RecognitionListener;
@@ -50,6 +55,11 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
         if(comesFromInternet){
             content = (String)extras.get("strategyString");
         }
+        SharedPreferences getPrefs = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
+        Answers.getInstance().logCustom(new CustomEvent("New Game")
+                .putCustomAttribute("Name", strategyName)
+                .putCustomAttribute("User", getPrefs.getString("xdab", "default")));
 
         //Toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
