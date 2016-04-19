@@ -1,5 +1,6 @@
 package com.ale.aoe2.aoe2_stratega;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -42,6 +43,7 @@ import java.util.UUID;
 public class CreateStrategyFragment extends android.support.v4.app.Fragment {
     RelativeLayout lLayout;
     FragmentActivity superActivity;
+    MainActivity main_activity;
     Button proceedButton;
     RecyclerView recyclerView;
     QuickRecyclerView imagesRecyclerView;
@@ -58,6 +60,21 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
     ArrayList<Integer> stepsImages;
     ArrayList<String> imageNamesList;
     MaterialSearchView searchView;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof Activity){
+            main_activity = (MainActivity) context;
+        }
+    }
+
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        main_activity = null;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         superActivity = super.getActivity();
@@ -373,6 +390,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
                             Log.d("DD", result.toString());
                             if(result.get("message").getAsString().equals("GG")){
                                 startSnackBar(lLayout, R.string.upload_success);
+                                main_activity.getDrawer().setSelectionAtPosition(1,true);
                             }
                         }
                     }

@@ -41,17 +41,6 @@ public class TechFragment extends android.support.v4.app.Fragment implements Sea
         for (String string_tech : military_tech) {
             techs.add(new Tech("Military", string_tech));
         }
-        tv = (TextView)lLayout.findViewById(R.id.tip_header);
-        tva = (TextView)lLayout.findViewById(R.id.tip_author);
-        tv.setText(R.string.tech_fragment_title);
-        tva.setText(R.string.tech_fragment_sub);
-        lv = (RecyclerView)lLayout.findViewById(R.id.tech_list_view);
-        itemsAdapter = new TechAdapter(superActivity, techs);
-        llm = new LinearLayoutManager(superActivity);
-        //llm.setReverseLayout(true);
-        lv.setHasFixedSize(true);
-        lv.setLayoutManager(llm);
-
 
         String[] naval_tech = getResources().getStringArray(R.array.naval_tech);
         for (String string_tech : naval_tech) {
@@ -77,6 +66,17 @@ public class TechFragment extends android.support.v4.app.Fragment implements Sea
         for (String string_tech : res_tech) {
             techs.add(new Tech("Researches", string_tech));
         }
+
+        tv = (TextView)lLayout.findViewById(R.id.tip_header);
+        tva = (TextView)lLayout.findViewById(R.id.tip_author);
+        tv.setText(R.string.tech_fragment_title);
+        tva.setText(R.string.tech_fragment_sub);
+        lv = (RecyclerView)lLayout.findViewById(R.id.tech_list_view);
+        itemsAdapter = new TechAdapter(superActivity, techs);
+        llm = new LinearLayoutManager(superActivity);
+        //llm.setReverseLayout(true);
+        lv.setHasFixedSize(true);
+        lv.setLayoutManager(llm);
         lv.setAdapter(itemsAdapter);
 
         return lLayout;

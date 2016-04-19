@@ -48,7 +48,7 @@
     <string name="phone_caption">To try phonetic recognition say anything.</string>
     <string name="uncomplete_submit_strategy_dialog">All fields must be filled</string>
     <string name="incomplete_step">A step is incomplete</string>
-    <string name="upload_success">Your strategy was uploaded successfully</string>
+    <string name="upload_success">Your strategy was saved and uploaded successfully</string>
     <string name="no_first_step">Initial step missing</string>
     <string name="general_error">Something went wrong</string>
     <string name="help_new_strategy">Each strategy is composed by several steps. Each step has a description and can have an image and a hint.\n
