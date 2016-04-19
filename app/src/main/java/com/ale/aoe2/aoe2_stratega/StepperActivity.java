@@ -257,7 +257,7 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
         }catch (Exception e){
             Log.d("DD", e.getMessage());
         }finally {
-            Log.d("DD", "finally");
+            //Log.d("DD", "finally");
         }
         return false;
     }

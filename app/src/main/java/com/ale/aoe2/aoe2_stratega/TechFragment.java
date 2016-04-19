@@ -43,8 +43,8 @@ public class TechFragment extends android.support.v4.app.Fragment implements Sea
         }
         tv = (TextView)lLayout.findViewById(R.id.tip_header);
         tva = (TextView)lLayout.findViewById(R.id.tip_author);
-        tv.setText("Tech Tree");
-        tva.setText("By Philippe le Bon and Naramsim");
+        tv.setText(R.string.tech_fragment_title);
+        tva.setText(R.string.tech_fragment_sub);
         lv = (RecyclerView)lLayout.findViewById(R.id.tech_list_view);
         itemsAdapter = new TechAdapter(superActivity, techs);
         llm = new LinearLayoutManager(superActivity);

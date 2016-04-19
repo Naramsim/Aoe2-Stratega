@@ -120,7 +120,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
             final String selectedStrategy = strategiesList.get(position).name;
             final AlertDialog.Builder alertDialog = new AlertDialog.Builder(view.getContext()); //Check!
-            alertDialog.setTitle("Delete");
+            alertDialog.setTitle(superActivity.getString(R.string.delete));
             alertDialog.setMessage(selectedStrategy);
             alertDialog.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
@@ -134,7 +134,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                     }
                 }
             });
-            alertDialog.setPositiveButton("Keep", new DialogInterface.OnClickListener() {
+            alertDialog.setPositiveButton(superActivity.getString(R.string.keep), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     //alertDialog.dismiss();
                 }
@@ -234,7 +234,9 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
             }
         }
         if (strategiesList.isEmpty()){
-            showErrorView("You do not have any strategy", "Download them online", "Go online");
+            showErrorView(superActivity.getString(R.string.no_local_strategies),
+                    superActivity.getString(R.string.download_strategies_online),
+                    superActivity.getString(R.string.go_online));
         }else{
             hideErrorView();
         }

@@ -34,8 +34,8 @@ public class TipsFragment extends android.support.v4.app.Fragment {
         ArrayList<String> tips = new ArrayList<>(Arrays.asList(general_tips));
         tv = (TextView)lLayout.findViewById(R.id.tip_header);
         tva = (TextView)lLayout.findViewById(R.id.tip_author);
-        tv.setText("Tips and Tricks");
-        tva.setText("By grapeape25 and Naramsim");
+        tv.setText(R.string.tip_fragment_title);
+        tva.setText(R.string.tip_fragment_sub);
         lv = (RecyclerView)lLayout.findViewById(R.id.general_tips_list_view);
         TipAdapter itemsAdapter = new TipAdapter(_tips, superActivity);
         LinearLayoutManager llm = new LinearLayoutManager(superActivity);

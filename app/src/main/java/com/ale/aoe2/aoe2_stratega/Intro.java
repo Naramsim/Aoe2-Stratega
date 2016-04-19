@@ -13,13 +13,10 @@ public class Intro extends AppIntro2 {
     // Please DO NOT override onCreate. Use init.
     @Override
     public void init(Bundle savedInstanceState) {
-
-        // Instead of fragments, you can also use our default slide
-        // Just set a title, description, background and image. AppIntro will do the rest.
-        addSlide(AppIntroFragment.newInstance("Aoe2 Stratega", "An app for Age of Empires II", R.drawable.fog, R.color.md_blue_900));
-        addSlide(AppIntroFragment.newInstance("Strategies", "Let your phone to guide you through the game", R.drawable.vicking_king, R.color.md_indigo_800));
-        addSlide(AppIntroFragment.newInstance("Learn", "Learn strategies, rushes and tricks used by Pro players", R.drawable.attila_king, R.color.md_amber_800));
-        addSlide(AppIntroFragment.newInstance("Win", "Just win every game", R.drawable.king_of_the_kings, R.color.md_cyan_400));
+        addSlide(AppIntroFragment.newInstance("Aoe2 Stratega", getString(R.string.first_description_intro), R.drawable.fog, R.color.md_blue_900));
+        addSlide(AppIntroFragment.newInstance("Strategies", getString(R.string.second_description_intro), R.drawable.vicking_king, R.color.md_indigo_800));
+        addSlide(AppIntroFragment.newInstance("Learn", getString(R.string.third_description_intro), R.drawable.attila_king, R.color.md_amber_800));
+        addSlide(AppIntroFragment.newInstance("Win", getString(R.string.fourth_description_intro), R.drawable.king_of_the_kings, R.color.md_cyan_400));
 
         ImageView imageView = new ImageView(this);
                 imageView.setImageResource(R.drawable.forest);
@@ -29,14 +26,6 @@ public class Intro extends AppIntro2 {
 //                        ViewGroup.LayoutParams.MATCH_PARENT));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 setBackgroundView(imageView);
-        // OPTIONAL METHODS
-        // Override bar/separator color.
-        //setBarColor(Color.parseColor("#3F51B5"));
-
-
-        // Hide Skip/Done button.
-        //setProgressButtonEnabled(false);
-
     }
 
     @Override

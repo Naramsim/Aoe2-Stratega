@@ -69,7 +69,7 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
             @Override
             public void onRefresh() {
                 loadJsonStrategies(false, container);
-                Log.d("EE", "refresh");
+                //Log.d("EE", "refresh");
                 swipeContainer.setRefreshing(false);//TODO: pass the event to loadJson...
             }
         });
@@ -92,7 +92,7 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
         loadJsonStrategies(true, view);
     }
 
-    void loadJsonStrategies(final boolean attach, View view) {
+    public void loadJsonStrategies(final boolean attach, View view) {
         final View v = view;
         if(statType.equals("mine")){
             SharedPreferences getPrefs = PreferenceManager
@@ -140,7 +140,7 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
     void attachListAdapter() {
         Log.d("EE", Integer.valueOf(strategiesList.size()).toString());
         strategiesAdapter = new RecyclerViewMaterialAdapter(
-                new OnlineStrategyRecyclerViewAdapter(strategiesList, superActivity, statType, superActivity));
+                new OnlineStrategyRecyclerViewAdapter(strategiesList, superActivity, statType, superActivity, this));
         mRecyclerView.setAdapter(strategiesAdapter);
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
     }

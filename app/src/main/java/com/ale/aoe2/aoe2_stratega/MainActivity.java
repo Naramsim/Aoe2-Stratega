@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent sendIntent = new Intent();
                             sendIntent.setAction(Intent.ACTION_SEND);
                             sendIntent.putExtra(Intent.EXTRA_TEXT,
-                                    "Hey check out my app at: https://play.google.com/store/apps/details?id=com.google.android.apps.plus");
+                                    getString(R.string.share_app_with_link));
                             sendIntent.setType("text/plain");
                             startActivity(sendIntent);
                             break;
@@ -317,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e){
             Log.d("DD", e.getMessage());
         }finally {
-            Log.d("DD", "finally");
+            //Log.d("DD", "finally");
         }
         return false;
     }
@@ -341,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(viewInflated);
 
         final String[] ImportURLS = new String[] {
-                "http://aok.heavengames.com/", "http://www.aoczone.net/", "http://deep.ytlab.me/fast-castle.str"};
+                "http://aok.heavengames.com/", "http://www.aoczone.net/", "http://"};
         ArrayAdapter<String> inputImportUrlAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, ImportURLS);
         AutoCompleteTextView textView = (AutoCompleteTextView)
@@ -371,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(content);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

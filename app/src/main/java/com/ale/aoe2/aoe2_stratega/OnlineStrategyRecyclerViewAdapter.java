@@ -36,8 +36,22 @@ public class OnlineStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Onli
     FrameLayout lLayout;
     Resources res;
     String statType;
+    OnlineStrategyRecyclerViewFragment superAdapter;
 
-    public OnlineStrategyRecyclerViewAdapter(ArrayList<Strategy> contents, Context context, String statType, FragmentActivity superActivity) {
+    public OnlineStrategyRecyclerViewAdapter(ArrayList<Strategy> contents,
+                                             Context context, String statType,
+                                             FragmentActivity superActivity, OnlineStrategyRecyclerViewFragment superAdapter) {
+        this.context = context;
+        this.contents = contents;
+        this.res = context.getResources();
+        this.statType = statType;
+        this.superActivity = superActivity;
+        this.superAdapter = superAdapter;
+    }
+
+    public OnlineStrategyRecyclerViewAdapter(ArrayList<Strategy> contents,
+                                             Context context, String statType,
+                                             FragmentActivity superActivity) {
         this.context = context;
         this.contents = contents;
         this.res = context.getResources();
@@ -107,20 +121,20 @@ public class OnlineStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Onli
                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(view.getContext()); //Check!
                 alertDialog.setTitle(selectedStrategy.title_declared);
                 if(statType.equals("mine")){
-                    alertDialog.setNegativeButton("Permanently delete", new DialogInterface.OnClickListener() {
+                    alertDialog.setNegativeButton(superActivity.getString(R.string.delete_online), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             deleteStrategy(selectedStrategy._id, thisView);
                         }
                     });
                 }else{
-                    alertDialog.setNegativeButton("Give a star", new DialogInterface.OnClickListener() {
+                    alertDialog.setNegativeButton(superActivity.getString(R.string.give_star), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             startSnackBar(R.string.starred, thisView);
                             giveStarPoint(selectedStrategy._id);
                         }
                     });
                 }
-                alertDialog.setPositiveButton("Download", new DialogInterface.OnClickListener() {
+                alertDialog.setPositiveButton(superActivity.getString(R.string.download_strategy), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if (saveStrategyLocally(selectedStrategy._id, selectedStrategy.content)) {
                             startSnackBar(R.string.file_downloaded, thisView);
@@ -230,6 +244,7 @@ public class OnlineStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Onli
                         }else{
                             if(result.getResult().equals("true")){
                                 startSnackBar(R.string.successful_delete, v);
+                                superAdapter.loadJsonStrategies(false, lLayout);
                             }
                         }
                     }

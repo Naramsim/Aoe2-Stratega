@@ -61,13 +61,13 @@ public class OnlineStrategyFragment extends android.support.v4.app.Fragment {
             public CharSequence getPageTitle(int position) {
                 switch (position % 4) {
                     case 0:
-                        return "Most stars";
+                        return superActivity.getString(R.string.most_stars);
                     case 1:
-                        return "Most downloaded";
+                        return superActivity.getString(R.string.most_downloads);
                     case 2:
-                        return "Latest";
+                        return superActivity.getString(R.string.latest);
                     case 3:
-                        return "Mine";
+                        return superActivity.getString(R.string.mines);
                 }
                 return "";
             }
@@ -107,7 +107,6 @@ public class OnlineStrategyFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onClick(View v) {
                     mViewPager.notifyHeaderChanged();
-                    Toast.makeText(superActivity.getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
                 }
             });
         return lLayout;
