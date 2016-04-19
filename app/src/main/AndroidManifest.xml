@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ale.aoe2.sortable">
+    package="com.ale.aoe2.aoe2_stratega">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeLightt">
         <activity
-            android:name=".MainActivity"
+            android:name="com.ale.aoe2.aoe2_stratega.MainActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,17 +49,17 @@
                 <data android:mimeType="multipart/related" android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".StepperActivity"
+        <activity android:name="com.ale.aoe2.aoe2_stratega.StepperActivity"
             android:label="@string/app_name"
             ></activity>
-        <activity android:name=".About"
+        <activity android:name="com.ale.aoe2.aoe2_stratega.About"
             android:label="@string/app_name"
             ></activity>
-        <activity android:name=".Intro"
+        <activity android:name="com.ale.aoe2.aoe2_stratega.Intro"
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme"
             ></activity>
-        <activity android:name=".SearchActivity"
+        <activity android:name="com.ale.aoe2.aoe2_stratega.SearchActivity"
             android:label="@string/app_name"
             ></activity>
         <meta-data

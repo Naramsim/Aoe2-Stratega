@@ -20,7 +20,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.ale.aoe2.sortable"
+        applicationId "com.ale.aoe2.aoe2_stratega"
         minSdkVersion 21
         targetSdkVersion 22
         versionCode 1

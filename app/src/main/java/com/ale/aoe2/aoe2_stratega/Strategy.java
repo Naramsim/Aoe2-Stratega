@@ -1,6 +1,4 @@
-package com.ale.aoe2.sortable;
-
-import android.util.Log;
+package com.ale.aoe2.aoe2_stratega;
 
 import java.io.File;
 

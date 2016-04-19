@@ -1,7 +1,6 @@
-package com.ale.aoe2.sortable;
+package com.ale.aoe2.aoe2_stratega;
 
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;

@@ -1,8 +1,7 @@
-package com.ale.aoe2.sortable;
+package com.ale.aoe2.aoe2_stratega;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 

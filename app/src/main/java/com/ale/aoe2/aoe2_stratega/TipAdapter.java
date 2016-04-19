@@ -1,20 +1,15 @@
-package com.ale.aoe2.sortable;
+package com.ale.aoe2.aoe2_stratega;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.media.Image;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
-import com.mikepenz.iconics.context.IconicsLayoutInflater;
 import com.mikepenz.iconics.view.IconicsImageView;
 
 import java.util.ArrayList;

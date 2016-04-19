@@ -1,4 +1,4 @@
-package com.ale.aoe2.sortable;
+package com.ale.aoe2.aoe2_stratega;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;

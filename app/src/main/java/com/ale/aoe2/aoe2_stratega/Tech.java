@@ -1,4 +1,4 @@
-package com.ale.aoe2.sortable;
+package com.ale.aoe2.aoe2_stratega;
 
 /**
  * Created by Ale on 09/03/2016.

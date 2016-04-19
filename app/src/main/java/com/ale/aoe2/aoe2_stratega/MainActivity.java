@@ -1,4 +1,4 @@
-package com.ale.aoe2.sortable;
+package com.ale.aoe2.aoe2_stratega;
 
 import android.app.Activity;
 import android.content.Context;

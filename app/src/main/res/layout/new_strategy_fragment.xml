@@ -10,13 +10,13 @@
         android:layout_height="wrap_content"
         android:visibility="gone"/>
 
-    <com.ale.aoe2.sortable.QuickRecyclerView
+    <com.ale.aoe2.aoe2_stratega.QuickRecyclerView
         android:id="@+id/imageRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:layout_below="@id/search_view">
-    </com.ale.aoe2.sortable.QuickRecyclerView>
+    </com.ale.aoe2.aoe2_stratega.QuickRecyclerView>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
