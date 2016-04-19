@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -27,14 +29,21 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.Future;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.net.URI;
+import java.net.URL;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -84,6 +93,19 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
         strategiesList = new ArrayList<Strategy>();
         mProgress = (ProgressBar)lLayout.findViewById(R.id.progress);
 
+        SharedPreferences getPrefs = PreferenceManager
+                .getDefaultSharedPreferences(superActivity.getBaseContext());
+        //  Create a new boolean and preference and set it to true
+        boolean isFirstStart = getPrefs.getBoolean("firstDialog", true);
+        //  If the activity has never started before...
+        if (!isFirstStart) {
+            showFirstDialog();
+            SharedPreferences.Editor e = getPrefs.edit();
+            //  Edit preference to make it false because we don't want this to run again
+            e.putBoolean("firstDialog", false);
+            e.apply();
+        }
+
         // Enable global Ion logging
         Ion.getDefault(superActivity).configure().setLogging("DD", Log.DEBUG);
         //downloading = downloadStrategy("http://deep.ytlab.me/fast-castle.str");
@@ -91,12 +113,11 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
         mListView = (ListView) lLayout.findViewById(R.id.list);
         error_view = (ErrorView) lLayout.findViewById(R.id.error_view);
 
-        //Init listView
-        updateListView();
+
 
         //StepsAdapter that populate the listView
         //final ArrayList<Strategy> arrayOfStrategies = new ArrayList<Strategy>();
-        Log.d("DD", strategiesList.toString());
+        //Log.d("DD", strategiesList.toString());
         strategiesAdapter = new LocalStrategiesListViewAdapter(superActivity, strategiesList);
         mListView.setAdapter(strategiesAdapter);
         //strategiesAdapter.addAll(strategiesList);
@@ -144,6 +165,9 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
             return true;
             }
         });
+
+        //Init listView
+        updateListView();
 
         //Get intent if file has been loaded from a file browser
         Uri filePath = superActivity.getIntent().getData();
@@ -195,7 +219,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
             Collections.sort(strategiesList, new Comparator<Strategy>() {
                 @Override
                 public int compare(Strategy lhs, Strategy rhs) {
-                    return lhs.name.compareTo(rhs.name);
+                    return lhs.name.toLowerCase().compareTo(rhs.name.toLowerCase());
                 }
             });
             strategiesAdapter.notifyDataSetChanged();
@@ -233,6 +257,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                 strategiesList.add(currentStrObj);
             }
         }
+        strategiesAdapter.notifyDataSetChanged();
         if (strategiesList.isEmpty()){
             showErrorView(superActivity.getString(R.string.no_local_strategies),
                     superActivity.getString(R.string.download_strategies_online),
@@ -323,6 +348,44 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
         return toDownload;
     }
 
+    void downloadInitialStrategy(String Url) {
+        Ion.with(superActivity)
+            .load(Url)
+            .asJsonObject()
+            .setCallback(new FutureCallback<JsonObject>() {
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    if (e != null) {
+                        Log.d("DD", e.getMessage());
+                        startSnackBar(R.string.check_connection);
+                    }
+                    if (result != null) {
+                        Strategy current = new Gson().fromJson(result.getAsJsonObject("data"), Strategy.class);
+                        //Log.d("DD", current.content);
+                        if(isNewStrategy(current._id)) {
+                            if(saveStrategyLocally(current._id, current.content)){
+                                updateListView();
+                                startSnackBar(R.string.file_downloaded);
+                            }
+                        }
+                    }
+                }
+            });
+    }
+
+    boolean saveStrategyLocally(String name, String content) {
+        FileOutputStream outputStream;
+        try {
+            outputStream = superActivity.openFileOutput(name + ".str", Context.MODE_PRIVATE);
+            outputStream.write(content.getBytes());
+            outputStream.close();
+            startSnackBar(R.string.file_downloaded);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     boolean isNewStrategy(String fileName) {
         File f = superActivity.getFilesDir();
         File file[] = f.listFiles();
@@ -352,15 +415,16 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                 strInfo.get("map"),
                 extractIcon(strInfo.get("icon")),
                 strategy);
-        strategiesAdapter.add(currentStrObj);
+        //strategiesAdapter.add(currentStrObj);
         strategiesList.add(currentStrObj);
+        strategiesAdapter.notifyDataSetChanged();
         startSnackBar(R.string.file_imported);
     }
 
     void startSnackBar(int id) {
         Resources res = getResources();
         Snackbar snackbar = Snackbar
-                .make(lLayout.findViewById(R.id.snackbar), res.getString(id), Snackbar.LENGTH_LONG);
+                .make(lLayout, res.getString(id), Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 
@@ -391,5 +455,23 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
         if(error_view != null){
             error_view.setVisibility(View.GONE);
         }
+    }
+
+    void showFirstDialog(){
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(lLayout.getContext()); //Check!
+        alertDialog.setTitle(superActivity.getString(R.string.welcome));
+        alertDialog.setMessage(superActivity.getString(R.string.welcome_message));
+        alertDialog.setNegativeButton("Nope", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+        alertDialog.setPositiveButton("Yes, sure", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                //alertDialog.dismiss();
+                downloadInitialStrategy("http://betterbin.co/aoe/strategies/fYwbyQwAun3pT8pgM");
+                downloadInitialStrategy("http://betterbin.co/aoe/strategies/fcGEtMMrqrP9oNF4K");
+            }
+        });
+
+        alertDialog.show();
     }
 }

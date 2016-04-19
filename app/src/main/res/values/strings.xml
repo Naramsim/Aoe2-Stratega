@@ -81,6 +81,8 @@ In the end confirm with the toolbar button and fill all the fields you will be p
     <string name="tech_fragment_sub">By Philippe le Bon and Naramsim</string>
     <string name="tip_fragment_title">Tips and Tricks</string>
     <string name="tip_fragment_sub">By grapeape25 and Naramsim</string>
+    <string name="welcome">Welcome</string>
+    <string name="welcome_message">Hi, with this app you will learn strategies created by a vast community, you can even create one by yourself. Would you like to download two default strategies? A fast Castle and a Skirmisher Rush</string>
 
     <string-array name="general_tips">
         <item>Always be making villagers (generally at least 100 villagers but it depends on pop cap, strategy, map, etc.).</item>

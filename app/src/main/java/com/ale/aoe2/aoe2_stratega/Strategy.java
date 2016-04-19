@@ -28,7 +28,6 @@ public class Strategy {
     public boolean hasStringIcon;
 
 
-
     public Strategy(String name,String author,String civ,
                     String map,String icon, String _id,String content,
                     String title_declared,String version,
