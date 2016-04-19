@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     Future<File> downloading;
     Activity superActivity;
+    Drawer result;
 
     List<Strategy> strategiesList = new ArrayList<Strategy>();
     List<File> strategiesFileList = new ArrayList<File>();
@@ -152,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             })
             .build();
-        Drawer result = new DrawerBuilder()
+        result = new DrawerBuilder()
             .withActivity(this)
             .withToolbar(mToolbar)
             .withAccountHeader(headerResult)
@@ -175,7 +177,10 @@ public class MainActivity extends AppCompatActivity {
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     switch (position) {
                         case 1:
+                            Bundle bundle = new Bundle();
+                            bundle.putString("edttext", "From Activity");
                             Fragment strategyFragment = new LocalStrategyFragment();
+                            strategyFragment.setArguments(bundle);
                             fragmentTransaction.replace(R.id.containerView, strategyFragment);
                             fragmentTransaction.commit();
                             break;
@@ -288,6 +293,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public Drawer getDrawer(){
+        return result;
     }
 
     Boolean setTheTheme(){

@@ -1,12 +1,16 @@
 package com.ale.aoe2.aoe2_stratega;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -47,7 +51,7 @@ import tr.xip.errorview.ErrorView;
 public class LocalStrategyFragment extends android.support.v4.app.Fragment {
     RelativeLayout lLayout;
     FragmentActivity superActivity;
-
+    MainActivity main_activity;
     ListView mListView;
     ErrorView error_view;
     private ProgressBar mProgress;
@@ -56,6 +60,20 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
     LocalStrategiesListViewAdapter strategiesAdapter;
     Toolbar mToolbar;
     private SwipeRefreshLayout swipeContainer;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof Activity){
+            main_activity = (MainActivity) context;
+        }
+    }
+
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        main_activity = null;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -112,6 +130,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                     strategiesAdapter.notifyDataSetChanged();
                     if(wasDeleted) {
                         startSnackBar(R.string.delete_strategy);
+                        updateListView();
                     }
                 }
             });
@@ -360,6 +379,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onRetry() {
                     Log.d("DD", "retry");
+                    main_activity.getDrawer().setSelectionAtPosition(2,true);
                 }
             });
         }

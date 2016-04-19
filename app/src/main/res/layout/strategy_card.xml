@@ -84,6 +84,7 @@
                 android:layout_below="@+id/strName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:alpha="0.8"
                 android:text="Author" />
             <TextView
                 android:id="@+id/strCiv"
@@ -94,6 +95,7 @@
                 android:layout_toRightOf="@+id/circlePreview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:alpha="0.8"
                 android:text="Civ" />
             <TextView
                 android:id="@+id/strMap"
@@ -104,6 +106,7 @@
                 android:layout_below="@+id/strName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:alpha="0.8"
                 android:text="Map" />
 
         </RelativeLayout>

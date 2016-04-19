@@ -64,9 +64,14 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Step item = steps.get(position);
-
-        holder.title.setText(item.getTitle());
-        holder.subtitle.setText(item.getSubtitle());
+        if(item.getTitle() != null){
+            holder.title.setText(item.getTitle());
+        }
+        if(item.getSubtitle() != null){
+            holder.subtitle.setText(item.getSubtitle());
+        }else{
+         //   holder.line_separator.setVisibility(View.GONE);
+        }
         holder.img.setImageResource(item.getImg());
     }
 
@@ -79,12 +84,14 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
         TextView title;
         TextView subtitle;
         ImageView img;
+        View line_separator;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
             subtitle = (TextView) itemView.findViewById(R.id.subtitle);
             img = (ImageView) itemView.findViewById(R.id.instruction_img);
+            line_separator = (View) itemView.findViewById(R.id.line_separator);
         }
     }
 

@@ -19,6 +19,7 @@
         android:id="@+id/tip_author"
         android:layout_below="@+id/tip_header"
         android:layout_centerHorizontal="true"
+        android:alpha="0.8"
         android:layout_marginBottom="5dp"/>
 </RelativeLayout>
 
