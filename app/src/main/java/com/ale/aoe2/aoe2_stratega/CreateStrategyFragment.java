@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.google.gson.JsonObject;
@@ -37,10 +39,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
+import it.sephiroth.android.library.tooltip.Tooltip;
+
 /**
  * Created by Ale on 11/04/2016.
  */
-public class CreateStrategyFragment extends android.support.v4.app.Fragment {
+public class CreateStrategyFragment extends android.support.v4.app.Fragment implements showTooltip{
     RelativeLayout lLayout;
     FragmentActivity superActivity;
     MainActivity main_activity;
@@ -59,7 +63,9 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
     ArrayList<String> hintInstructions;
     ArrayList<Integer> stepsImages;
     ArrayList<String> imageNamesList;
+    ArrayList<Boolean> instructionsFollowed;
     MaterialSearchView searchView;
+    SharedPreferences getPrefs;
 
     @Override
     public void onAttach(Context context) {
@@ -82,9 +88,13 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
         stepsImages = new ArrayList<Integer>();
         stepInstructions = new ArrayList<String>();
         hintInstructions = new ArrayList<String>();
+        instructionsFollowed = new ArrayList<Boolean>();
         stepsImages.add(R.drawable.three_camera);
         stepInstructions.add("");
         hintInstructions.add("");
+        getPrefs = PreferenceManager
+                .getDefaultSharedPreferences(superActivity.getBaseContext());
+        final boolean isFirstCreation = getPrefs.getBoolean("firstCreation", true);
         proceedButton = (Button)lLayout.findViewById(R.id.proceed);
         recyclerView = (RecyclerView) lLayout.findViewById(R.id.recycler_view);
         imagesRecyclerView = (QuickRecyclerView)lLayout.findViewById(R.id.imageRecycler);
@@ -220,12 +230,12 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
 
         currentAdapter = new CreateStrategyRecyclerViewAdapter(superActivity, stepsImages,
                                             proceedButton, imagesRecyclerView,
-                                            stepInstructions, hintInstructions, recyclerView, searchView);
+                                            stepInstructions, hintInstructions, recyclerView,
+                                            searchView);
         imagesAdapter = new SlideShowAdapter(superActivity, drawableRes, proceedButton,
                                             imagesRecyclerView, recyclerView, currentAdapter,
-                                            searchView);
+                                            searchView, this, isFirstCreation);
         //Button
-
         proceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,6 +244,9 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
                 hintInstructions.add("");
                 currentAdapter.notifyItemInserted(stepsImages.size()-1);
                 scrollToAction(-1);
+                if(isFirstCreation){
+                    startTooltip(superActivity.getString(R.string.tooltip_finish_creation), recyclerView, Tooltip.Gravity.CENTER);
+                }
             }
         });
 
@@ -286,6 +299,11 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
             }
         };
         imagesRecyclerView.setItemAnimator(animator);
+
+        //First Dialog
+        if (isFirstCreation) {
+            showHelpDialog();
+        }
 
         return lLayout;
     }
@@ -472,7 +490,56 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment {
         final AlertDialog alertDialog = new AlertDialog.Builder(superActivity).create();
         alertDialog.setTitle(R.string.help_new_strategy_title);
         alertDialog.setMessage(superActivity.getResources().getString(R.string.help_new_strategy));
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(DialogInterface dialog) {
+                startTooltip(superActivity.getString(R.string.tooltip_change_image),
+                                recyclerView, Tooltip.Gravity.CENTER);
+            }
+        });
         alertDialog.show();
+    }
+
+    public void startTooltip(String text, View current, Tooltip.Gravity gravity){
+        Tooltip.make(superActivity,
+                new Tooltip.Builder(101)
+                        .anchor(current, gravity)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(true, false)
+                                .outsidePolicy(true, false), 0)
+                        .activateDelay(0)
+                        .showDelay(500)
+                        .text(text)
+                        .maxWidth(700)
+                        .withArrow(true)
+                        .withOverlay(false).withStyleId(R.style.ToolTipLayoutCustomStyle)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT).withCallback(new Tooltip.Callback() {
+                            @Override
+                            public void onTooltipClose(
+                                    final Tooltip.TooltipView v, final boolean fromUser,
+                                    final boolean containsTouch) {
+                                instructionsFollowed.add(true);
+                                if(instructionsFollowed.size() >=3 ){
+                                    SharedPreferences.Editor e = getPrefs.edit();
+                                    e.putBoolean("firstCreation", false);
+                                    e.apply();
+                                }
+                            }
+
+                            @Override
+                            public void onTooltipFailed(Tooltip.TooltipView view) {
+                            }
+
+                            @Override
+                            public void onTooltipShown(Tooltip.TooltipView view) {
+                            }
+
+                            @Override
+                            public void onTooltipHidden(Tooltip.TooltipView view) {
+                            }
+                        })
+                        .build()
+        ).show();
+
     }
 
     void startSnackBar(View v, int id) {

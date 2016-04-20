@@ -1,6 +1,8 @@
 package com.ale.aoe2.aoe2_stratega;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -17,6 +19,8 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 
+import it.sephiroth.android.library.tooltip.Tooltip;
+
 /**
  * Created by Ale on 11/04/2016.
  */
@@ -29,6 +33,7 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
     RecyclerView stepsRecyclerView;
     QuickRecyclerView images;
     MaterialSearchView searchView;
+
 
 
     public CreateStrategyRecyclerViewAdapter(Context context, ArrayList<Integer> itemsData,

@@ -85,6 +85,10 @@ In the end confirm with the toolbar button and fill all the fields you will be p
     <string name="welcome_message">Hi, with this app you will learn strategies created by a vast community, you can even create one by yourself. Would you like to download two default strategies? A fast Castle and a Skirmisher Rush</string>
     <string name="first_game">Your first game</string>
     <string name="game_instructions">Follow all the steps you will be proposed, click the proceed button to go on.\nBETA: you can move to the new step by saying \"step\", you can move back by saying \"back\", you can restart the strategy by saying \"restart\"</string>
+    <string name="tooltip_next_step">When you are done, click this button or say a louder \"STEP\"</string>
+    <string name="tooltip_change_image">Click on the image and choose a new one, then add step text and optionally a hint</string>
+    <string name="tooltip_finish_creation">Add other steps, when you finish click the tick button on the toolbar</string>
+    <string name="tooltip_step_explanation">Add a step by clicking the button below, remove a step by swiping it up, add a step in between two others by long clicking the button below</string>
 
     <string-array name="general_tips">
         <item>Always be making villagers (generally at least 100 villagers but it depends on pop cap, strategy, map, etc.).</item>

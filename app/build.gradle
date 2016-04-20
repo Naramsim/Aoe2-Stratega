@@ -63,6 +63,7 @@ dependencies {
         transitive = true;
     }
     compile 'com.github.xiprox.errorview:library:2.+'
+    compile 'it.sephiroth.android.library.targettooltip:target-tooltip-library:+'
 }
 
 ant.importBuild 'assets.xml'

@@ -28,6 +28,7 @@ import edu.cmu.pocketsphinx.Assets;
 import edu.cmu.pocketsphinx.Hypothesis;
 import edu.cmu.pocketsphinx.RecognitionListener;
 import edu.cmu.pocketsphinx.SpeechRecognizer;
+import it.sephiroth.android.library.tooltip.Tooltip;
 
 import java.io.File;
 import java.io.IOException;
@@ -107,9 +108,25 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
                 return true;
             }
         });
+        Tooltip.make(this,
+                new Tooltip.Builder(101)
+                        .anchor(proceedButton, Tooltip.Gravity.TOP)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(true, false)
+                                .outsidePolicy(true, false), 0)
+                        .activateDelay(4000)
+                        .showDelay(3000)
+                        .text(getString(R.string.tooltip_next_step))
+                        .maxWidth(700)
+                        .withArrow(true)
+
+                        .withOverlay(false).withStyleId(R.style.ToolTipLayoutCustomStyle)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                        .build()
+        ).show();
 
         boolean isFirstStart = getPrefs.getBoolean("firstGame", true);
-        if (!isFirstStart) {
+        if (isFirstStart) {
             showGameDialog();
             SharedPreferences.Editor e = getPrefs.edit();
             e.putBoolean("firstGame", false);

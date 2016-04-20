@@ -57,6 +57,20 @@
     </style>
 
 
+    <style name="ToolTipLayoutCustomStyle">
+        <item name="ttlm_padding">20dip</item>
+        <item name="ttlm_strokeColor">@color/md_indigo_600</item>
+        <item name="ttlm_backgroundColor">@color/md_indigo_600</item>
+        <item name="ttlm_strokeWeight">1dip</item>
+        <item name="ttlm_cornerRadius">5dip</item>
+        <item name="android:textAppearance">@style/ToolTipTextStyle</item>
+    </style>
+
+    <style name="ToolTipTextStyle">
+        <item name="android:textColor">@color/md_white_pure</item>
+    </style>
+
+
 </resources>
 
 
