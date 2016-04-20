@@ -27,6 +27,8 @@ import com.koushikdutta.ion.Ion;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import tr.xip.errorview.ErrorView;
+
 public class OnlineStrategyRecyclerViewFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
@@ -37,6 +39,7 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
     String downloadUrl;
     String statType;
     SwipeRefreshLayout swipeContainer;
+    ErrorView errorView;
 
     public static OnlineStrategyRecyclerViewFragment newInstance( String url) {
         OnlineStrategyRecyclerViewFragment f = new OnlineStrategyRecyclerViewFragment();
@@ -70,13 +73,15 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
             public void onRefresh() {
                 loadJsonStrategies(false, container);
                 //Log.d("EE", "refresh");
-                swipeContainer.setRefreshing(false);//TODO: pass the event to loadJson...
+                swipeContainer.setRefreshing(false); //TODO: pass the event to loadJson...
             }
         });
         swipeContainer.setColorSchemeResources(R.color.md_black_1000,
                 R.color.md_cyan_600,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        errorView = (ErrorView)lLayout.findViewById(R.id.error_view);
 
         return lLayout;
     }
@@ -133,6 +138,11 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
             }
             strategiesList = new ArrayList<Strategy>(Arrays.asList(
                     new Gson().fromJson(result, Strategy[].class)));
+            if(strategiesList.isEmpty()){
+                showErrorView("No strategy here", "Sorry");
+            }else{
+                hideErrorView();
+            }
             attachListAdapter();
         }
     }
@@ -149,5 +159,19 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
         Snackbar snackbar = Snackbar
                 .make(v, superActivity.getResources().getString(id), Snackbar.LENGTH_LONG);
         snackbar.show();
+    }
+
+    void showErrorView(String title, String subtitle){
+        if(errorView != null){
+            errorView.setVisibility(View.VISIBLE);
+            errorView.setTitle(title);
+            errorView.setSubtitle(subtitle);
+        }
+    }
+
+    void hideErrorView(){
+        if(errorView != null){
+            errorView.setVisibility(View.GONE);
+        }
     }
 }

@@ -15,4 +15,14 @@
             android:layout_height="match_parent"
             />
     </android.support.v4.widget.SwipeRefreshLayout>
+    <tr.xip.errorview.ErrorView xmlns:errorview="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/error_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        errorview:ev_showTitle="true"
+        errorview:ev_showSubtitle="true"
+        errorview:ev_showRetryButton="false"
+        />
 </RelativeLayout>
