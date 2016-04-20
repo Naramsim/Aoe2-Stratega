@@ -104,8 +104,10 @@ public class MainActivity extends AppCompatActivity {
                     String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
                     SecureRandom rnd = new SecureRandom();
                     e.putString("xdab", randomString(9, AB, rnd));
-                    e.apply();
+                    e.commit();
                 }
+                logUser(getPrefs.getString("xdab", "default"));
+
             }
         });
         // Start the thread
@@ -416,4 +418,9 @@ public class MainActivity extends AppCompatActivity {
             sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
         return sb.toString();
     }
+
+    private void logUser(String id) {
+        Crashlytics.setUserIdentifier(id);
+    }
+
 }

@@ -83,6 +83,8 @@ In the end confirm with the toolbar button and fill all the fields you will be p
     <string name="tip_fragment_sub">By grapeape25 and Naramsim</string>
     <string name="welcome">Welcome</string>
     <string name="welcome_message">Hi, with this app you will learn strategies created by a vast community, you can even create one by yourself. Would you like to download two default strategies? A fast Castle and a Skirmisher Rush</string>
+    <string name="first_game">Your first game</string>
+    <string name="game_instructions">Follow all the steps you will be proposed, click the proceed button to go on.\nBETA: you can move to the new step by saying \"step\", you can move back by saying \"back\", you can restart the strategy by saying \"restart\"</string>
 
     <string-array name="general_tips">
         <item>Always be making villagers (generally at least 100 villagers but it depends on pop cap, strategy, map, etc.).</item>

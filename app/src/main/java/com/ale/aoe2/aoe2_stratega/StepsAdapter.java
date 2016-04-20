@@ -119,6 +119,6 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
                 R.string.final_hint6};
         int randomIndex = new Random().nextInt(7);
         int battleCry = battleCriesId[randomIndex];
-        steps.add(new Step(current.getResources().getString(battleCry), "three_m", "", current));
+        steps.add(new Step(current.getResources().getString(battleCry), "three_m", "Defeat the enemy", current));
     }
 }

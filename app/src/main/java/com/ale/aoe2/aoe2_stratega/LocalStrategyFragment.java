@@ -98,7 +98,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
         //  Create a new boolean and preference and set it to true
         boolean isFirstStart = getPrefs.getBoolean("firstDialog", true);
         //  If the activity has never started before...
-        if (!isFirstStart) {
+        if (isFirstStart) {
             showFirstDialog();
             SharedPreferences.Editor e = getPrefs.edit();
             //  Edit preference to make it false because we don't want this to run again

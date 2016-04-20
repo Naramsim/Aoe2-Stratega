@@ -3,9 +3,11 @@ package com.ale.aoe2.aoe2_stratega;
 import static edu.cmu.pocketsphinx.SpeechRecognizerSetup.defaultSetup;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -47,6 +49,10 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
         setTheTheme();
         setContentView(R.layout.activity_country);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        SharedPreferences getPrefs = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
+
         Bundle extras = getIntent().getExtras();
         String strategyName = extras.getString("fileName");
         File strategyFile = (File)extras.get("file");
@@ -55,8 +61,7 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
         if(comesFromInternet){
             content = (String)extras.get("strategyString");
         }
-        SharedPreferences getPrefs = PreferenceManager
-                .getDefaultSharedPreferences(getBaseContext());
+
         Answers.getInstance().logCustom(new CustomEvent("New Game")
                 .putCustomAttribute("Name", strategyName)
                 .putCustomAttribute("User", getPrefs.getString("xdab", "default")));
@@ -95,6 +100,21 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
                 scrollToAction(1);
             }
         });
+        this.proceedButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                scrollToAction(-2);
+                return true;
+            }
+        });
+
+        boolean isFirstStart = getPrefs.getBoolean("firstGame", true);
+        if (!isFirstStart) {
+            showGameDialog();
+            SharedPreferences.Editor e = getPrefs.edit();
+            e.putBoolean("firstGame", false);
+            e.apply();
+        }
 
         //CMU Sphinx
         new AsyncTask<Void, Void, Exception>() {
@@ -233,7 +253,9 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
         if(direction == 0){
             recyclerView.smoothScrollToPosition(0);
         }else if (direction == -2){
-            recyclerView.smoothScrollToPosition(firstVisiblePosition - 1);
+            if(firstVisiblePosition>=1){
+                recyclerView.smoothScrollToPosition(firstVisiblePosition - 1);
+            }
         }else{
             recyclerView.smoothScrollToPosition(firstVisiblePosition + 1);
         }
@@ -260,6 +282,17 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
             //Log.d("DD", "finally");
         }
         return false;
+    }
+
+    void showGameDialog(){
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(StepperActivity.this);
+        alertDialog.setTitle(getString(R.string.first_game));
+        alertDialog.setMessage(getString(R.string.game_instructions));
+        alertDialog.setNeutralButton("Ok, let me go", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+
+        alertDialog.show();
     }
 
 }
