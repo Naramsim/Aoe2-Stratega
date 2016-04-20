@@ -89,6 +89,7 @@ In the end confirm with the toolbar button and fill all the fields you will be p
     <string name="tooltip_change_image">Click on the image and choose a new one, then add step text and optionally a hint</string>
     <string name="tooltip_finish_creation">Add other steps, when you finish click the tick button on the toolbar</string>
     <string name="tooltip_step_explanation">Add a step by clicking the button below, remove a step by swiping it up, add a step in between two others by long clicking the button below</string>
+    <string name="transition_string">com.ale.aoe2.transition</string>
 
     <string-array name="general_tips">
         <item>Always be making villagers (generally at least 100 villagers but it depends on pop cap, strategy, map, etc.).</item>

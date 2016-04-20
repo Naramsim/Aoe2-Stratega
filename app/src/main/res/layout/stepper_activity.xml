@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:transitionName="@string/transition_string"
     tools:context=".StepperActivity">
 
     <!--<ImageView
@@ -22,6 +23,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_below="@+id/toolbar"
         android:layout_height="match_parent"/>
@@ -33,6 +35,7 @@
         android:layout_height="100dp"
         android:layout_margin="20dp"
         android:text="Proceed"
+        android:visibility="gone"
         android:theme="@style/materialButton"/>
 
 </RelativeLayout>

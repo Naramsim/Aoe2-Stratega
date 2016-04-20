@@ -1,6 +1,7 @@
 package com.ale.aoe2.aoe2_stratega;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,23 +27,26 @@ import java.util.regex.Pattern;
  */
 
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
-    @SuppressWarnings("unused")
     private static final String TAG = StepsAdapter.class.getSimpleName();
     private List<Step> steps;
+    Context context;
     String infoRegex = "(?:-\\s?((?:[^\\[\\]\\n\\r])*)\\s?(?:\\[(\\w*)\\])?)(?:(?:\\n|\\t|\\s)*\\+\\s?(.*))?"; //http://regexr.com/3d7r6
 
     public StepsAdapter(File receiving, Context current) {
         super();
+        context = current;
         steps = new ArrayList<>();
         Scanner scanner = null;
         try{
             scanner = new Scanner( receiving );
             detectSteps(scanner, current);
         }catch (Exception e) {Log.d("DD", e.getMessage());}
+
     }
 
     public StepsAdapter(String receiving, Context current) {
         super();
+        context = current;
         steps = new ArrayList<>();
         Scanner scanner = null;
         try{
@@ -73,6 +79,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
          //   holder.line_separator.setVisibility(View.GONE);
         }
         holder.img.setImageResource(item.getImg());
+
     }
 
     @Override
@@ -85,6 +92,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
         TextView subtitle;
         ImageView img;
         View line_separator;
+        CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -92,6 +100,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
             subtitle = (TextView) itemView.findViewById(R.id.subtitle);
             img = (ImageView) itemView.findViewById(R.id.instruction_img);
             line_separator = (View) itemView.findViewById(R.id.line_separator);
+            cardView = (CardView)itemView.findViewById(R.id.card_view);
         }
     }
 

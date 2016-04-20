@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -125,15 +127,22 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //String itemValue = (String) mListView.getItemAtPosition(position);
 
-                //In order to start displaying new activity we need an intent
-                Intent intent = new Intent(superActivity.getApplicationContext(), StepperActivity.class);
+            Intent intent = new Intent(superActivity.getApplicationContext(), StepperActivity.class);
 
-                //Putting the Id of image as an extra in intent
-                intent.putExtra("fileName", (String) strategiesList.get(position).name);
-                intent.putExtra("file", (File) strategiesList.get(position).strategyFile);
-                startActivity(intent);
+            String transitionName = getString(R.string.transition_string);
+            // Define the view that the animation will start from
+            View viewStart = view;
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(superActivity,
+                                viewStart,
+                                transitionName
+                        );
+
+            //Putting the Id of image as an extra in intent
+            intent.putExtra("fileName", (String) strategiesList.get(position).name);
+            intent.putExtra("file", (File) strategiesList.get(position).strategyFile);
+            //startActivity(intent);
+            ActivityCompat.startActivity(superActivity, intent, options.toBundle());
             }
         });
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){

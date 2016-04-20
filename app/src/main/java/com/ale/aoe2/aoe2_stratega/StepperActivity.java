@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import android.view.WindowManager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import com.crashlytics.android.answers.Answers;
@@ -43,12 +46,15 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
     Button proceedButton;
     RecyclerView recyclerView;
     int position = 0;
+    StepperActivity superActivity;
+    String content;
+    File strategyFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheTheme();
-        setContentView(R.layout.activity_country);
+        setContentView(R.layout.stepper_activity);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         SharedPreferences getPrefs = PreferenceManager
@@ -56,9 +62,9 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
 
         Bundle extras = getIntent().getExtras();
         String strategyName = extras.getString("fileName");
-        File strategyFile = (File)extras.get("file");
-        String content = "";
-        boolean comesFromInternet = (String)extras.get("strategyString") != null;
+        strategyFile = (File)extras.get("file");
+        content = "";
+        final boolean comesFromInternet = (String)extras.get("strategyString") != null;
         if(comesFromInternet){
             content = (String)extras.get("strategyString");
         }
@@ -80,50 +86,63 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
         });
         getSupportActionBar().setTitle("Back");
         mToolbar.setTitleTextColor(0xFFFFFFFF);
+        superActivity = this;
 
-        //Recycleviewer
-        final org.solovyev.android.views.llm.LinearLayoutManager layoutManager = new org.solovyev.android.views.llm.LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(layoutManager);
-        if(comesFromInternet){
-            recyclerView.setAdapter(new StepsAdapter(content, this));
-        }else{
-            recyclerView.setAdapter(new StepsAdapter(strategyFile, this));
-        }
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addOnScrollListener(new StepperRecyclerViewOnScrollListener(layoutManager, getWindow()){});
+        final org.solovyev.android.views.llm.LinearLayoutManager layoutManager =
+                new org.solovyev.android.views.llm.LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
-        //Button
-        this.proceedButton = (Button)this.findViewById(R.id.proceed);
-        this.proceedButton.setOnClickListener(new View.OnClickListener() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onClick(View v) {
-                scrollToAction(1);
-            }
-        });
-        this.proceedButton.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                scrollToAction(-2);
-                return true;
-            }
-        });
-        Tooltip.make(this,
-                new Tooltip.Builder(101)
+            public void run() {
+
+                recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+                Animation animFadeInBottom = AnimationUtils.loadAnimation(superActivity.getApplicationContext(), R.anim.abc_slide_in_bottom);
+                Animation animFadeInTop = AnimationUtils.loadAnimation(superActivity.getApplicationContext(), R.anim.abc_slide_in_top);
+                recyclerView.setAnimation(animFadeInBottom);
+                recyclerView.setVisibility(View.VISIBLE);
+                recyclerView.setLayoutManager(layoutManager);
+                if(comesFromInternet){
+                    recyclerView.setAdapter(new StepsAdapter(content, superActivity));
+                }else{
+                    recyclerView.setAdapter(new StepsAdapter(strategyFile, superActivity));
+                }
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                recyclerView.addOnScrollListener(new StepperRecyclerViewOnScrollListener(layoutManager, getWindow()){});
+
+                proceedButton = (Button)findViewById(R.id.proceed);
+                proceedButton.setAnimation(animFadeInBottom);
+                proceedButton.setVisibility(View.VISIBLE);
+                proceedButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    scrollToAction(1);
+                    }
+                });
+                proceedButton.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                    scrollToAction(-2);
+                    return true;
+                    }
+                });
+                Tooltip.make(superActivity,
+                    new Tooltip.Builder(101)
                         .anchor(proceedButton, Tooltip.Gravity.TOP)
                         .closePolicy(new Tooltip.ClosePolicy()
                                 .insidePolicy(true, false)
                                 .outsidePolicy(true, false), 0)
-                        .activateDelay(4000)
-                        .showDelay(3000)
+                        .activateDelay(0)
+                        .showDelay(500)
                         .text(getString(R.string.tooltip_next_step))
                         .maxWidth(700)
                         .withArrow(true)
-
                         .withOverlay(false).withStyleId(R.style.ToolTipLayoutCustomStyle)
                         .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                         .build()
-        ).show();
+                ).show();
+            }
+        },400);
+
 
         boolean isFirstStart = getPrefs.getBoolean("firstGame", true);
         if (isFirstStart) {
