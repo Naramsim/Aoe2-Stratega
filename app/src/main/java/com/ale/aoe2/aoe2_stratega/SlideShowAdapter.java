@@ -55,7 +55,6 @@ public class SlideShowAdapter extends RecyclerView.Adapter<SlideShowAdapter.View
         View itemLayoutView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.slideshow_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(itemLayoutView);
-        Picasso.with(context).setIndicatorsEnabled(true);
         return viewHolder;
     }
 
@@ -65,8 +64,8 @@ public class SlideShowAdapter extends RecyclerView.Adapter<SlideShowAdapter.View
 
         Picasso.with(context)
                 .load(itemsData.get(position))
-                //.resize(100,100)
-                //.centerCrop()
+                .resize(350,300)
+                .centerCrop()
                 //.fit()
                 .into(viewHolder.iv);
         viewHolder.ti.setText(context.getResources().getResourceEntryName(itemsData.get(position)));

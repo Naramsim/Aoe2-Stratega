@@ -2,7 +2,9 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/logo_white"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/materialviewpager_logoHeight"
+    android:layout_height="40dp"
     android:text="AoE2 Strategies"
     android:textSize="30sp"
+    android:gravity="center"
+    android:layout_margin="4dp"
     android:textColor="@android:color/white"/>

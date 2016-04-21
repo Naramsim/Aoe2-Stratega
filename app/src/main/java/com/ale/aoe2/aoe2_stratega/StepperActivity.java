@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -307,9 +308,11 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
             if(Objects.equals(theme, "dark")){
                 Log.d("DD", theme);
                 setTheme(R.style.AppTheme);
+                getWindow().setStatusBarColor(ContextCompat.getColor(context, R.color.md_indigo_700));
                 return true;
             }else{
                 setTheme(R.style.AppThemeLightt);
+                getWindow().setStatusBarColor(ContextCompat.getColor(context, R.color.md_grey_900));
             }
 
         }catch (Exception e){

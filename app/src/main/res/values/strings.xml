@@ -49,7 +49,7 @@
     <string name="uncomplete_submit_strategy_dialog">All fields must be filled</string>
     <string name="incomplete_step">A step is incomplete</string>
     <string name="upload_success">Your strategy was saved and uploaded successfully</string>
-    <string name="no_first_step">Initial step missing</string>
+    <string name="step_missing">A step need some text</string>
     <string name="general_error">Something went wrong</string>
     <string name="help_new_strategy">Each strategy is composed by several steps. Each step has a description and can have an image and a hint.\n
 Add steps by clicking the bottom button, fill the input step text and change the image by clicking over it.\n
@@ -88,8 +88,11 @@ In the end confirm with the toolbar button and fill all the fields you will be p
     <string name="tooltip_next_step">When you are done, click this button or say a louder \"STEP\"</string>
     <string name="tooltip_change_image">Click on the image and choose a new one, then add step text and optionally a hint</string>
     <string name="tooltip_finish_creation">Add other steps, when you finish click the tick button on the toolbar</string>
-    <string name="tooltip_step_explanation">Add a step by clicking the button below, remove a step by swiping it up, add a step in between two others by long clicking the button below</string>
+    <string name="tooltip_step_explanation">Add step text in the input above me, optionally add a hint, then click me</string>
+    <string name="tooltip_add_step_explanation">Add a step by clicking the button below, remove a step by swiping it up, add a step in between two others by long clicking the button below</string>
     <string name="transition_string">com.ale.aoe2.transition</string>
+    <string name="no_online_strategies">No match found</string>
+    <string name="try_another_search">Search something else</string>
 
     <string-array name="general_tips">
         <item>Always be making villagers (generally at least 100 villagers but it depends on pop cap, strategy, map, etc.).</item>

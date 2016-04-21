@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionGo"
-            android:inputType="text"
+            android:inputType="textNoSuggestions"
             android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionGo"
-            android:inputType="text"
+            android:inputType="textNoSuggestions"
             android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionGo"
-            android:inputType="text"
+            android:inputType="textNoSuggestions"
             android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionGo"
-            android:inputType="text"
+            android:inputType="textNoSuggestions"
             android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -87,7 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionGo"
-            android:inputType="text"
+            android:inputType="textNoSuggestions"
             android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 

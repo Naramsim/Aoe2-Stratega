@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
+import tr.xip.errorview.ErrorView;
+
 /**
  * Created by Ale on 30/03/2016.
  */
@@ -101,6 +103,7 @@ public class SearchActivity extends AppCompatActivity {
         View rootView;
         String lastQuery;
         SwipeRefreshLayout swipeContainer;
+        ErrorView errorView;
         //static MaterialSearchView searchView;
         public PlaceholderFragment() { }
 
@@ -111,6 +114,7 @@ public class SearchActivity extends AppCompatActivity {
             superActivity = super.getActivity();
             rootView = inflater.inflate(R.layout.fragment_recyclerview, container, false);
             lv = (RecyclerView)rootView.findViewById(R.id.recyclerView);
+            errorView = (ErrorView)rootView.findViewById(R.id.error_view);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
             lv.setLayoutManager(layoutManager);
             lv.setHasFixedSize(true);
@@ -123,7 +127,7 @@ public class SearchActivity extends AppCompatActivity {
                 public void onRefresh() {
                     loadJsonStrategies(false, lastQuery);
                     Log.d("EE", "refresh");
-                    swipeContainer.setRefreshing(false);//TODO: pass the event to loadJson...
+                    swipeContainer.setRefreshing(false); //TODO: pass the event to loadJson...
                 }
             });
             //Configure the refreshing colors
@@ -179,6 +183,12 @@ public class SearchActivity extends AppCompatActivity {
                                 }
                                 strategiesList = new ArrayList<Strategy>(Arrays.asList(
                                         new Gson().fromJson(result, Strategy[].class)));
+                                if (strategiesList.isEmpty()){
+                                    showErrorView(superActivity.getString(R.string.no_online_strategies),
+                                            superActivity.getString(R.string.try_another_search));
+                                }else{
+                                    hideErrorView();
+                                }
                                 attachListAdapter();
                             }
                         }
@@ -195,6 +205,20 @@ public class SearchActivity extends AppCompatActivity {
             Snackbar snackbar = Snackbar
                     .make(getView(), superActivity.getResources().getString(id), Snackbar.LENGTH_LONG);
             snackbar.show();
+        }
+
+        void showErrorView(String title, final String subtitle){
+            if(errorView != null){
+                errorView.setVisibility(View.VISIBLE);
+                errorView.setTitle(title);
+                errorView.setSubtitle(subtitle);
+            }
+        }
+
+        void hideErrorView(){
+            if(errorView != null){
+                errorView.setVisibility(View.GONE);
+            }
         }
     }
 

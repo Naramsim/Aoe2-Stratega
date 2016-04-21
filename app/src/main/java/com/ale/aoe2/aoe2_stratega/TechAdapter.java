@@ -1,6 +1,8 @@
 package com.ale.aoe2.aoe2_stratega;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +17,12 @@ import java.util.ArrayList;
 public class TechAdapter extends RecyclerView.Adapter<TechAdapter.ViewHolder>  {
     private ArrayList<Tech> itemsData;
     private LayoutInflater mInflater;
+    Context context;
 
     public TechAdapter(Context context, ArrayList<Tech> itemsData) {
         this.mInflater = LayoutInflater.from(context);
         this.itemsData = new ArrayList<>(itemsData);
+        this.context = context;
     }
 
     // Create new views (invoked by the layout manager)
@@ -34,20 +38,34 @@ public class TechAdapter extends RecyclerView.Adapter<TechAdapter.ViewHolder>  {
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         viewHolder.txtViewTitle.setText(itemsData.get(position).getType());
         viewHolder.tvt.setText(itemsData.get(position).getTech());
+        viewHolder.cv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT,
+                        itemsData.get(position).getTech());
+                sendIntent.setType("text/plain");
+                context.startActivity(sendIntent);
+                return true;
+            }
+        });
     }
 
     // inner class to hold a reference to each item of RecyclerView
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView txtViewTitle;
         public TextView tvt;
+        public CardView cv;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
             txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.tech_type);
             tvt = (TextView) itemLayoutView.findViewById(R.id.tech_row);
+            cv = (CardView) itemLayoutView.findViewById(R.id.lyy_root);
         }
 
         public void bind(Tech tech) {

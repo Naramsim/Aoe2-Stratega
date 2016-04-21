@@ -259,7 +259,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
                 stepInstructions.add(nextVisiblePosition, "");
                 hintInstructions.add(nextVisiblePosition, "");
                 currentAdapter.notifyItemInserted(nextVisiblePosition);
-                scrollToAction(1);
+                //scrollToAction(1);
                 return true;
             }
         });
@@ -435,6 +435,11 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
     }
 
     void showDialog() {
+        if(stepInstructions.contains("")){
+            startSnackBar(lLayout, R.string.step_missing);
+            return;
+        }
+
         AutoCompleteTextView actv;
         LayoutInflater inflater = superActivity.getLayoutInflater();
         final View dialogLayout = inflater.inflate(R.layout.strategy_init_dialog, null);
@@ -475,7 +480,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
                     if(name.matches("") || civ.matches("") || map.matches("") || aut.matches("") || img.matches("")) {
                         startSnackBar(dialogLayout, R.string.uncomplete_submit_strategy_dialog);
                     }else if(stepInstructions.get(0).toString().equals("")){
-                        startSnackBar(lLayout, R.string.no_first_step);
+                        startSnackBar(lLayout, R.string.step_missing);
                         alertDialog.dismiss();
                     }else{
                         saveStrategyLocally();
@@ -487,13 +492,20 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
     }
 
     void showHelpDialog() {
-        final AlertDialog alertDialog = new AlertDialog.Builder(superActivity).create();
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(superActivity);
         alertDialog.setTitle(R.string.help_new_strategy_title);
         alertDialog.setMessage(superActivity.getResources().getString(R.string.help_new_strategy));
         alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             public void onCancel(DialogInterface dialog) {
                 startTooltip(superActivity.getString(R.string.tooltip_change_image),
                                 recyclerView, Tooltip.Gravity.CENTER);
+            }
+        });
+        alertDialog.setPositiveButton("Ok, let me go", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startTooltip(superActivity.getString(R.string.tooltip_change_image),
+                        recyclerView, Tooltip.Gravity.CENTER);
             }
         });
         alertDialog.show();

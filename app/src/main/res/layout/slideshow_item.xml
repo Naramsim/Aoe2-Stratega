@@ -21,13 +21,14 @@
             android:id="@+id/imageName"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="2dp"
+            android:textSize="10dp"
             android:text="Alabardier"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageRes"
             android:layout_below="@+id/imageName"
-            android:layout_marginRight="6dp"
+            android:layout_margin="5dp"
             android:layout_centerHorizontal="true"
             android:src="@drawable/three_m"
             />
