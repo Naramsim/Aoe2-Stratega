@@ -5,6 +5,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -59,7 +62,16 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        viewHolder.initialImage.setImageResource(itemsData.get(position));
+        if(itemsData.get(position) == -1){
+            Log.d("DD","asdasd");
+            Picasso.with(context).load(loadImage("three_camera"))
+                    //.fit() // not working
+                    //.centerCrop()
+                    .into(viewHolder.initialImage);
+        }else{
+            viewHolder.initialImage.setImageResource(itemsData.get(position));
+        }
+
         viewHolder.initialImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Animation animFadeOut = AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.abc_slide_out_bottom);
@@ -74,6 +86,20 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
         viewHolder.htl.updatePosition(position);
         viewHolder.t1.setText(stepText.get(position));
         viewHolder.t2.setText(hintText.get(position));
+    }
+
+    public File loadImage(String name){
+        try {
+            File file = new File(context.getDir("images", Context.MODE_PRIVATE), name + ".jpg");
+            return file;
+//            if(file.exists()){
+//                Log.d("DDD","existrs");
+//                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//                return myBitmap;
+//            }
+        }catch (Exception e){
+            Log.d("DD", e.getMessage());}
+        return null;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -222,7 +222,6 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
     }
 
     private void setupRecognizer(File assetsDir) throws IOException {
-
         recognizer = defaultSetup()
                 .setFloat("-vad_threshold", 3.0)
                 .setAcousticModel(new File(assetsDir, "en-us-ptm"))
@@ -308,11 +307,11 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
             if(Objects.equals(theme, "dark")){
                 Log.d("DD", theme);
                 setTheme(R.style.AppTheme);
-                getWindow().setStatusBarColor(ContextCompat.getColor(context, R.color.md_indigo_700));
+                //getWindow().setStatusBarColor(ContextCompat.getColor(context, R.color.md_indigo_700));
                 return true;
             }else{
                 setTheme(R.style.AppThemeLightt);
-                getWindow().setStatusBarColor(ContextCompat.getColor(context, R.color.md_grey_900));
+                //getWindow().setStatusBarColor(ContextCompat.getColor(context, R.color.md_grey_900));
             }
 
         }catch (Exception e){

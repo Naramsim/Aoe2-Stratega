@@ -87,7 +87,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
         stepInstructions = new ArrayList<String>();
         hintInstructions = new ArrayList<String>();
         instructionsFollowed = new ArrayList<Boolean>();
-        stepsImages.add(R.drawable.three_camera);
+        stepsImages.add(-1);
         stepInstructions.add("");
         hintInstructions.add("");
         getPrefs = PreferenceManager
@@ -100,12 +100,12 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
         ArrayList<Integer> drawableRes = new ArrayList<>(Arrays.asList(R.drawable.alabardier,
                 R.drawable.arcbalester,
                 R.drawable.archer,
-                R.drawable.archer_m,
+                //R.drawable.archer_m,
                 R.drawable.archer_range,
-                R.drawable.assault_m,
+                //R.drawable.assault_m,
                 R.drawable.barrack,
                 R.drawable.berserk,
-                R.drawable.bg_nd,
+                //R.drawable.bg_nd,
                 R.drawable.blacksmith,
                 R.drawable.boar,
                 R.drawable.bombard_cannon,
@@ -135,7 +135,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
                 R.drawable.elephant_archer,
                 R.drawable.fire_ship,
                 R.drawable.fishing_ship,
-                R.drawable.fog_m,
+                //R.drawable.fog_m,
                 R.drawable.galley,
                 R.drawable.gate,
                 R.drawable.genoese_crossbowman,
@@ -188,7 +188,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
                 R.drawable.tc_feudal,
                 R.drawable.tc_imperial,
                 R.drawable.teutonic_knight,
-                R.drawable.three_m,
+                //R.drawable.three_m,
                 R.drawable.tower,
                 R.drawable.trade,
                 R.drawable.trading_ship,
@@ -237,7 +237,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
         proceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stepsImages.add(R.drawable.three_camera);
+                stepsImages.add(-1);
                 stepInstructions.add("");
                 hintInstructions.add("");
                 currentAdapter.notifyItemInserted(stepsImages.size()-1);
@@ -253,7 +253,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
             public boolean onLongClick(View v) {
                 LinearLayoutManager layoutManager = ((LinearLayoutManager)recyclerView.getLayoutManager());
                 int nextVisiblePosition = layoutManager.findFirstVisibleItemPosition() + 1;
-                stepsImages.add(nextVisiblePosition, R.drawable.three_camera);
+                stepsImages.add(nextVisiblePosition, -1);
                 stepInstructions.add(nextVisiblePosition, "");
                 hintInstructions.add(nextVisiblePosition, "");
                 currentAdapter.notifyItemInserted(nextVisiblePosition);

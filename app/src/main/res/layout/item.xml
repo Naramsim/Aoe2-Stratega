@@ -23,7 +23,7 @@
             android:id="@+id/instruction_img"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/three_m"
+            android:src="@drawable/arcbalester"
             />
 
         <TextView

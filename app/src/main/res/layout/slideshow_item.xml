@@ -29,7 +29,7 @@
             android:layout_below="@+id/imageName"
             android:layout_margin="5dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/three_m"
+            android:src="@drawable/alabardier"
             />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

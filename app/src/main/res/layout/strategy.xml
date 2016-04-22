@@ -16,7 +16,6 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginRight="20dp"
-            android:src="@drawable/bs"
             app:civ_border_width="0dp"
             app:civ_border_color="#FF000000"/>
 

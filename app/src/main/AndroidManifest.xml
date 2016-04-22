@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter
-                android:icon='@drawable/bs'
+                android:icon='@drawable/ic_launcher'
                 android:label='AndroidSTR File'
                 android:priority='1'>
                 <action android:name="android.intent.action.VIEW" />

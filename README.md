@@ -10,7 +10,6 @@ Create and share strategies and receive feedback.
 Learn tips and tricks differentiated by your experience.
 Discover game secrets that no-one will never tell you :P
 
-Age of Empires II is a software released by Microsoft© and available on Steam©.
 
 ### License
 MIT License

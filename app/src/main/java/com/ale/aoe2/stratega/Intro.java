@@ -1,21 +1,50 @@
 package com.ale.aoe2.stratega;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntroFragment;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Ale on 17/03/2016.
  */
 public class Intro extends AppIntro2 {
     // Please DO NOT override onCreate. Use init.
+    String king = "";
     @Override
     public void init(Bundle savedInstanceState) {
-        addSlide(AppIntroFragment.newInstance("Aoe2 Stratega", getString(R.string.first_description_intro), R.drawable.fog, R.color.md_indigo_400));
-        addSlide(AppIntroFragment.newInstance("Strategies", getString(R.string.second_description_intro), R.drawable.vicking_king, R.color.md_light_blue_300));
-        addSlide(AppIntroFragment.newInstance("Learn", getString(R.string.third_description_intro), R.drawable.attila_king, R.color.md_orange_400));
-        addSlide(AppIntroFragment.newInstance("Win", getString(R.string.fourth_description_intro), R.drawable.king_of_the_kings, R.color.md_deep_purple_A400));
+//        final File mydir = getDir("intro", Context.MODE_PRIVATE);
+//        Ion.with(this)
+//                .load("url")
+//                .write(new File(mydir, "content.zip"))
+//                .setCallback(new FutureCallback<File>() {
+//                    @Override
+//                    public void onCompleted(Exception e, File file) {
+//                        try {
+//
+//                        } catch (IOException ee) {
+//                            Log.d("DD", ee.getMessage());
+//                        }
+//                    }
+//                });
+
+        addSlide(CustomSlide.newInstance(getString(R.string.fog64), "Aoe2 Strategist", getString(R.string.first_description_intro), R.color.md_orange_300));
+        addSlide(CustomSlide.newInstance(getString(R.string.viking_king64), "Strategies", getString(R.string.second_description_intro), R.color.md_cyan_400));
+        addSlide(CustomSlide.newInstance(getString(R.string.attila_king64), "Learn", getString(R.string.third_description_intro), R.color.md_indigo_400));
+        addSlide(CustomSlide.newInstance(getString(R.string.king64), "Win", getString(R.string.fourth_description_intro), R.color.md_green_700));
 
         //ImageView imageView = new ImageView(this);
                 //imageView.setImageResource(R.drawable.forest);

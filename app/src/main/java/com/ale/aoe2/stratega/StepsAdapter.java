@@ -1,6 +1,9 @@
 package com.ale.aoe2.stratega;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -11,6 +14,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -76,8 +81,28 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
         }else{
          //   holder.line_separator.setVisibility(View.GONE);
         }
-        holder.img.setImageResource(item.getImg());
+        if(item.getImg() == -1){
+            //holder.img.setImageURI(loadImage(item.getImgName()));
+            Picasso.with(context).load(loadImage(item.getImgName()))
+                .fit()
+                .centerCrop()
+                .into(holder.img);
+        }else{
+            holder.img.setImageResource(item.getImg());
+        }
+    }
 
+    public File loadImage(String name){
+        try {
+            File file = new File(context.getDir("images", Context.MODE_PRIVATE), name);
+            return file;
+//            if(file.exists()){
+//                Log.d("DDD","existrs");
+//                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//                return myBitmap;
+//            }
+        }catch (Exception e){Log.d("DD", e.getMessage());}
+        return null;
     }
 
     @Override

@@ -27,7 +27,16 @@ public class Step {
     }
 
     public int getImg() {
-        int toReturn = context.getResources().getIdentifier(img, "drawable", context.getPackageName());
+        int toReturn = -1;
+        if(!img.equals("three_m")){
+            toReturn = context.getResources().getIdentifier(img, "drawable", context.getPackageName());
+        }else{
+            toReturn = -1;
+        }
         return toReturn;
+    }
+
+    public String getImgName() {
+        return img+".jpg";
     }
 }

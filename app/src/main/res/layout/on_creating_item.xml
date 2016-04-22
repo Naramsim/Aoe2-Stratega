@@ -21,11 +21,10 @@
             android:layout_height="200dp"
             android:id="@+id/instruction_img"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="16dp"
             android:layout_centerHorizontal="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:src="@drawable/three_m"
+            android:src="@drawable/arcbalester"
             />
 
         <android.support.design.widget.TextInputLayout

@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -34,6 +37,8 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ShareEvent;
 import com.koushikdutta.async.future.Future;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -48,17 +53,30 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mikepenz.octicons_typeface_library.Octicons;
 
+import edu.cmu.pocketsphinx.Assets;
 import io.fabric.sdk.android.Fabric;
+
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Created by Ale on 01/03/2016.
  */
 public class MainActivity extends AppCompatActivity {
+    Thread t;
+    SharedPreferences getPrefs;
     Toolbar mToolbar;
 
     ListView mListView;
@@ -83,14 +101,13 @@ public class MainActivity extends AppCompatActivity {
         Fabric.with(fabric);
         Fabric.with(this, new Crashlytics());
 
-        //Start the Intro
+        getPrefs = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
+
         //  Declare a new thread to do a preference check
-        Thread t = new Thread(new Runnable() {
+        t = new Thread(new Runnable() {
             @Override
             public void run() {
-                //  Initialize SharedPreferences
-                SharedPreferences getPrefs = PreferenceManager
-                        .getDefaultSharedPreferences(getBaseContext());
                 //  Create a new boolean and preference and set it to true
                 boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
                 //  If the activity has never started before...
@@ -109,8 +126,27 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        // Start the thread
         t.start();
+
+        boolean firstDownalodRes = getPrefs.getBoolean("first_download_res", true);
+        if(firstDownalodRes){
+            final File mydir = getDir("raw", Context.MODE_PRIVATE);
+            Ion.with(this)
+                .load("https://github.com/Naramsim/Aoe2-Stratega-Uploader/raw/gh-pages/zip/res.zip")
+                .write(new File(mydir, "content.zip"))
+                .setCallback(new FutureCallback<File>() {
+                    @Override
+                    public void onCompleted(Exception e, File file) {
+                        try {
+                            unzip(file, getDir("images", Context.MODE_PRIVATE));
+                        } catch (IOException ee) {
+                            Log.d("DD", ee.getMessage());
+                        }
+                    }
+                });
+        }
+
+
         superActivity = this;
         //Show everything
         boolean isDark = setTheTheme();
@@ -146,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
             .withAlternativeProfileHeaderSwitching(false)
             .withSelectionSecondLineShown(true)
             .addProfiles(
-                    new ProfileDrawerItem().withName("Aoe2 Stratega").withIcon(getResources().getDrawable(R.drawable.aoe2pro))
+                    new ProfileDrawerItem().withName("Aoe2 Stratega").withIcon(Drawable.createFromPath(loadImage("aoe2pro")))
             )
             .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                 @Override
@@ -416,6 +452,46 @@ public class MainActivity extends AppCompatActivity {
         for( int i = 0; i < len; i++ )
             sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
         return sb.toString();
+    }
+
+    public void unzip(File zipFile, File targetDirectory) throws IOException {
+        ZipInputStream zis = new ZipInputStream(
+                new BufferedInputStream(new FileInputStream(zipFile)));
+        try {
+            ZipEntry ze;
+            int count;
+            byte[] buffer = new byte[8192];
+            while ((ze = zis.getNextEntry()) != null) {
+                File file = new File(targetDirectory, ze.getName());
+                File dir = ze.isDirectory() ? file : file.getParentFile();
+                if (!dir.isDirectory() && !dir.mkdirs())
+                    throw new FileNotFoundException("Failed to ensure directory: " +
+                            dir.getAbsolutePath());
+                if (ze.isDirectory())
+                    continue;
+                FileOutputStream fout = new FileOutputStream(file);
+                try {
+                    while ((count = zis.read(buffer)) != -1)
+                        fout.write(buffer, 0, count);
+                } finally {
+                    fout.close();
+                }
+            }
+            Log.d("DD", "Additional res downloaded");
+            SharedPreferences.Editor e = getPrefs.edit();
+            e.putBoolean("first_download_res", false);
+            e.apply();
+        } finally {
+            zis.close();
+        }
+    }
+
+    public String loadImage(String name){
+        try {
+            File file = new File(getDir("images", Context.MODE_PRIVATE), name+".jpg");
+            return file.getAbsolutePath();
+        }catch (Exception e){Log.d("DD", e.getMessage());}
+        return "";//TODO: handle
     }
 
     private void logUser(String id) {

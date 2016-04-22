@@ -1,12 +1,15 @@
 package com.ale.aoe2.stratega;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +20,8 @@ import android.widget.LinearLayout;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
+
+import java.io.File;
 
 /**
  * Created by Ale on 18/03/2016.
@@ -78,19 +83,19 @@ public class OnlineStrategyFragment extends android.support.v4.app.Fragment {
                     case 0:
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.md_indigo_600,
-                                superActivity.getResources().getDrawable(R.drawable.archer_m));
+                                Drawable.createFromPath(loadImage("archer_m")));
                     case 1:
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.md_blue_500,
-                                superActivity.getResources().getDrawable(R.drawable.three_m));
+                                Drawable.createFromPath(loadImage("three_m")));
                     case 2:
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.md_cyan_800,
-                                superActivity.getResources().getDrawable(R.drawable.fog_m));
+                                Drawable.createFromPath(loadImage("fog_m")));
                     case 3:
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.md_deep_purple_600,
-                                superActivity.getResources().getDrawable(R.drawable.assault_m));
+                                Drawable.createFromPath(loadImage("assault_m")));
                 }
 
                 return null;
@@ -109,6 +114,15 @@ public class OnlineStrategyFragment extends android.support.v4.app.Fragment {
                 }
             });
         return lLayout;
+    }
+
+    public String loadImage(String name){
+        try {
+            File file = new File(superActivity.getDir("images", Context.MODE_PRIVATE), name+".jpg");
+            return file.getAbsolutePath();
+        }catch (Exception e){
+            Log.d("DD", e.getMessage());}
+        return "";//TODO: handle
     }
 
     @Override
