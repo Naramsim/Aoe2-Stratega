@@ -1,4 +1,4 @@
-package com.ale.aoe2.aoe2_stratega;
+package com.ale.aoe2.stratega;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +25,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.google.gson.JsonObject;

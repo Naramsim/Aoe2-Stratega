@@ -1,4 +1,4 @@
-package com.ale.aoe2.aoe2_stratega;
+package com.ale.aoe2.stratega;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -9,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 

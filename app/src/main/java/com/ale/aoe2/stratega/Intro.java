@@ -1,7 +1,6 @@
-package com.ale.aoe2.aoe2_stratega;
+package com.ale.aoe2.stratega;
 
 import android.os.Bundle;
-import android.widget.ImageView;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntroFragment;

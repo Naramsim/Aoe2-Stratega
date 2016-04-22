@@ -1,4 +1,4 @@
-package com.ale.aoe2.aoe2_stratega;
+package com.ale.aoe2.stratega;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

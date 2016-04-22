@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ale.aoe2.aoe2_stratega">
+    package="com.ale.aoe2.stratega">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -15,7 +15,7 @@
         android:isGame="true"
         android:theme="@style/AppThemeLightt">
         <activity
-            android:name="com.ale.aoe2.aoe2_stratega.MainActivity"
+            android:name="com.ale.aoe2.stratega.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -52,20 +52,20 @@
                 <data android:mimeType="multipart/related" android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ale.aoe2.aoe2_stratega.StepperActivity"
+        <activity android:name="com.ale.aoe2.stratega.StepperActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             ></activity>
-        <activity android:name="com.ale.aoe2.aoe2_stratega.About"
+        <activity android:name="com.ale.aoe2.stratega.About"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             ></activity>
-        <activity android:name="com.ale.aoe2.aoe2_stratega.Intro"
+        <activity android:name="com.ale.aoe2.stratega.Intro"
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme"
             android:screenOrientation="portrait"
             ></activity>
-        <activity android:name="com.ale.aoe2.aoe2_stratega.SearchActivity"
+        <activity android:name="com.ale.aoe2.stratega.SearchActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             ></activity>

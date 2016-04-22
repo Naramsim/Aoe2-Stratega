@@ -1,4 +1,4 @@
-package com.ale.aoe2.aoe2_stratega;
+package com.ale.aoe2.stratega;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;

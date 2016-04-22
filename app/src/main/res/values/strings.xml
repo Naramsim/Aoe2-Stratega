@@ -2,7 +2,7 @@
     <string name="aboutLibraries_description_showIcon">true</string>
     <string name="aboutLibraries_description_showVersion">true</string>
     <string name="aboutLibraries_description_text">This is a simple app to guide you in your first Aoe2 matches</string>
-    <string name="app_name">Aoe2 Stratega</string>
+    <string name="app_name">Strategist</string>
     <string name="search">Search</string>
     <string name="check_connection">Please, check your connection</string>
     <string name="hello_world">Hello world!</string>
