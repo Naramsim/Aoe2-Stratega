@@ -3,6 +3,7 @@ package com.ale.aoe2.stratega;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import it.sephiroth.android.library.tooltip.Tooltip;
@@ -24,7 +26,7 @@ import it.sephiroth.android.library.tooltip.Tooltip;
  */
 public class SlideShowAdapter extends RecyclerView.Adapter<SlideShowAdapter.ViewHolder> {
     Context context;
-    private ArrayList<Integer> itemsData;
+    private ArrayList<String> itemsData;
     Button proceedButton;
     QuickRecyclerView images;
     RecyclerView onCreatingStep;
@@ -33,7 +35,7 @@ public class SlideShowAdapter extends RecyclerView.Adapter<SlideShowAdapter.View
     private showTooltip tooltipInterface;
     boolean isFirstCreation;
 
-    public SlideShowAdapter(Context context, ArrayList<Integer> itemsData, Button proceed,
+    public SlideShowAdapter(Context context, ArrayList<String> itemsData, Button proceed,
                             QuickRecyclerView images, RecyclerView onCreatingStep,
                             CreateStrategyRecyclerViewAdapter stepAdapter, MaterialSearchView searchView,
                             showTooltip tooltipInterface, boolean isFirstCreation) {
@@ -63,12 +65,11 @@ public class SlideShowAdapter extends RecyclerView.Adapter<SlideShowAdapter.View
         //viewHolder.iv.setImageResource(itemsData.get(position));
 
         Picasso.with(context)
-                .load(itemsData.get(position))
-                .resize(350,300)
-                .centerCrop()
-                //.fit()
+                .load(loadImage(itemsData.get(position)))
+                .fit()
+                .centerInside()
                 .into(viewHolder.iv);
-        viewHolder.ti.setText(context.getResources().getResourceEntryName(itemsData.get(position)));
+        viewHolder.ti.setText(itemsData.get(position));
         viewHolder.iv.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Animation animFadeOut = AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.abc_slide_out_top);
@@ -92,6 +93,15 @@ public class SlideShowAdapter extends RecyclerView.Adapter<SlideShowAdapter.View
                 images.startAnimation(animFadeOut);
             }
         });
+    }
+
+    public File loadImage(String name){
+        try {
+            File file = new File(context.getDir("images", Context.MODE_PRIVATE), name + ".jpg");
+            return file;
+        }catch (Exception e){
+            Log.d("DD", e.getMessage());}
+        return null;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -17,14 +17,14 @@
         >
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/instruction_img"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:src="@drawable/arcbalester"
+            android:src="@drawable/matte"
             />
 
         <android.support.design.widget.TextInputLayout

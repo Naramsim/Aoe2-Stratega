@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     Future<File> downloading;
     Activity superActivity;
     Drawer result;
+    AccountHeader headerResult;
 
     List<Strategy> strategiesList = new ArrayList<Strategy>();
     List<File> strategiesFileList = new ArrayList<File>();
@@ -159,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
                 });
         }
 
-
         superActivity = this;
         //Show everything
         boolean isDark = setTheTheme();
@@ -188,9 +188,9 @@ public class MainActivity extends AppCompatActivity {
         PrimaryDrawerItem item5 = new PrimaryDrawerItem().withName("Invite Friends").withSelectable(false)
                 .withIcon(Octicons.Icon.oct_organization).withIconColor(getGray());
 
-        AccountHeader headerResult = new AccountHeaderBuilder()
+        headerResult = new AccountHeaderBuilder()
             .withActivity(this)
-            .withHeaderBackground(R.drawable.bg_nd)
+            .withHeaderBackground(Drawable.createFromPath(loadImage("bg_nd")))
             .withSelectionListEnabledForSingleProfile(false)
             .withAlternativeProfileHeaderSwitching(false)
             .withSelectionSecondLineShown(true)
@@ -204,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             })
             .build();
+
         result = new DrawerBuilder()
             .withActivity(this)
             .withToolbar(mToolbar)
@@ -280,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
             })
             .build();
         result.getDrawerLayout().setStatusBarBackgroundColor(fetchAccentColor());
+
 
 
         Fragment strategyFragment = new LocalStrategyFragment();
@@ -491,6 +493,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             Log.d("DD", "Additional res downloaded");
+            result.getHeader().setBackground(Drawable.createFromPath(loadImage("bg_nd")));
             SharedPreferences.Editor e = getPrefs.edit();
             e.putBoolean("first_download_res", false);
             e.apply();

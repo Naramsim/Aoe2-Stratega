@@ -81,26 +81,19 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
         }else{
          //   holder.line_separator.setVisibility(View.GONE);
         }
-        if(item.getImg() == -1){
-            //holder.img.setImageURI(loadImage(item.getImgName()));
-            Picasso.with(context).load(loadImage(item.getImgName()))
-                .fit()
-                .centerCrop()
-                .into(holder.img);
-        }else{
-            holder.img.setImageResource(item.getImg());
-        }
+
+        //holder.img.setImageURI(loadImage(item.getImgName()));
+        Picasso.with(context).load(loadImage(item.getImgName()))
+            .fit()
+            .centerInside()
+            .into(holder.img);
+
     }
 
     public File loadImage(String name){
         try {
             File file = new File(context.getDir("images", Context.MODE_PRIVATE), name);
             return file;
-//            if(file.exists()){
-//                Log.d("DDD","existrs");
-//                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-//                return myBitmap;
-//            }
         }catch (Exception e){Log.d("DD", e.getMessage());}
         return null;
     }

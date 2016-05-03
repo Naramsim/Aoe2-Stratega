@@ -22,7 +22,9 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -96,7 +98,11 @@ public class OnlineStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Onli
 
         if(strategy.intIcon == 0){
             //Log.d("EE", Integer.valueOf(context.getResources().getIdentifier(current.icon.trim(), "drawable", getContext().getPackageName())).toString());
-            holder.ivIcon.setImageResource(context.getResources().getIdentifier(strategy.icon.trim(), "drawable", context.getPackageName()));
+            Picasso.with(context).load(loadImage(strategy.icon.trim()))
+                    //.fit() // not working
+                    //.centerCrop()
+                    .into(holder.ivIcon);
+            //holder.ivIcon.setImageResource(context.getResources().getIdentifier(strategy.icon.trim(), "drawable", context.getPackageName()));
         } else{
             holder.ivIcon.setImageResource(strategy.intIcon);
         }
@@ -181,6 +187,15 @@ public class OnlineStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Onli
             e.printStackTrace();
         }
         return true;
+    }
+
+    public File loadImage(String name){
+        try {
+            File file = new File(context.getDir("images", Context.MODE_PRIVATE), name + ".jpg");
+            return file;
+        }catch (Exception e){
+            Log.d("DD", e.getMessage());}
+        return null;
     }
 
     void startSnackBar(int id, View v) {

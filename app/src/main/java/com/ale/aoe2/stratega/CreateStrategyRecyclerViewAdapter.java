@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<CreateStrategyRecyclerViewAdapter.ViewHolder> {
     Context context;
-    private ArrayList<Integer> itemsData;
+    private ArrayList<String> itemsData;
     private ArrayList<String> stepText;
     private ArrayList<String> hintText;
     Button proceedButton;
@@ -35,7 +35,7 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
 
 
 
-    public CreateStrategyRecyclerViewAdapter(Context context, ArrayList<Integer> itemsData,
+    public CreateStrategyRecyclerViewAdapter(Context context, ArrayList<String> itemsData,
                                              Button proceed, QuickRecyclerView images,
                                              ArrayList<String> stepText, ArrayList<String> hintText,
                                              RecyclerView stepsRecyclerView, MaterialSearchView searchView) {
@@ -62,15 +62,11 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        if(itemsData.get(position) == -1){
-            Log.d("DD","asdasd");
-            Picasso.with(context).load(loadImage("three_camera"))
-                    //.fit() // not working
-                    //.centerCrop()
-                    .into(viewHolder.initialImage);
-        }else{
-            viewHolder.initialImage.setImageResource(itemsData.get(position));
-        }
+        Log.d("DD","asdasd");
+        Picasso.with(context).load(loadImage(itemsData.get(position)))
+                .fit()
+                .centerInside()
+                .into(viewHolder.initialImage);
 
         viewHolder.initialImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -131,7 +127,7 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public boolean setItem(int position, int res){
+    public boolean setItem(int position, String res){
         itemsData.set(position, res);
         return true;
     }

@@ -59,7 +59,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
     String img;
     ArrayList<String> stepInstructions;
     ArrayList<String> hintInstructions;
-    ArrayList<Integer> stepsImages;
+    ArrayList<String> stepsImages;
     ArrayList<String> imageNamesList;
     ArrayList<Boolean> instructionsFollowed;
     MaterialSearchView searchView;
@@ -83,11 +83,11 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         superActivity = super.getActivity();
         lLayout = (RelativeLayout) inflater.inflate(R.layout.new_strategy_fragment, container, false);
-        stepsImages = new ArrayList<Integer>();
+        stepsImages = new ArrayList<String>();
         stepInstructions = new ArrayList<String>();
         hintInstructions = new ArrayList<String>();
         instructionsFollowed = new ArrayList<Boolean>();
-        stepsImages.add(-1);
+        stepsImages.add("three_camera");
         stepInstructions.add("");
         hintInstructions.add("");
         getPrefs = PreferenceManager
@@ -97,118 +97,116 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
         recyclerView = (RecyclerView) lLayout.findViewById(R.id.recycler_view);
         imagesRecyclerView = (QuickRecyclerView)lLayout.findViewById(R.id.imageRecycler);
         searchView = (MaterialSearchView) lLayout.findViewById(R.id.search_view);
-        ArrayList<Integer> drawableRes = new ArrayList<>(Arrays.asList(R.drawable.alabardier,
-                R.drawable.arcbalester,
-                R.drawable.archer,
-                //R.drawable.archer_m,
-                R.drawable.archer_range,
-                //R.drawable.assault_m,
-                R.drawable.barrack,
-                R.drawable.berserk,
-                //R.drawable.bg_nd,
-                R.drawable.blacksmith,
-                R.drawable.boar,
-                R.drawable.bombard_cannon,
-                R.drawable.bombard_tower,
-                R.drawable.bush,
-                R.drawable.camel,
-                R.drawable.cannon_galeon,
-                R.drawable.castle,
-                R.drawable.cataphract,
-                R.drawable.cataphracts,
-                R.drawable.cavalier,
-                R.drawable.cavalry_arcer,
-                R.drawable.cba_castle,
-                R.drawable.cba_front,
-                R.drawable.cba_relic,
-                R.drawable.cba_tower,
-                R.drawable.cba_upgrades,
-                R.drawable.champion,
-                R.drawable.chu_ko_nu,
-                R.drawable.church,
-                R.drawable.condottiero,
-                R.drawable.conquistador,
-                R.drawable.crossbow,
-                R.drawable.demolition_ship,
-                R.drawable.eagle_scout,
-                R.drawable.eagle_warrior,
-                R.drawable.elephant_archer,
-                R.drawable.fire_ship,
-                R.drawable.fishing_ship,
-                //R.drawable.fog_m,
-                R.drawable.galley,
-                R.drawable.gate,
-                R.drawable.genoese_crossbowman,
-                R.drawable.giaguar_warrior,
-                R.drawable.gold_mine,
-                R.drawable.hand_cannonier,
-                R.drawable.house,
-                R.drawable.huskarl,
-                R.drawable.hussar,
-                R.drawable.janissar,
-                R.drawable.king,
-                R.drawable.knight,
-                R.drawable.light_cavalry,
-                R.drawable.long_swordsman,
-                R.drawable.longboat,
-                R.drawable.longbowman,
-                R.drawable.lumber,
-                R.drawable.mameluke,
-                R.drawable.man_at_arms,
-                R.drawable.mangudai,
-                R.drawable.market,
-                R.drawable.mayan_arcer,
-                R.drawable.militia,
-                R.drawable.mill,
-                R.drawable.missionar,
-                R.drawable.monk,
-                R.drawable.monks,
-                R.drawable.onager,
-                R.drawable.paladin,
-                R.drawable.palisade,
-                R.drawable.pikeman,
-                R.drawable.ram,
-                R.drawable.ram_full,
-                R.drawable.samurai,
-                R.drawable.scorpion,
-                R.drawable.scout,
-                R.drawable.scout_cavalry,
-                R.drawable.sheep,
-                R.drawable.siege_tower,
-                R.drawable.siege_workshop,
-                R.drawable.skirmisher,
-                R.drawable.skirmisher_elite,
-                R.drawable.spearman,
-                R.drawable.stone_mine,
-                R.drawable.stone_wall,
-                R.drawable.tarkan,
-                R.drawable.tc,
-                R.drawable.tc_castle,
-                R.drawable.tc_dark,
-                R.drawable.tc_feudal,
-                R.drawable.tc_imperial,
-                R.drawable.teutonic_knight,
-                //R.drawable.three_m,
-                R.drawable.tower,
-                R.drawable.trade,
-                R.drawable.trading_ship,
-                R.drawable.transport_ship,
-                R.drawable.trebuchet,
-                R.drawable.tuna,
-                R.drawable.turtle_ship,
-                R.drawable.two_hands,
-                R.drawable.university,
-                R.drawable.villagers,
-                R.drawable.war_elephant,
-                R.drawable.war_galley,
-                R.drawable.war_wagon,
-                R.drawable.watch_tower)
+        ArrayList<String> drawableRes = new ArrayList<>(Arrays.asList("alabardier",
+                "arcbalester",
+                "archer",
+                //"archer_m",
+                "archer_range",
+                //"assault_m",
+                "barrack",
+                "berserk",
+                //"bg_nd",
+                "blacksmith",
+                "boar",
+                "bombard_cannon",
+                "bombard_tower",
+                "bush",
+                "camel",
+                "cannon_galeon",
+                "castle",
+                "cataphract",
+                "cataphracts",
+                "cavalier",
+                "cavalry_arcer",
+                "cba_castle",
+                "cba_front",
+                "cba_relic",
+                "cba_tower",
+                "cba_upgrades",
+                "champion",
+                "chu_ko_nu",
+                "church",
+                "condottiero",
+                "conquistador",
+                "crossbow",
+                "demolition_ship",
+                "eagle_scout",
+                "eagle_warrior",
+                "elephant_archer",
+                "fire_ship",
+                "fishing_ship",
+                //"fog_m",
+                "galley",
+                "gate",
+                "genoese_crossbowman",
+                "giaguar_warrior",
+                "gold_mine",
+                "hand_cannonier",
+                "house",
+                "huskarl",
+                "hussar",
+                "janissar",
+                "king",
+                "knight",
+                "light_cavalry",
+                "long_swordsman",
+                "longboat",
+                "longbowman",
+                "lumber",
+                "mameluke",
+                "man_at_arms",
+                "mangudai",
+                "market",
+                "mayan_arcer",
+                "militia",
+                "mill",
+                "missionar",
+                "monk",
+                "monks",
+                "onager",
+                "paladin",
+                "palisade",
+                "pikeman",
+                "ram",
+                "ram_full",
+                "samurai",
+                "scorpion",
+                "scout",
+                "scout_cavalry",
+                "sheep",
+                "siege_tower",
+                "siege_workshop",
+                "skirmisher",
+                "skirmisher_elite",
+                "spearman",
+                "stone_mine",
+                "stone_wall",
+                "tarkan",
+                "tc",
+                "tc_castle",
+                "tc_dark",
+                "tc_feudal",
+                "tc_imperial",
+                "teutonic_knight",
+                //"three_m",
+                "tower",
+                "trade",
+                "trading_ship",
+                "transport_ship",
+                "trebuchet",
+                "tuna",
+                "turtle_ship",
+                "two_hands",
+                "university",
+                "villagers",
+                "war_elephant",
+                "war_galley",
+                "war_wagon",
+                "watch_tower")
         );
 
         imageNamesList = new ArrayList<String>();
-        for (int item: drawableRes) {
-            imageNamesList.add(superActivity.getResources().getResourceEntryName(item));
-        }
+        imageNamesList = drawableRes;
 
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
@@ -237,7 +235,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
         proceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stepsImages.add(-1);
+                stepsImages.add("three_camera");
                 stepInstructions.add("");
                 hintInstructions.add("");
                 currentAdapter.notifyItemInserted(stepsImages.size()-1);
@@ -253,7 +251,7 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
             public boolean onLongClick(View v) {
                 LinearLayoutManager layoutManager = ((LinearLayoutManager)recyclerView.getLayoutManager());
                 int nextVisiblePosition = layoutManager.findFirstVisibleItemPosition() + 1;
-                stepsImages.add(nextVisiblePosition, -1);
+                stepsImages.add(nextVisiblePosition, "three_camera");
                 stepInstructions.add(nextVisiblePosition, "");
                 hintInstructions.add(nextVisiblePosition, "");
                 currentAdapter.notifyItemInserted(nextVisiblePosition);
@@ -286,9 +284,10 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-
-        imagesRecyclerView.setLayoutManager(new LinearLayoutManager(superActivity, LinearLayoutManager.HORIZONTAL, false));
+        LinearLayoutManager llm = new LinearLayoutManager(superActivity, LinearLayoutManager.HORIZONTAL, false);
+        imagesRecyclerView.setLayoutManager(llm);
         imagesRecyclerView.setAdapter(imagesAdapter);
+
         //imagesRecyclerView.setItemAnimator(new DefaultItemAnimator());
         DefaultItemAnimator animator = new DefaultItemAnimator() {
             @Override
@@ -358,11 +357,11 @@ public class CreateStrategyFragment extends android.support.v4.app.Fragment impl
             outputStream = superActivity.openFileOutput(uuid + ".str", Context.MODE_PRIVATE);
             outputStream.write(compiled_infos.getBytes());
             strategyContent += compiled_infos;
-            for (int img: stepsImages){
+            for (String img: stepsImages){
                 step_text = "- {step} [{image}]\n";
                 hint_text = "\t+ {hint}\n";
                 if(! stepInstructions.get(current_step).equals("")) {
-                    declared_image = superActivity.getResources().getResourceEntryName(img);
+                    declared_image = img;
                     step_image = declared_image.equals("three_camera") ? "three_m" : declared_image;
                     compiled_step = step_text.replace("{step}", stepInstructions.get(current_step))
                             .replace("{image}", step_image);
