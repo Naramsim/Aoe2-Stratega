@@ -48,13 +48,14 @@ public class Strategy {
         this.hasStringIcon = true;
     }
 
-    public Strategy(String name, String author, String civ, String map, int intIcon, File strategyFile) {
+    public Strategy(String name, String author, String civ, String map, String icon, File strategyFile) {
         this.name = name.trim();
         this.author = author.trim();
         this.civ = civ.trim();
         this.map = map.trim();
-        this.intIcon = intIcon;
+        this.icon = icon;
         this.strategyFile = strategyFile;
         this.hasStringIcon = false;
+        this.intIcon = 0;
     }
 }

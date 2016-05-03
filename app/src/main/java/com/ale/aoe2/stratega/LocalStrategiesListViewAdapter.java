@@ -2,12 +2,16 @@ package com.ale.aoe2.stratega;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -49,12 +53,23 @@ public class LocalStrategiesListViewAdapter extends ArrayAdapter<Strategy> {
         tvMap.setText(String.format("%s%s", res.getString(R.string.map), current.map.trim()));
 
         if(Integer.valueOf(current.intIcon) == 0){
-            //Log.d("EE", Integer.valueOf(context.getResources().getIdentifier(current.icon.trim(), "drawable", getContext().getPackageName())).toString());
-            ivIcon.setImageResource(context.getResources().getIdentifier(current.icon.trim(), "drawable", getContext().getPackageName()));
+            Picasso.with(context).load(loadImage(current.icon.trim()))
+                    //.fit() // not working
+                    //.centerCrop()
+                    .into(ivIcon);
         }else{
             ivIcon.setImageResource(current.intIcon);
         }
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    public File loadImage(String name){
+        try {
+            File file = new File(context.getDir("images", Context.MODE_PRIVATE), name + ".jpg");
+            return file;
+        }catch (Exception e){
+            Log.d("DD", e.getMessage());}
+        return null;
     }
 }

@@ -109,8 +109,6 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
         mListView = (ListView) lLayout.findViewById(R.id.list);
         error_view = (ErrorView) lLayout.findViewById(R.id.error_view);
 
-
-
         //StepsAdapter that populate the listView
         //final ArrayList<Strategy> arrayOfStrategies = new ArrayList<Strategy>();
         //Log.d("DD", strategiesList.toString());
@@ -255,7 +253,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                         strInfo.get("author"),
                         strInfo.get("civ"),
                         strInfo.get("map"),
-                        extractIcon(strInfo.get("icon")),
+                        strInfo.get("icon"),
                         aFile);
                 strategiesList.add(currentStrObj);
             }
@@ -270,7 +268,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
         }
     }
 
-    int extractIcon(String icon) {
+    int extractIcon(String icon) { //Deprecated
         return getResources().getIdentifier(icon, "drawable", superActivity.getPackageName());
     }
 
@@ -416,7 +414,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                 strInfo.get("author"),
                 strInfo.get("civ"),
                 strInfo.get("map"),
-                extractIcon(strInfo.get("icon")),
+                strInfo.get("icon"),
                 strategy);
         //strategiesAdapter.add(currentStrObj);
         strategiesList.add(currentStrObj);

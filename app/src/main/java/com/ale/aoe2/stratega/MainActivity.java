@@ -144,6 +144,19 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+            Ion.with(this)
+                .load("https://github.com/Naramsim/Aoe2-Stratega-Uploader/raw/gh-pages/zip/sprites.zip")
+                .write(new File(mydir, "content2.zip"))
+                .setCallback(new FutureCallback<File>() {
+                    @Override
+                    public void onCompleted(Exception e, File file) {
+                        try {
+                            unzip(file, getDir("images", Context.MODE_PRIVATE));
+                        } catch (IOException ee) {
+                            Log.d("DD", ee.getMessage());
+                        }
+                    }
+                });
         }
 
 
