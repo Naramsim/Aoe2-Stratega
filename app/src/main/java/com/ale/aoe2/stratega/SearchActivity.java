@@ -36,12 +36,9 @@ import tr.xip.errorview.ErrorView;
  * Created by Ale on 30/03/2016.
  */
 public class SearchActivity extends AppCompatActivity {
-
     static MaterialSearchView searchView;
     static HashMap<String, Boolean> allowed;
-    static String previousSearch = "wqeksdkl";
-
-
+    static String previousSearch = "wqeksdkl"; //just a random value
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +128,6 @@ public class SearchActivity extends AppCompatActivity {
                 @Override
                 public void onRefresh() {
                     loadJsonStrategies(false, lastQuery);
-                    Log.d("EE", "refresh");
                     swipeContainer.setRefreshing(false); //TODO: pass the event to loadJson...
                 }
             });
@@ -160,10 +156,7 @@ public class SearchActivity extends AppCompatActivity {
                             new Runnable() {
                                 public void run() {
                                     if(allowed.get(query)){
-                                        Log.d("DD", "Permetto "+ query.toString());
                                         loadJsonStrategies(false, query);
-                                    }else{
-                                        Log.d("DD", "Non permetto "+ query.toString());
                                     }
                                 }
                             },
@@ -209,7 +202,6 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         void attachListAdapter() {
-            Log.d("EE", Integer.valueOf(strategiesList.size()).toString());
             itemsAdapter = new OnlineStrategyRecyclerViewAdapter(strategiesList, superActivity, "star",superActivity);
             lv.setAdapter(itemsAdapter);
         }
@@ -243,7 +235,6 @@ public class SearchActivity extends AppCompatActivity {
             String theme = userDetails.getString("theme", "");
 
             if(Objects.equals(theme, "dark")){
-                Log.d("DD", theme);
                 setTheme(R.style.AppTheme);
                 return true;
             }else{

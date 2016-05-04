@@ -96,25 +96,11 @@ public class TechFragment extends android.support.v4.app.Fragment implements Sea
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
         super.onCreateOptionsMenu(menu, inflater);
-
-//        Toolbar actionBar = (Toolbar) superActivity.findViewById(R.id.toolbar);
-//        LayoutInflater inflator = (LayoutInflater) superActivity
-//                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View v = inflator.inflate(R.layout.actv, null);
-//        actionBar.addView(v);
-//        final String[] COUNTRIES = new String[] { "Belgium",
-//                "France", "France_", "Italy", "Germany", "Spain" };
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(superActivity,
-//                android.R.layout.simple_dropdown_item_1line, COUNTRIES);
-//        AutoCompleteTextView textView = (AutoCompleteTextView) v
-//                .findViewById(R.id.edt);
-//        textView.setAdapter(adapter);
     }
 
 
     @Override
     public boolean onQueryTextChange(String query) {
-        Log.d("EE", Integer.valueOf(techs.size()).toString());
         ArrayList<Tech> filteredModelList = filter(techs, query);
         itemsAdapter.animateTo(filteredModelList);
         new Handler().postDelayed(new Runnable() {
@@ -147,17 +133,6 @@ public class TechFragment extends android.support.v4.app.Fragment implements Sea
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.activity_menu_item:
-//                // Not implemented here
-//                return false;
-//            case R.id.fragment_menu_item:
-//                // Do Fragment menu item stuff here
-//                return true;
-//            default:
-//                break;
-//        }
-
         return false;
     }
 }

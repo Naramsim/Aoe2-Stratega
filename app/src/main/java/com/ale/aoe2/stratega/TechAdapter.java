@@ -106,7 +106,6 @@ public class TechAdapter extends RecyclerView.Adapter<TechAdapter.ViewHolder>  {
     }
 
     public void animateTo(ArrayList<Tech> tech) {
-        //Log.d("EEE", Integer.valueOf(itemsData.size()).toString());
         applyAndAnimateRemovals(tech);
         applyAndAnimateAdditions(tech);
         applyAndAnimateMovedItems(tech);

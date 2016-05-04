@@ -97,7 +97,6 @@ public class OnlineStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Onli
         holder.tvMap.setText(String.format("%s%s", res.getString(R.string.map), strategy.map.trim()));
 
         if(strategy.intIcon == 0){
-            //Log.d("EE", Integer.valueOf(context.getResources().getIdentifier(current.icon.trim(), "drawable", getContext().getPackageName())).toString());
             Picasso.with(context).load(loadImage(strategy.icon.trim()))
                     //.fit() // not working
                     //.centerCrop()
@@ -199,7 +198,6 @@ public class OnlineStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Onli
     }
 
     void startSnackBar(int id, View v) {
-        Log.d("EE", context.getResources().getString(id));
         Snackbar snackbar = Snackbar
                 .make(v, context.getResources().getString(id), Snackbar.LENGTH_LONG);
         snackbar.show();

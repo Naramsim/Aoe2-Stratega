@@ -267,7 +267,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("DD", "resumed");
         result.getHeader().setBackground(Drawable.createFromPath(loadImage("bg_nd")));
     }
 
@@ -283,7 +282,6 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     edit.putString("theme", "light");
                 }
-                Log.d("material-drawer", "DrawerItem: " + ((Nameable) drawerItem).getName() + " - toggleChecked: " + isChecked);
             }
             edit.commit();
             finish();
@@ -340,7 +338,6 @@ public class MainActivity extends AppCompatActivity {
             String theme = userDetails.getString("theme", "");
 
             if(Objects.equals(theme, "dark")){
-                Log.d("DD", theme);
                 setTheme(R.style.AppTheme);
                 return true;
             }else{
@@ -386,7 +383,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                Log.d("DD", input.getText().toString());
                 //downloading = downloadStrategy(input.getText().toString()); //TODO: put downloadStrategy in a class
             }
         });

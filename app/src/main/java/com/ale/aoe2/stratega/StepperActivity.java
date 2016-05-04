@@ -253,7 +253,6 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
 
     void handleSpeechResult(String result) {
         //Thanks java for not implementing switch with strings...
-        Log.d("DD", "Drd");
         result = result.trim();
         if(result.equals("back")){
             scrollToAction(-2);
@@ -316,8 +315,6 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
 
         }catch (Exception e){
             Log.d("DD", e.getMessage());
-        }finally {
-            //Log.d("DD", "finally");
         }
         return false;
     }

@@ -72,7 +72,6 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
             @Override
             public void onRefresh() {
                 loadJsonStrategies(false, container);
-                //Log.d("EE", "refresh");
                 swipeContainer.setRefreshing(false); //TODO: pass the event to loadJson...
             }
         });
@@ -148,7 +147,6 @@ public class OnlineStrategyRecyclerViewFragment extends Fragment {
     }
 
     void attachListAdapter() {
-        Log.d("EE", Integer.valueOf(strategiesList.size()).toString());
         strategiesAdapter = new RecyclerViewMaterialAdapter(
                 new OnlineStrategyRecyclerViewAdapter(strategiesList, superActivity, statType, superActivity, this));
         mRecyclerView.setAdapter(strategiesAdapter);

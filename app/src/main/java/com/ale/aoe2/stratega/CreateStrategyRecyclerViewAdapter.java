@@ -88,11 +88,6 @@ public class CreateStrategyRecyclerViewAdapter extends RecyclerView.Adapter<Crea
         try {
             File file = new File(context.getDir("images", Context.MODE_PRIVATE), name + ".jpg");
             return file;
-//            if(file.exists()){
-//                Log.d("DDD","existrs");
-//                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-//                return myBitmap;
-//            }
         }catch (Exception e){
             Log.d("DD", e.getMessage());}
         return null;

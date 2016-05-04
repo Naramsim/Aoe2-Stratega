@@ -59,7 +59,7 @@ In the end confirm with the toolbar button and fill all the fields you will be p
     </string>
     <string name="help">Help</string>
     <string name="help_new_strategy_title">How to create a new strategy</string>
-    <string name="successful_delete">Strategy succesfully deleted</string>
+    <string name="successful_delete">Strategy successfully deleted</string>
     <string name="first_description_intro">An app for Age of Empires II</string>
     <string name="second_description_intro">Let your phone guide you through the game</string>
     <string name="third_description_intro">Learn strategies, rushes and tricks used by Pro players</string>
@@ -69,7 +69,7 @@ In the end confirm with the toolbar button and fill all the fields you will be p
     <string name="no_local_strategies">You do not have any strategy</string>
     <string name="download_strategies_online">Download them online</string>
     <string name="go_online">Go online</string>
-    <string name="share_app_with_link">Hey check out my app at: https://play.google.com/store/apps/details?id=com.google.android.apps.plus</string>
+    <string name="share_app_with_link">Hey check out my app at: https://play.google.com/apps/testing/com.ale.aoe2.stratega</string>
     <string name="most_stars">Most stars</string>
     <string name="most_downloads">Most downloaded</string>
     <string name="latest">Latest</string>

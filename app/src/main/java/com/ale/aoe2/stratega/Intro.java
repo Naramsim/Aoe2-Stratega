@@ -45,40 +45,40 @@ public class Intro extends AppIntro2 {
                 .getDefaultSharedPreferences(getBaseContext());
         boolean firstDownloadRes = getPrefs.getBoolean("first_download_res", true);
         ContentFrameLayout ll =  (ContentFrameLayout) this.findViewById(android.R.id.content);
-        ProgressBar a = new ProgressBar(this, null,  android.R.attr.progressBarStyleHorizontal);
+        ProgressBar pb = new ProgressBar(this, null,  android.R.attr.progressBarStyleHorizontal);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        ll.addView(a, lp);
+        ll.addView(pb, lp);
         if(firstDownloadRes){
             final File myDir = getDir("raw", Context.MODE_PRIVATE);
             Ion.with(this)
                 .load("https://github.com/Naramsim/Aoe2-Stratega-Uploader/raw/gh-pages/zip/res.zip")
-                .progressBar(a)
+                .progressBar(pb)
                 .write(new File(myDir, "content.zip"))
                 .setCallback(new FutureCallback<File>() {
                     @Override
                     public void onCompleted(Exception e, File file) {
-                        try {
-                            unzip(file, getDir("images", Context.MODE_PRIVATE));
-                            startSnackBar(R.string.first_add_download_end);
-                        } catch (IOException ee) {
-                            Log.d("DD", ee.getMessage());
-                        }
+                    try {
+                        unzip(file, getDir("images", Context.MODE_PRIVATE));
+                        startSnackBar(R.string.first_add_download_end);
+                    } catch (IOException ee) {
+                        Log.d("DD", ee.getMessage());
+                    }
                     }
                 });
             Ion.with(this)
                 .load("https://github.com/Naramsim/Aoe2-Stratega-Uploader/raw/gh-pages/zip/sprites.zip")
-                .progressBar(a)
+                .progressBar(pb)
                 .write(new File(myDir, "content2.zip"))
                 .setCallback(new FutureCallback<File>() {
                     @Override
                     public void onCompleted(Exception e, File file) {
-                        try {
-                            unzip(file, getDir("images", Context.MODE_PRIVATE));
-                            startSnackBar(R.string.second_add_download_end);
-                        } catch (IOException ee) {
-                            Log.d("DD", ee.getMessage());
-                        }
+                    try {
+                        unzip(file, getDir("images", Context.MODE_PRIVATE));
+                        startSnackBar(R.string.second_add_download_end);
+                    } catch (IOException ee) {
+                        Log.d("DD", ee.getMessage());
+                    }
                     }
                 });
         }
@@ -112,9 +112,11 @@ public class Intro extends AppIntro2 {
 
     void startSnackBar(int id) {
         Resources res = getResources();
-        Snackbar snackbar = Snackbar
-                .make(this.findViewById(android.R.id.content), res.getString(id), Snackbar.LENGTH_LONG);
-        snackbar.show();
+        if(this.findViewById(android.R.id.content) != null){
+            Snackbar snackbar = Snackbar
+                    .make(this.findViewById(android.R.id.content), res.getString(id), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
     }
 
     public void unzip(File zipFile, File targetDirectory) throws IOException {
@@ -140,7 +142,6 @@ public class Intro extends AppIntro2 {
                     fout.close();
                 }
             }
-            Log.d("DD", "Additional res downloaded");
             SharedPreferences.Editor e = getPrefs.edit();
             e.putBoolean("first_download_res", false);
             e.apply();

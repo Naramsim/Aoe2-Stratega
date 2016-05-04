@@ -102,9 +102,7 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
             e.apply();
         }
 
-        // Enable global Ion logging
-        Ion.getDefault(superActivity).configure().setLogging("DD", Log.DEBUG);
-        //downloading = downloadStrategy("http://deep.ytlab.me/fast-castle.str");
+        //Ion.getDefault(superActivity).configure().setLogging("DD", Log.DEBUG);
 
         mListView = (ListView) lLayout.findViewById(R.id.list);
         error_view = (ErrorView) lLayout.findViewById(R.id.error_view);
@@ -188,7 +186,6 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                 // once the network request has completed successfully.
                 //fetchTimelineAsync(0);
                 updateListView();
-                Log.d("EE","refresh");
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -246,7 +243,6 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
         for (File aFile : file) {
             String currentStrategy = aFile.getName();
             if (isStrategyType(currentStrategy)) { //TODO: check length
-                Log.d("Files", "FileName:" + currentStrategy);
                 Map<String, String> strInfo = new HashMap<String, String>();
                 strInfo = getStrInfo(aFile);
                 Strategy currentStrObj = new Strategy(strInfo.get("name"),
@@ -283,7 +279,6 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
         try {
             scanner = new Scanner( toExplore );
             text = scanner.useDelimiter("\\A").next();
-            //Log.d("DD",text.replace("\n", "").replace("\r", ""));
             String infoRegex = "^Str@(.*)[\\r\\n]*^Civ:?\\s?(.*)[\\r\\n]*^Map:?\\s?(.*)[\\r\\n]*Name:?\\s?(.*)[\\r\\n]*Author:?\\s?(.*)[\\r\\n]*^Icon:\\s?(.*)";
             Pattern pattern = Pattern.compile(infoRegex, Pattern.MULTILINE);
             Matcher matcher = pattern.matcher(text);
@@ -314,7 +309,6 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                 URI uri = new URI(Url);
                 String[] segments = uri.getPath().split("/");
                 strategyFileName = segments[segments.length - 1];
-                Log.d("DD", uri.getScheme());
             }catch (Exception e) {Log.d("DD", e.toString());}
             if(isNewStrategy(strategyFileName)) {
                 toDownload = Ion.with(superActivity) //.getApplicationContext?
@@ -357,12 +351,10 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onCompleted(Exception e, JsonObject result) {
                     if (e != null) {
-                        Log.d("DD", e.getMessage());
                         startSnackBar(R.string.check_connection);
                     }
                     if (result != null) {
                         Strategy current = new Gson().fromJson(result.getAsJsonObject("data"), Strategy.class);
-                        //Log.d("DD", current.content);
                         if(isNewStrategy(current._id)) {
                             if(saveStrategyLocally(current._id, current.content)){
                                 updateListView();
@@ -445,7 +437,6 @@ public class LocalStrategyFragment extends android.support.v4.app.Fragment {
             error_view.setOnRetryListener(new ErrorView.RetryListener() {
                 @Override
                 public void onRetry() {
-                    Log.d("DD", "retry");
                     main_activity.getDrawer().setSelectionAtPosition(2,true);
                 }
             });

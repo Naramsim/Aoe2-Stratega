@@ -15,3 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-dontwarn edu.cmu.pocketsphinx.**
+-dontwarn com.mikepenz.materialize.**
+-dontwarn com.mikepenz.iconics.**
+-dontwarn com.koushikdutta.async.**
+-dontwarn com.squareup.picasso.**
