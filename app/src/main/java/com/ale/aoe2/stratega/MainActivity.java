@@ -7,10 +7,14 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -124,41 +129,9 @@ public class MainActivity extends AppCompatActivity {
                     e.commit();
                 }
                 logUser(getPrefs.getString("xdab", "default"));
-
             }
         });
         t.start();
-
-        boolean firstDownalodRes = getPrefs.getBoolean("first_download_res", true);
-        if(firstDownalodRes){
-            final File mydir = getDir("raw", Context.MODE_PRIVATE);
-            Ion.with(this)
-                .load("https://github.com/Naramsim/Aoe2-Stratega-Uploader/raw/gh-pages/zip/res.zip")
-                .write(new File(mydir, "content.zip"))
-                .setCallback(new FutureCallback<File>() {
-                    @Override
-                    public void onCompleted(Exception e, File file) {
-                        try {
-                            unzip(file, getDir("images", Context.MODE_PRIVATE));
-                        } catch (IOException ee) {
-                            Log.d("DD", ee.getMessage());
-                        }
-                    }
-                });
-            Ion.with(this)
-                .load("https://github.com/Naramsim/Aoe2-Stratega-Uploader/raw/gh-pages/zip/sprites.zip")
-                .write(new File(mydir, "content2.zip"))
-                .setCallback(new FutureCallback<File>() {
-                    @Override
-                    public void onCompleted(Exception e, File file) {
-                        try {
-                            unzip(file, getDir("images", Context.MODE_PRIVATE));
-                        } catch (IOException ee) {
-                            Log.d("DD", ee.getMessage());
-                        }
-                    }
-                });
-        }
 
         superActivity = this;
         //Show everything
@@ -188,6 +161,9 @@ public class MainActivity extends AppCompatActivity {
         PrimaryDrawerItem item5 = new PrimaryDrawerItem().withName("Invite Friends").withSelectable(false)
                 .withIcon(Octicons.Icon.oct_organization).withIconColor(getGray());
 
+        byte[] decodedString = Base64.decode(getString(R.string.aoe2pro64), Base64.DEFAULT);
+        Drawable decodedByte = new BitmapDrawable(superActivity.getResources() , BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
+
         headerResult = new AccountHeaderBuilder()
             .withActivity(this)
             .withHeaderBackground(Drawable.createFromPath(loadImage("bg_nd")))
@@ -195,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             .withAlternativeProfileHeaderSwitching(false)
             .withSelectionSecondLineShown(true)
             .addProfiles(
-                    new ProfileDrawerItem().withName("Aoe2 Stratega").withIcon(Drawable.createFromPath(loadImage("aoe2pro")))
+                    new ProfileDrawerItem().withName("Aoe2 Stratega").withIcon(decodedByte)
             )
             .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                 @Override
@@ -282,12 +258,17 @@ public class MainActivity extends AppCompatActivity {
             .build();
         result.getDrawerLayout().setStatusBarBackgroundColor(fetchAccentColor());
 
-
-
         Fragment strategyFragment = new LocalStrategyFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.containerView, strategyFragment, null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("DD", "resumed");
+        result.getHeader().setBackground(Drawable.createFromPath(loadImage("bg_nd")));
     }
 
     private OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
@@ -469,39 +450,6 @@ public class MainActivity extends AppCompatActivity {
         return sb.toString();
     }
 
-    public void unzip(File zipFile, File targetDirectory) throws IOException {
-        ZipInputStream zis = new ZipInputStream(
-                new BufferedInputStream(new FileInputStream(zipFile)));
-        try {
-            ZipEntry ze;
-            int count;
-            byte[] buffer = new byte[8192];
-            while ((ze = zis.getNextEntry()) != null) {
-                File file = new File(targetDirectory, ze.getName());
-                File dir = ze.isDirectory() ? file : file.getParentFile();
-                if (!dir.isDirectory() && !dir.mkdirs())
-                    throw new FileNotFoundException("Failed to ensure directory: " +
-                            dir.getAbsolutePath());
-                if (ze.isDirectory())
-                    continue;
-                FileOutputStream fout = new FileOutputStream(file);
-                try {
-                    while ((count = zis.read(buffer)) != -1)
-                        fout.write(buffer, 0, count);
-                } finally {
-                    fout.close();
-                }
-            }
-            Log.d("DD", "Additional res downloaded");
-            result.getHeader().setBackground(Drawable.createFromPath(loadImage("bg_nd")));
-            SharedPreferences.Editor e = getPrefs.edit();
-            e.putBoolean("first_download_res", false);
-            e.apply();
-        } finally {
-            zis.close();
-        }
-    }
-
     public String loadImage(String name){
         try {
             File file = new File(getDir("images", Context.MODE_PRIVATE), name+".jpg");
@@ -512,6 +460,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void logUser(String id) {
         Crashlytics.setUserIdentifier(id);
+    }
+
+    void startSnackBar(int id) {
+        Resources res = getResources();
+        Snackbar snackbar = Snackbar
+                .make(this.findViewById(android.R.id.content), res.getString(id), Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
 }
