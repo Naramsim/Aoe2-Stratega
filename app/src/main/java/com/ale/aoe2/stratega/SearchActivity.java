@@ -27,6 +27,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Objects;
 
 import tr.xip.errorview.ErrorView;
@@ -37,6 +38,9 @@ import tr.xip.errorview.ErrorView;
 public class SearchActivity extends AppCompatActivity {
 
     static MaterialSearchView searchView;
+    static HashMap<String, Boolean> allowed;
+    static String previousSearch = "wqeksdkl";
+
 
 
     @Override
@@ -44,6 +48,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheTheme();
         setContentView(R.layout.search_activity);
+        allowed = new HashMap<>();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -144,18 +149,26 @@ public class SearchActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    final String query = newText;
-                    final boolean typing = true;
-                    lastQuery = newText;
-//                    new android.os.Handler().postDelayed(
-//                            new Runnable() {
-//                                public void run() {
                     if(newText.length() > 1){
-                        loadJsonStrategies(false, newText);
+                        final String query = newText;
+                        final boolean typing = true;
+                        lastQuery = newText;
+                        allowed.put(previousSearch, false);
+                        allowed.put(query, true);
+                        previousSearch = query;
+                        new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
+                                    if(allowed.get(query)){
+                                        Log.d("DD", "Permetto "+ query.toString());
+                                        loadJsonStrategies(false, query);
+                                    }else{
+                                        Log.d("DD", "Non permetto "+ query.toString());
+                                    }
+                                }
+                            },
+                            400);
                     }
-//                                }
-//                            },
-//                            300);
                     return false;
                 }
             });
