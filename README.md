@@ -2,7 +2,7 @@
 
 [![Gitter](https://img.shields.io/gitter/room/Naramsim/aoe2-stratega.svg)](https://gitter.im/Naramsim/aoe2-stratega)
 [![Issues](https://img.shields.io/github/issues/Naramsim/Aoe2-stratega.svg)](https://github.com/Naramsim/Aoe2-Stratega/issues)
-[![Store](https://img.shields.io/badge/store-play%20store-brightgreen.svg)](https://play.google.com/)
+[![Store](https://img.shields.io/badge/store-play%20store-brightgreen.svg)](https://play.google.com/apps/testing/com.ale.aoe2.stratega)
 
 Download users strategies, learn to do a Skirmisher Drush, or reach Castle Age in less than 17 minutes. 
 Browse a huge list of strategies uploaded by the community. 
