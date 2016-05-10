@@ -46,7 +46,6 @@ public class CustomSlide extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         int color = getArguments().getInt("color");
         String upper = getArguments().getString("upperText");
         String lower = getArguments().getString("lowerText");

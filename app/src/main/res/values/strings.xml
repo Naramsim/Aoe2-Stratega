@@ -103,6 +103,7 @@ In the end confirm with the toolbar button and fill all the fields you will be p
     <string name="add_res_download_start">Additional resources download started</string>
     <string name="first_add_download_end">First download completed</string>
     <string name="second_add_download_end">Last download completed</string>
+    <string name="cant_access_dir">I can\'t access default directory</string>
 
     <string-array name="general_tips">
         <item>Always be making villagers (generally at least 100 villagers but it depends on pop cap, strategy, map, etc.).</item>

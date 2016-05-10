@@ -130,8 +130,7 @@ public class Intro extends AppIntro2 {
                 File file = new File(targetDirectory, ze.getName());
                 File dir = ze.isDirectory() ? file : file.getParentFile();
                 if (!dir.isDirectory() && !dir.mkdirs())
-                    throw new FileNotFoundException("Failed to ensure directory: " +
-                            dir.getAbsolutePath());
+                    startSnackBar(R.string.cant_access_dir);
                 if (ze.isDirectory())
                     continue;
                 FileOutputStream fout = new FileOutputStream(file);

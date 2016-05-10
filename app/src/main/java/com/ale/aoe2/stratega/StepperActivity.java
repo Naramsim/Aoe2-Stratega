@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
@@ -28,6 +29,7 @@ import android.widget.Button;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 
+import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 import edu.cmu.pocketsphinx.Assets;
 import edu.cmu.pocketsphinx.Hypothesis;
 import edu.cmu.pocketsphinx.RecognitionListener;
@@ -54,6 +56,8 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CustomActivityOnCrash.setDefaultErrorActivityDrawable(R.drawable.error_view_cloud);
+        CustomActivityOnCrash.install(this);
         setTheTheme();
         setContentView(R.layout.stepper_activity);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -95,7 +99,6 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
                 recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
                 Animation animFadeInBottom = AnimationUtils.loadAnimation(superActivity.getApplicationContext(), R.anim.abc_slide_in_bottom);
                 Animation animFadeInTop = AnimationUtils.loadAnimation(superActivity.getApplicationContext(), R.anim.abc_slide_in_top);
@@ -180,9 +183,13 @@ public class StepperActivity extends AppCompatActivity implements RecognitionLis
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        recognizer.cancel();
-        recognizer.shutdown();
+        try{
+            super.onDestroy();
+            if (Build.VERSION.SDK_INT <= 22){
+                recognizer.cancel();
+            }
+            recognizer.shutdown();
+        }catch(Exception e){Log.d("DD", e.getMessage());}
     }
 
     @Override
