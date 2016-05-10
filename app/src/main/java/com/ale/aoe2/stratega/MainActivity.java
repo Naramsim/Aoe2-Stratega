@@ -58,6 +58,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mikepenz.octicons_typeface_library.Octicons;
 
+import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 import edu.cmu.pocketsphinx.Assets;
 import io.fabric.sdk.android.Fabric;
 
@@ -100,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CustomActivityOnCrash.setDefaultErrorActivityDrawable(R.drawable.error_view_cloud);
+        CustomActivityOnCrash.install(this);
         final Fabric fabric = new Fabric.Builder(this)
                 .kits(new Crashlytics())
                 .debuggable(true)
